@@ -133,10 +133,10 @@ public:
 protected:
 
   void MapPreOrder(MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
-  void MapPostOrder(MapFunctor, void*, const Node*, Node*); // Accessory function executing from one point of the list onwards
+  void MapPostOrder(MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
 
   void FoldPreOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
-  void FoldPostOrder(FoldFunctor, const void*, void*, const Node*, Node*) const; // Accessory function executing from one point of the list onwards
+  void FoldPostOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
 
 };
 

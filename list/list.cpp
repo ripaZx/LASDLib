@@ -316,7 +316,7 @@ void List<Data>::MapPreOrder(MapFunctor func, void* par)
 template <typename Data>
 void List<Data>::MapPostOrder(MapFunctor func, void* par)
 {
-    //TODO
+    MapPostOrder(func, par, head);
 }
 
 //Specific member function
@@ -330,7 +330,7 @@ void List<Data>::FoldPreOrder(FoldFunctor func, const void* par, void* acc) cons
 template <typename Data>
 void List<Data>::FoldPostOrder(FoldFunctor func, const void* par, void* acc) const
 {
-    //TODO
+    FoldPostOrder(func, par, acc, head);
 }
 
 //Specific member function
@@ -347,16 +347,13 @@ void List<Data>::MapPreOrder(MapFunctor func, void* par, Node* nod)
 
 //Specific member function
 template <typename Data>
-void List<Data>::MapPostOrder(MapFunctor func, void* par, const Node* nod, Node* rNod)
+void List<Data>::MapPostOrder(MapFunctor func, void* par, Node* nod)
 {
-    if (rNod == nod)
-        func(rNod->Element, par);
-    else
+    if (nod != nullptr)
     {
-        MapPostOrder(func, par, nod, rNod->next);
-        func(rNod->Element, par);
+        MapPostOrder(func, par, nod->next);
+        func(nod->Element, par);
     }
-    
 }
 
 //Specific member function
@@ -373,14 +370,11 @@ void List<Data>::FoldPreOrder(FoldFunctor func, const void* par, void* acc, Node
 
 //Specific member function
 template <typename Data>
-void List<Data>::FoldPostOrder(FoldFunctor func, const void* par, void* acc, const Node* nod, Node* rNod) const
+void List<Data>::FoldPostOrder(FoldFunctor func, const void* par, void* acc, Node* nod) const
 {
-    if(rNod == nod)
-        func(rNod->Element, par, acc);
-    else
+    if (nod != nullptr)
     {
-        FoldPostOrder(func, par, acc, nod, rNod->next);
-        func(rNod->Element, par, acc);
-    }
-    
+        FoldPostOrder(func, par, acc, nod->next);
+        func(nod->Element, par, acc);
+    }   
 }
