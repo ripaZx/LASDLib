@@ -13,36 +13,37 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class Vector { // Must extend LinearContainer<Data>, MappableContainer<Data>, and FoldableContainer<Data>
+class Vector : virtual public LinearContainer<Data>,
+               virtual public MappableContainer<Data>,
+               virtual public FoldableContainer<Data> { 
 
 private:
 
-  // ...
 
 protected:
 
-  // using LinearContainer<Data>::???;
+using LinearContainer<Data>::size;
 
-  // ...
+Data* Elements = nullptr;
 
 public:
 
   // Default constructor
-  // Vector() specifiers;
+  Vector()  = default;
 
   /* ************************************************************************ */
 
   // Specific constructors
-  // Vector(argument) specifiers; // A vector with a given initial dimension
-  // Vector(argument) specifiers; // A vector obtained from a LinearContainer
+  Vector(const unsigned long); // A vector with a given initial dimension
+  Vector(const LinearContainer<Data>&); // A vector obtained from a LinearContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // Vector(argument) specifiers;
+  Vector(const Vector&);
 
   // Move constructor
-  // Vector(argument) specifiers;
+  Vector(Vector&&) noexcept;
 
   /* ************************************************************************ */
 
