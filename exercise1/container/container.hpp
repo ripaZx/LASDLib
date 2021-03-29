@@ -97,7 +97,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class TestableContainer : virtual public Container { // Must extend Container
+class TestableContainer : virtual public Container {
 
 private:
 
@@ -133,7 +133,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class MappableContainer : virtual public Container { // Must extend Container
+class MappableContainer : virtual public Container { 
 
 private:
 

@@ -19,7 +19,6 @@ class Vector : virtual public LinearContainer<Data>,
 
 private:
 
-
 protected:
 
 using LinearContainer<Data>::size;
@@ -48,60 +47,60 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  // ~Vector() specifiers;
+  ~Vector();
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  Vector& operator=(const Vector&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  Vector& operator=(Vector&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const Vector&) const noexcept;
+  inline bool operator!=(const Vector&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Resize(argument) specifiers; // Resize the vector to a given size
+  void Resize(const unsigned long); // Resize the vector to a given size
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  // type Clear() specifiers; // Override Container member
+  void Clear() override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  // type Front() specifiers; // Override LinearContainer member (must throw std::length_error when empty)
-  // type Back() specifiers; // Override LinearContainer member (must throw std::length_error when empty)
+  Data& Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  Data& Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
 
-  // type operator[](argument) specifiers; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  Data& operator[](const unsigned long) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from MappableContainer)
 
-  // using typename MappableContainer<Data>::MapFunctor;
+  using typename MappableContainer<Data>::MapFunctor;
 
-  // type MapPreOrder(arguments) specifiers; // Override MappableContainer member
-  // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
+  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
 
-  // using typename FoldableContainer<Data>::FoldFunctor;
+  using typename FoldableContainer<Data>::FoldFunctor;
 
-  // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
-  // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
+  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
 
 };
 
