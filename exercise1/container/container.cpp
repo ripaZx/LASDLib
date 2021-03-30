@@ -6,7 +6,7 @@ namespace lasd {
 template <typename Data>
 void AuxFoldExists(const Data& dat, const void* val, void* exists) {
     if (dat == *((Data*)val))
-        *((bool*))exists = true;
+        *((bool*)exists) = true;
 }
 
 template <typename Data>

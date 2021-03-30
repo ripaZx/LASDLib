@@ -172,7 +172,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class FoldableContainer : virtual public TestableContainer {
+class FoldableContainer : virtual public TestableContainer<Data> {
 
 private:
 

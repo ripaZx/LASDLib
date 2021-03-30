@@ -73,16 +73,16 @@ public:
 
   // Specific member functions (inherited from Container)
 
-  void Clear() override; // Override Container member
+  void Clear() override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  Data& Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
-  Data& Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  Data& Front() const override;
+  Data& Back() const override;
 
-  Data& operator[](const unsigned long) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  Data& operator[](const unsigned long) const override;
 
   /* ************************************************************************ */
 
@@ -90,8 +90,8 @@ public:
 
   using typename MappableContainer<Data>::MapFunctor;
 
-  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  void MapPreOrder(const MapFunctor, void*) override;
+  void MapPostOrder(const MapFunctor, void*) override;
 
   /* ************************************************************************ */
 
@@ -99,8 +99,8 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  void FoldPreOrder(const FoldFunctor, const void*, void*) const override;
+  void FoldPostOrder(const FoldFunctor, const void*, void*) const override;
 
 };
 

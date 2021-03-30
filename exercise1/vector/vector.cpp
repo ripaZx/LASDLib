@@ -79,7 +79,7 @@ void Vector<Data>::Resize(const unsigned long newSize) {
         unsigned long limit = (size < newSize) ? size : newSize;
         Data* TmpElements = new Data[newSize] {};
         for (unsigned long i = 0; i<limit; i++)
-            std::swap(Elements[index], TmpElements[index]);
+            std::swap(Elements[i], TmpElements[i]);
         std::swap(Elements, TmpElements);
         size = newSize;
         delete[] TmpElements;
@@ -110,14 +110,39 @@ Data& Vector<Data>::Back() const {
 }
 
 template <typename Data>
-Data& Vector<Data>::operator[](const unsigned long index) const noexcept {
+Data& Vector<Data>::operator[](const unsigned long index) const {
     if (index < size)
         return Elements[index];
     else
-        throw std::out_of_range("Access at index " + index + "; vector size " + std::to_string(size) + ".");
+        throw std::out_of_range("Access at index " + std::to_string(index) + "; vector size " + std::to_string(size) + ".");
+}
+
+template <typename Data>
+void Vector<Data>::MapPreOrder(const MapFunctor func, void* par) {
+    for (unsigned long i=0; i<size; i++)
+        func(Elements[i], par);
+}
+
+template <typename Data>
+void Vector<Data>::MapPostOrder(const MapFunctor func, void* par) {
+    unsigned long i = size;
+    while (i>0)
+        func(Elements[--i], par);
 }
 
 
+template <typename Data>
+void Vector<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
+    for (unsigned long i=0; i<size; i++)
+        func(Elements[i], par, acc);
+}
+
+template <typename Data>
+void Vector<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc) const {
+    unsigned long i = size;
+    while (i>0)
+        func(Elements[--i], par, acc);
+}
 
 /* ************************************************************************** */
 
