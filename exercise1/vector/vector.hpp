@@ -28,7 +28,7 @@ Data* Elements = nullptr;
 public:
 
   // Default constructor
-  Vector()  = default;
+  Vector() = default;
 
   /* ************************************************************************ */
 
