@@ -33,6 +33,7 @@ protected:
 
     // Specific constructors
     Node(const Data&);
+    Node(Data&&);
 
     /* ********************************************************************** */
 
@@ -110,7 +111,7 @@ public:
   Data& FrontNRemove(); // (must throw std::length_error when empty)
 
   void InsertAtBack(const Data&); // Copy of the value
-  void InsertAtBack(Data&&); // Move of the value
+  void InsertAtBack(Data&&) noexcept; // Move of the value
 
   /* ************************************************************************ */
 
