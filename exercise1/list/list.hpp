@@ -108,7 +108,7 @@ public:
   void InsertAtFront(const Data&); // Copy of the value
   void InsertAtFront(Data&&) noexcept; // Move of the value
   void RemoveFromFront(); // (must throw std::length_error when empty)
-  Data& FrontNRemove(); // (must throw std::length_error when empty)
+  Data FrontNRemove(); // (must throw std::length_error when empty)
 
   void InsertAtBack(const Data&); // Copy of the value
   void InsertAtBack(Data&&) noexcept; // Move of the value
@@ -150,15 +150,15 @@ protected:
 
   // Auxiliary member functions (for MappableContainer)
 
-  // type MapPreOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  // type MapPostOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
+  void MapPreOrder(const MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
+  void MapPostOrder(const MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for FoldableContainer)
 
-  // type FoldPreOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  // type FoldPostOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
+  void FoldPreOrder(const FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
+  void FoldPostOrder(const FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
 
 };
 

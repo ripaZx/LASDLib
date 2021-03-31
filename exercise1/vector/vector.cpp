@@ -130,7 +130,6 @@ void Vector<Data>::MapPostOrder(const MapFunctor func, void* par) {
         func(Elements[--i], par);
 }
 
-
 template <typename Data>
 void Vector<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
     for (unsigned long i=0; i<size; i++)
