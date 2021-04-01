@@ -26,7 +26,7 @@ protected:
   struct Node
   {
 
-    Data Element = 0;
+    Data* Element = nullptr;
     Node* next = nullptr;
 
     /* ********************************************************************** */
