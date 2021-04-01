@@ -27,7 +27,6 @@ List<Data>::Node::Node(Node&& nod) noexcept {
     std::swap(next, nod.next);
 }
 
-//TODO: DA CONTROLLARE
 template <typename Data>
 List<Data>::Node::~Node() {
     delete Element;
@@ -51,14 +50,16 @@ inline bool List<Data>::Node::operator!=(const Node& nod) const noexcept {
 
 template <typename Data>
 List<Data>::List(const LinearContainer<Data>& con) {
-    size = con.Size();
-    unsigned long i = 0;
-    Node** current = &head;
-    while (i<size)
+    if (!con.Empty())
     {
-        (*current) = new Node(con[i]);
-        current = &((*current)->next);
-        i++;
+        size = con.Size();
+        unsigned long i = 0;
+        Node** current = &head;
+        while (i<size)
+        {
+            (*current) = new Node(con[i++]);
+            current = &((*current)->next);
+        }
     }
 }
 
@@ -71,7 +72,7 @@ List<Data>::List(const List<Data>& lis) {
         Node* currentLis = lis.head;
         while(currentLis != nullptr)
         {
-            (*current)= new Node(*currentLis);
+            (*current) = new Node(*currentLis);
             current = &((*current)->next);
             currentLis = currentLis->next;
         }
@@ -84,7 +85,6 @@ List<Data>::List(List<Data>&& lis) noexcept {
     std::swap(size, lis.size);
 }
 
-//TODO: DA CONTROLLARE INSIEME AL DISTRUTTORE DI NODE
 template <typename Data>
 List<Data>::~List() {
     Node* nextNode;
