@@ -157,8 +157,8 @@ protected:
 
   // Auxiliary member functions (for FoldableContainer)
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
-  void FoldPostOrder(const FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
+  void FoldPreOrder(const FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one point of the list onwards
+  void FoldPostOrder(const FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one point of the list onwards
 
 };
 

@@ -100,8 +100,9 @@ List<Data>::~List() {
 template <typename Data>
 List<Data>& List<Data>::operator=(const List<Data>& lis) {
     size = lis.Size();
-    List<Data> tmpLis(lis);
-    std::swap(tmpLis.head, head);
+    List<Data>* tmpLis = new List<Data>(lis);
+    std::swap(*tmpLis, *this);
+    delete tmpLis;
     return *this;
 }
 
@@ -172,11 +173,8 @@ template <typename Data>
 Data List<Data>::FrontNRemove() {
     if (size != 0)
     {
-        Node* newHead = head->next;
         Data element = *(head->Element);
-        delete head;
-        head = newHead;
-        size--;
+        RemoveFromFront();
         return element;
     }
     else
@@ -313,7 +311,7 @@ void List<Data>::MapPostOrder(const MapFunctor func, void* par, Node* nod) {
 }
 
 template <typename Data>
-void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc, Node* nod) const {
+void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
     if (nod != nullptr)
     {
         func(*nod->Element, par, acc);
@@ -323,7 +321,7 @@ void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc
 }
 
 template <typename Data>
-void List<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc, Node* nod) const {
+void List<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
     if (nod != nullptr)
     {
         if (nod->next != nullptr)
