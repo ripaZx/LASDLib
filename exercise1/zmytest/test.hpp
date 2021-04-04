@@ -15,6 +15,8 @@ void RandPopulate(lasd::LinearContainer<Data> con);
 template <typename Data>
 void PrintElement(lasd::LinearContainer<Data> con);
 
+void testMenu();
+
 /* ************************************************************************** */
 
 #endif

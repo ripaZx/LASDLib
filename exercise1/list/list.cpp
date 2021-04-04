@@ -99,10 +99,13 @@ List<Data>::~List() {
 
 template <typename Data>
 List<Data>& List<Data>::operator=(const List<Data>& lis) {
-    size = lis.Size();
-    List<Data>* tmpLis = new List<Data>(lis);
-    std::swap(*tmpLis, *this);
-    delete tmpLis;
+    if (*this != lis)
+    {   
+        size = lis.Size();
+        List<Data>* tmpLis = new List<Data>(lis);
+        std::swap(*tmpLis, *this);
+        delete tmpLis;
+    }
     return *this;
 }
 
