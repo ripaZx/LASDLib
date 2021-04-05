@@ -11,7 +11,7 @@ List<Data>::Node::Node(const Data& dat) {
 
 template <typename Data>
 List<Data>::Node::Node(Data&& dat) {
-    std::swap(Element, dat);
+    Element = new Data(std::move(dat));
     next = nullptr;
 }
 
