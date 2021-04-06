@@ -5,9 +5,11 @@
 #include <random>
 #include <limits>
 #include <iomanip>
+#include <algorithm>
 
 void StructureSelection(char& sInput, char& tInput) {
     std::cout<< std::endl <<"Selezionare la struttura su cui lavorare:"<< std::endl <<"    [V]ettore    [L]ista..."<< std::endl;
+    std::cin.clear();
     std::cin>>sInput;
     sInput = toupper(sInput);
     while(sInput != 'V' && sInput != 'L')
@@ -18,12 +20,12 @@ void StructureSelection(char& sInput, char& tInput) {
         sInput = toupper(sInput);
     }
 
-    std::cout<< std::endl <<"Selezionare il tipo di dato da trattare:"<< std::endl <<"    [I]nt    [F]loat    [D]ouble    [S]tring..."<< std::endl;
+    std::cout<< std::endl <<"Selezionare il tipo di dato da trattare:"<< std::endl <<"    [I]nt    [D]ouble    [S]tring..."<< std::endl;
     std::cin>>tInput;
     tInput = toupper(tInput);
-    while(tInput != 'I' && tInput != 'F' && tInput != 'D' && tInput != 'S')
+    while(tInput != 'I' && tInput != 'D' && tInput != 'S')
     {
-        std::cout<< std::endl <<"Inserire uno tra: I, F, D, S..."<< std::endl;
+        std::cout<< std::endl <<"Inserire uno tra: I, D, S..."<< std::endl;
         std::cin.clear();
         std::cin>>tInput;
         tInput = toupper(tInput);
@@ -49,7 +51,7 @@ void RandPopulateLisInt(lasd::List<Data>& lis, const unsigned long& n) {
 template <typename Data>
 void RandPopulateVecReal(lasd::Vector<Data>& vec, const unsigned long& n) {
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<Data> dist(1, 100);
+    std::uniform_real_distribution<Data> dist(1, 99);
     for(unsigned long i=0; i<n; i++)
         vec[i] = (dist(gen));
 }
@@ -57,7 +59,7 @@ void RandPopulateVecReal(lasd::Vector<Data>& vec, const unsigned long& n) {
 template <typename Data>
 void RandPopulateLisReal(lasd::List<Data>& lis, const unsigned long& n) {
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<Data> dist(1, 100);
+    std::uniform_real_distribution<Data> dist(1, 30);
     for (unsigned long i=0; i<n; i++)
         lis.InsertAtBack(dist(gen));
 }
@@ -105,9 +107,9 @@ void PrintElement(const lasd::LinearContainer<Data>& con) {
         input = toupper(input);
     }
     if (input == 'P')
-        std::cout<< "Il primo elemento della struttura è: " << std::setprecision(21) << con.Front() << std::endl;
+        std::cout<< "Il primo elemento della struttura è: " << std::setprecision(17) << con.Front() << std::endl;
     else if (input == 'U')
-        std::cout<< "L'ultimo elemento della struttura è: " << std::setprecision(21) << con.Back() << std::endl;
+        std::cout<< "L'ultimo elemento della struttura è: " << std::setprecision(17) << con.Back() << std::endl;
     else if (input == 'I')
     {
         unsigned long i;
@@ -119,13 +121,13 @@ void PrintElement(const lasd::LinearContainer<Data>& con) {
             std::cin>>i;
         }
         while (std::cin.fail());
-        std::cout<< std::endl << "Elemento all'indice " << i << ": " << std::setprecision(21) << con[i] << std::endl;
+        std::cout<< std::endl << "Elemento all'indice " << i << ": " << std::setprecision(17) << con[i] << std::endl;
     }
 }
 
 template <typename Data>
 void MapPrint(const Data& dat, void* _) {
-  std::cout<< std::setprecision(21) << dat << " ";
+  std::cout<< std::setprecision(17) << dat << " ";
 }
 
 template <typename Data>
@@ -166,13 +168,13 @@ void SmallerThanNSum(const lasd::FoldableContainer<Data>& con) {
 template <typename Data>
 void AuxFoldProd(const Data& dat, const void* val, void* prod) {
     if (dat > *((float*)val))
-        *((float*)prod) = prod*dat;
+        *((float*)prod) = *((float*)prod)*dat;
 }
 
 template <typename Data>
 void BiggerThanNProd(const lasd::FoldableContainer<Data>& con) {
     float n;
-    float prod = 0;
+    float prod = 1;
     do
     {
         std::cout<< std::endl << "Moltiplicare gli elementi maggiori di quale numero?" << std::endl;
@@ -180,7 +182,7 @@ void BiggerThanNProd(const lasd::FoldableContainer<Data>& con) {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin>>n;
     } while (std::cin.fail());
-    con.FoldPreOrder(&AuxFoldSum<Data>, &n, &prod);
+    con.FoldPreOrder(&AuxFoldProd<Data>, &n, &prod);
     std::cout<< std::endl << "Il prodotto richiesto è: " << prod << std::endl;
 }
 
@@ -217,27 +219,37 @@ void MapSquare(Data& dat, void* _) {
 
 template <typename Data>
 void MapUppercase(Data& dat, void* _) {
-    dat = toupper(dat);
+    std::transform(dat.begin(), dat.end(), dat.begin(), [](unsigned char c){ return toupper(c); });
 }
 
-template <typename Data>
-void MapUppercaseString(Data& dat, void* _) {
-    std::locale loc;
-    for(std::string::size_type i=0; i<dat.length(); i++)
-        std::toupper(dat[i], loc);
+char IterateChoice() {
+    char choice;
+    std::cout<< std::endl <<"Selezionare una funzione: stampa di tutti gli elementi, controllo di esistenza di un dato elemento o uscire dal test" << std::endl << "    [P]rint    [C]heck    [E]xit" << std::endl;
+    std::cin.clear();
+    std::cin>>choice;
+    choice = toupper(choice);
+    while(choice != 'P' && choice != 'C' && choice != 'E')
+    {
+        std::cout<< std::endl <<"Inserire P, C oppure E..."<< std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = toupper(choice);
+    }
+    return choice;
 }
-
 
 void testMenu() {
-    char tInput, sInput;
+    char tInput, sInput, mInput;
     unsigned long n;
+    bool end = false;
+    char choice;
     StructureSelection(sInput, tInput);
     do
     {
-    std::cout<< std::endl << "Inserire il numero di elementi con cui popolare la struttura..."<< std::endl;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin>>n;
+        std::cout<< std::endl << "Inserire il numero di elementi con cui popolare la struttura..."<< std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>n;
     } while (std::cin.fail());
     if (sInput == 'V')
     {
@@ -251,17 +263,16 @@ void testMenu() {
             ElemExists(vec);
             SmallerThanNSum(vec);
             vec.MapPreOrder(&MapDouble<int>, 0);
-        }
-        else if (tInput == 'F')
-        {
-            lasd::Vector<float> vec(n);
-            RandPopulateVecReal(vec, n);
-            PrintElement(vec);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            vec.MapPreOrder(&MapPrint<float>, 0);
-            ElemExists(vec);
-            BiggerThanNProd(vec);
-            vec.MapPreOrder(&MapSquare<float>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    vec.MapPreOrder(&MapPrint<int>, 0);
+                else if (choice == 'C')
+                    ElemExists(vec);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
         else if (tInput == 'D')
         {
@@ -273,6 +284,16 @@ void testMenu() {
             ElemExists(vec);
             BiggerThanNProd(vec);
             vec.MapPreOrder(&MapSquare<double>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    vec.MapPreOrder(&MapPrint<double>, 0);
+                else if (choice == 'C')
+                    ElemExists(vec);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
         else if (tInput == 'S')
         {
@@ -283,7 +304,17 @@ void testMenu() {
             vec.MapPreOrder(&MapPrint<std::string>, 0);
             ElemExists(vec);
             ShorterThanNConcat(vec);
-            vec.MapPreOrder(&MapUppercaseString<std::string>, 0);
+            vec.MapPreOrder(&MapUppercase<std::string>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    vec.MapPreOrder(&MapPrint<std::string>, 0);
+                else if (choice == 'C')
+                    ElemExists(vec);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
     }
     else if (sInput == 'L')
@@ -296,17 +327,18 @@ void testMenu() {
             std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
             lis.MapPreOrder(&MapPrint<int>, 0);
             ElemExists(lis);
+            SmallerThanNSum(lis);
             lis.MapPreOrder(&MapDouble<int>, 0);
-        }
-        else if (tInput == 'F')
-        {
-            lasd::List<float> lis;
-            RandPopulateLisReal(lis, n);
-            PrintElement(lis);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            lis.MapPreOrder(&MapPrint<float>, 0);
-            ElemExists(lis);
-            lis.MapPreOrder(&MapSquare<float>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    lis.MapPreOrder(&MapPrint<int>, 0);
+                else if (choice == 'C')
+                    ElemExists(lis);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
         else if (tInput == 'D')
         {
@@ -316,7 +348,18 @@ void testMenu() {
             std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
             lis.MapPreOrder(&MapPrint<double>, 0);
             ElemExists(lis);
+            BiggerThanNProd(lis);
             lis.MapPreOrder(&MapSquare<double>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    lis.MapPreOrder(&MapPrint<double>, 0);
+                else if (choice == 'C')
+                    ElemExists(lis);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
         else if (tInput == 'S')
         {
@@ -326,9 +369,32 @@ void testMenu() {
             std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
             lis.MapPreOrder(&MapPrint<std::string>, 0);
             ElemExists(lis);
-            lis.MapPreOrder(&MapUppercaseString<std::string>, 0);
+            ShorterThanNConcat(lis);
+            lis.MapPreOrder(&MapUppercase<std::string>, 0);
+            while (!end)
+            {
+                choice = IterateChoice();
+                if (choice == 'P')
+                    lis.MapPreOrder(&MapPrint<std::string>, 0);
+                else if (choice == 'C')
+                    ElemExists(lis);
+                else if (choice == 'E')
+                    end = true;
+            }
         }
     }
+    std::cout<< std::endl << "Si vuole passare al test LASD? [Y/N]" << std::endl;
+    std::cin>> mInput;
+    mInput = toupper(mInput);
+    while (mInput != 'Y' && mInput != 'N')
+    {
+        std::cout<< std::endl <<"Inserire Y oppure N..."<< std::endl;
+        std::cin.clear();
+        std::cin>>mInput;
+        mInput = toupper(mInput);
+    }
+    if (mInput == 'Y')
+        lasdtest();
     else
-        std::cout << "Roba ancora da implementare" << std::endl;
+        std::cout<< std::endl << "Goodbye!" << std::endl;
 }

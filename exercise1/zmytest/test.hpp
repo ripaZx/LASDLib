@@ -5,15 +5,9 @@
 #include "../list/list.hpp"
 #include "../vector/vector.hpp"
 
+#include "../zlasdtest/test.hpp"
+
 /* ************************************************************************** */
-
-void StructureSelection(char& sInput, char& tInput);
-
-template <typename Data>
-void RandPopulate(lasd::LinearContainer<Data> con);
-
-template <typename Data>
-void PrintElement(lasd::LinearContainer<Data> con);
 
 void testMenu();
 
