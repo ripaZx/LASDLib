@@ -11,24 +11,24 @@ void StructureSelection(char& sInput, char& tInput) {
     std::cout<< std::endl <<"Selezionare la struttura su cui lavorare:"<< std::endl <<"    [V]ettore    [L]ista..."<< std::endl;
     std::cin.clear();
     std::cin>>sInput;
-    sInput = toupper(sInput);
+    sInput = std::toupper(sInput);
     while(sInput != 'V' && sInput != 'L')
     {
         std::cout<< std::endl <<"Inserire V oppure L..."<< std::endl;
         std::cin.clear();
         std::cin>>sInput;
-        sInput = toupper(sInput);
+        sInput = std::toupper(sInput);
     }
 
     std::cout<< std::endl <<"Selezionare il tipo di dato da trattare:"<< std::endl <<"    [I]nt    [D]ouble    [S]tring..."<< std::endl;
     std::cin>>tInput;
-    tInput = toupper(tInput);
+    tInput = std::toupper(tInput);
     while(tInput != 'I' && tInput != 'D' && tInput != 'S')
     {
         std::cout<< std::endl <<"Inserire uno tra: I, D, S..."<< std::endl;
         std::cin.clear();
         std::cin>>tInput;
-        tInput = toupper(tInput);
+        tInput = std::toupper(tInput);
     }
 }
 
@@ -98,13 +98,13 @@ void PrintElement(const lasd::LinearContainer<Data>& con) {
     char input;
     std::cout<< std::endl << "Selezionare quale elemento stampare:"<< std::endl << "    [P]rimo    [U]ltimo    [I]ndice" << std::endl;
     std::cin>>input;
-    input = toupper(input);
+    input = std::toupper(input);
     while(input != 'P' && input != 'U' && input != 'I')
     {
         std::cout<< std::endl <<"Inserire uno tra: P, U, I..."<< std::endl;
         std::cin.clear();
         std::cin>>input;
-        input = toupper(input);
+        input = std::toupper(input);
     }
     if (input == 'P')
         std::cout<< "Il primo elemento della struttura è: " << std::setprecision(17) << con.Front() << std::endl;
@@ -218,20 +218,99 @@ void MapSquare(Data& dat, void* _) {
 
 template <typename Data>
 void MapUppercase(Data& dat, void* _) {
-    std::transform(dat.begin(), dat.end(), dat.begin(), [](unsigned char c){ return toupper(c); });
+    std::transform(dat.begin(), dat.end(), dat.begin(), [](unsigned char c){ return std::toupper(c); });
+}
+
+template <typename Data>
+void VecResize(lasd::Vector<Data>& vec) {
+    unsigned long n;
+    std::cout<< std::endl <<"Ridimensionamento vettore" << std::endl;
+    do
+    {
+        std::cout<< std::endl << "Inserire la nuova dimensione del vettore: " << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>n;
+    } while (std::cin.fail());
+    vec.Resize(n);
+}
+
+template <typename Data>
+void LisInsOrRem(lasd::List<Data>& lis) {
+    char choice;
+    std::cout<< std::endl << "Inserimento o rimozione di un elemento dalla lista" << std::endl << "[I]nserimento    [R]imozione" << std::endl;
+    std::cin.clear();
+    std::cin>>choice;
+    choice = std::toupper(choice);
+    while(choice != 'I' && choice != 'R')
+    {
+        std::cout<< std::endl <<"Inserire I oppure R..."<< std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+    }
+    if (choice == 'I')
+    {
+        Data elem;
+        do
+        {
+            std::cout<< std::endl <<"Quale elemento inserire nella lista?"<< std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin>>elem;
+        } while(std::cin.fail());
+        std::cout<< std::endl <<"Si desidera inserire in testa o in coda alla lista?" << std::endl << "[T]esta    [C]oda" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'T' && choice != 'C')
+        {
+            std::cout << std::endl << "Inserire T oppure C..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = toupper(choice);
+        }
+        if (choice == 'T')
+            lis.InsertAtFront(std::move(elem));
+        else if (choice == 'C')
+            lis.InsertAtBack(std::move(elem));
+    }
+    else if(choice == 'R')
+    {
+        std::cout<< std::endl <<"Si desidera rimuovere semplicemente o con visualizzazione?" << std::endl << "[R]emove    [F]rontNRemove" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while(choice != 'R' && choice != 'F')
+        {
+            std::cout << std::endl << "Inserire R oppure F..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = toupper(choice);
+        }
+        if (choice == 'R')
+        {
+            lis.RemoveFromFront();
+            std::cout<< std::endl << "Rimozione effettuata" << std::endl;
+        }
+        else if (choice == 'F')
+        {
+            std::cout<< "Rimozione dell'elemento... " << lis.FrontNRemove() << " effettuata";
+        }
+    }
 }
 
 void PrintMenu(char& choice) {
-    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[E]lement_Print    [P]rint_Structure    [C]heck_Existence    [F]old_Operation    [M]ap_Operation    [Q]uit    " << std::endl;
+    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[E]lement_Print    [P]rint_Structure    [C]heck_Existence    [F]old_Operation    [M]ap_Operation    [S]tructure_Specific_Operation    [Q]uit    " << std::endl;
     std::cin.clear();
     std::cin>>choice;
-    choice = toupper(choice);
-    while(choice != 'E' && choice != 'P' && choice != 'C' && choice != 'F' && choice != 'M' && choice != 'Q')
+    choice = std::toupper(choice);
+    while(choice != 'E' && choice != 'P' && choice != 'C' && choice != 'F' && choice != 'M' && choice != 'S' && choice != 'Q')
     {
-        std::cout<< std::endl <<"Inserire  uno tra E, P, C, F, M oppure Q..."<< std::endl;
+        std::cout<< std::endl <<"Inserire uno tra E, P, C, F, M, S oppure Q..."<< std::endl;
         std::cin.clear();
         std::cin>>choice;
-        choice = toupper(choice);
+        choice = std::toupper(choice);
     }
 }
 
@@ -273,6 +352,8 @@ void testMenu() {
                     std::cout<< std::endl <<"Raddoppio tutti i valori della struttura" << std::endl;
                     vec.MapPreOrder(&MapDouble<int>, 0);
                 }
+                else if (choice == 'S')
+                    VecResize(vec);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -281,19 +362,27 @@ void testMenu() {
         {
             lasd::Vector<double> vec(n);
             RandPopulateVecReal(vec, n);
-            PrintElement(vec);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            vec.MapPreOrder(&MapPrint<double>, 0);
-            ElemExists(vec);
-            BiggerThanNProd(vec);
-            vec.MapPreOrder(&MapSquare<double>, 0);
             while (!end)
             {
                 PrintMenu(choice);
-                if (choice == 'P')
+                if (choice == 'E')
+                    PrintElement(vec);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     vec.MapPreOrder(&MapPrint<double>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(vec);
+                else if (choice == 'F')
+                    BiggerThanNProd(vec);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Eseguo il quadrato di tutti i valori della struttura" << std::endl;
+                    vec.MapPreOrder(&MapSquare<double>, 0);
+                }
+                else if (choice == 'S')
+                    VecResize(vec);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -302,19 +391,27 @@ void testMenu() {
         {
             lasd::Vector<std::string> vec(n);
             RandPopulateVecString(vec, n);
-            PrintElement(vec);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            vec.MapPreOrder(&MapPrint<std::string>, 0);
-            ElemExists(vec);
-            ShorterThanNConcat(vec);
-            vec.MapPreOrder(&MapUppercase<std::string>, 0);
             while (!end)
             {
                 PrintMenu(choice);
-                if (choice == 'P')
+                if (choice == 'E')
+                    PrintElement(vec);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     vec.MapPreOrder(&MapPrint<std::string>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(vec);
+                else if (choice == 'F')
+                    ShorterThanNConcat(vec);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Trasformo le stringhe da lowercase ad uppercase..." << std::endl;
+                    vec.MapPreOrder(&MapUppercase<std::string>, 0);
+                }
+                else if (choice == 'S')
+                    VecResize(vec);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -326,19 +423,27 @@ void testMenu() {
         {
             lasd::List<int> lis;
             RandPopulateLisInt(lis, n);
-            PrintElement(lis);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            lis.MapPreOrder(&MapPrint<int>, 0);
-            ElemExists(lis);
-            SmallerThanNSum(lis);
-            lis.MapPreOrder(&MapDouble<int>, 0);
             while (!end)
             {
                 PrintMenu(choice);
-                if (choice == 'P')
+                if (choice == 'E')
+                    PrintElement(lis);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     lis.MapPreOrder(&MapPrint<int>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(lis);
+                else if (choice == 'F')
+                    SmallerThanNSum(lis);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Raddoppio tutti i valori della struttura" << std::endl;
+                    lis.MapPreOrder(&MapDouble<int>, 0);
+                }
+                else if (choice == 'S')
+                    LisInsOrRem(lis);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -347,19 +452,27 @@ void testMenu() {
         {
             lasd::List<double> lis;
             RandPopulateLisReal(lis, n);
-            PrintElement(lis);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            lis.MapPreOrder(&MapPrint<double>, 0);
-            ElemExists(lis);
-            BiggerThanNProd(lis);
-            lis.MapPreOrder(&MapSquare<double>, 0);
             while (!end)
             {
                 PrintMenu(choice);
-                if (choice == 'P')
+                if (choice == 'E')
+                    PrintElement(lis);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     lis.MapPreOrder(&MapPrint<double>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(lis);
+                else if (choice == 'F')
+                    BiggerThanNProd(lis);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Eseguo il quadrato di tutti i valori della struttura" << std::endl;
+                    lis.MapPreOrder(&MapSquare<double>, 0);
+                }
+                else if (choice == 'S')
+                    LisInsOrRem(lis);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -368,19 +481,27 @@ void testMenu() {
         {
             lasd::List<std::string> lis;
             RandPopulateLisString(lis, n);
-            PrintElement(lis);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            lis.MapPreOrder(&MapPrint<std::string>, 0);
-            ElemExists(lis);
-            ShorterThanNConcat(lis);
-            lis.MapPreOrder(&MapUppercase<std::string>, 0);
             while (!end)
             {
                 PrintMenu(choice);
-                if (choice == 'P')
+                if (choice == 'E')
+                    PrintElement(lis);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     lis.MapPreOrder(&MapPrint<std::string>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(lis);
+                else if (choice == 'F')
+                    ShorterThanNConcat(lis);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Trasformo le stringhe da lowercase ad uppercase..." << std::endl;
+                    lis.MapPreOrder(&MapUppercase<std::string>, 0);
+                }
+                else if (choice == 'S')
+                    LisInsOrRem(lis);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -388,13 +509,13 @@ void testMenu() {
     }
     std::cout<< std::endl << "Si vuole passare al test LASD? [Y/N]" << std::endl;
     std::cin>> mInput;
-    mInput = toupper(mInput);
+    mInput = std::toupper(mInput);
     while (mInput != 'Y' && mInput != 'N')
     {
         std::cout<< std::endl <<"Inserire Y oppure N..."<< std::endl;
         std::cin.clear();
         std::cin>>mInput;
-        mInput = toupper(mInput);
+        mInput = std::toupper(mInput);
     }
     if (mInput == 'Y')
         lasdtest();
