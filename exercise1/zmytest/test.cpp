@@ -119,9 +119,15 @@ void PrintElement(const lasd::LinearContainer<Data>& con) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cin>>i;
+        } while (std::cin.fail());
+        try
+        {
+            std::cout<< std::endl << "Elemento all'indice " << i << ": " << std::setprecision(17) << con[i] << std::endl;
         }
-        while (std::cin.fail());
-        std::cout<< std::endl << "Elemento all'indice " << i << ": " << std::setprecision(17) << con[i] << std::endl;
+        catch(const std::out_of_range& e)
+        {
+            std::cerr << std::endl << e.what() << std::endl;
+        }
     }
 }
 
