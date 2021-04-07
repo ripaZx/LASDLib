@@ -164,7 +164,6 @@ void SmallerThanNSum(const lasd::FoldableContainer<Data>& con) {
     std::cout<< std::endl << "La somma richiesta è: " << sum << std::endl;
 }
 
-
 template <typename Data>
 void AuxFoldProd(const Data& dat, const void* val, void* prod) {
     if (dat > *((float*)val))
@@ -222,20 +221,18 @@ void MapUppercase(Data& dat, void* _) {
     std::transform(dat.begin(), dat.end(), dat.begin(), [](unsigned char c){ return toupper(c); });
 }
 
-char IterateChoice() {
-    char choice;
-    std::cout<< std::endl <<"Selezionare una funzione: stampa di tutti gli elementi, controllo di esistenza di un dato elemento o uscire dal test" << std::endl << "    [P]rint    [C]heck    [E]xit" << std::endl;
+void PrintMenu(char& choice) {
+    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[E]lement_Print    [P]rint_Structure    [C]heck_Existence    [F]old_Operation    [M]ap_Operation    [Q]uit    " << std::endl;
     std::cin.clear();
     std::cin>>choice;
     choice = toupper(choice);
-    while(choice != 'P' && choice != 'C' && choice != 'E')
+    while(choice != 'E' && choice != 'P' && choice != 'C' && choice != 'F' && choice != 'M' && choice != 'Q')
     {
-        std::cout<< std::endl <<"Inserire P, C oppure E..."<< std::endl;
+        std::cout<< std::endl <<"Inserire  uno tra E, P, C, F, M oppure Q..."<< std::endl;
         std::cin.clear();
         std::cin>>choice;
         choice = toupper(choice);
     }
-    return choice;
 }
 
 void testMenu() {
@@ -257,20 +254,26 @@ void testMenu() {
         {
             lasd::Vector<int> vec(n);
             RandPopulateVecInt(vec, n);
-            PrintElement(vec);
-            std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
-            vec.MapPreOrder(&MapPrint<int>, 0);
-            ElemExists(vec);
-            SmallerThanNSum(vec);
-            vec.MapPreOrder(&MapDouble<int>, 0);
             while (!end)
             {
-                choice = IterateChoice();
-                if (choice == 'P')
+                PrintMenu(choice);
+                if (choice == 'E')
+                    PrintElement(vec);
+                else if (choice == 'P')
+                {
+                    std::cout<< "Procedo alla stampa di tutti gli elementi della struttura: " << std::endl;
                     vec.MapPreOrder(&MapPrint<int>, 0);
+                }
                 else if (choice == 'C')
                     ElemExists(vec);
-                else if (choice == 'E')
+                else if (choice == 'F')
+                    SmallerThanNSum(vec);
+                else if (choice == 'M')
+                {
+                    std::cout<< std::endl <<"Raddoppio tutti i valori della struttura" << std::endl;
+                    vec.MapPreOrder(&MapDouble<int>, 0);
+                }
+                else if (choice == 'Q')
                     end = true;
             }
         }
@@ -286,12 +289,12 @@ void testMenu() {
             vec.MapPreOrder(&MapSquare<double>, 0);
             while (!end)
             {
-                choice = IterateChoice();
+                PrintMenu(choice);
                 if (choice == 'P')
                     vec.MapPreOrder(&MapPrint<double>, 0);
                 else if (choice == 'C')
                     ElemExists(vec);
-                else if (choice == 'E')
+                else if (choice == 'Q')
                     end = true;
             }
         }
@@ -307,12 +310,12 @@ void testMenu() {
             vec.MapPreOrder(&MapUppercase<std::string>, 0);
             while (!end)
             {
-                choice = IterateChoice();
+                PrintMenu(choice);
                 if (choice == 'P')
                     vec.MapPreOrder(&MapPrint<std::string>, 0);
                 else if (choice == 'C')
                     ElemExists(vec);
-                else if (choice == 'E')
+                else if (choice == 'Q')
                     end = true;
             }
         }
@@ -331,12 +334,12 @@ void testMenu() {
             lis.MapPreOrder(&MapDouble<int>, 0);
             while (!end)
             {
-                choice = IterateChoice();
+                PrintMenu(choice);
                 if (choice == 'P')
                     lis.MapPreOrder(&MapPrint<int>, 0);
                 else if (choice == 'C')
                     ElemExists(lis);
-                else if (choice == 'E')
+                else if (choice == 'Q')
                     end = true;
             }
         }
@@ -352,12 +355,12 @@ void testMenu() {
             lis.MapPreOrder(&MapSquare<double>, 0);
             while (!end)
             {
-                choice = IterateChoice();
+                PrintMenu(choice);
                 if (choice == 'P')
                     lis.MapPreOrder(&MapPrint<double>, 0);
                 else if (choice == 'C')
                     ElemExists(lis);
-                else if (choice == 'E')
+                else if (choice == 'Q')
                     end = true;
             }
         }
@@ -373,12 +376,12 @@ void testMenu() {
             lis.MapPreOrder(&MapUppercase<std::string>, 0);
             while (!end)
             {
-                choice = IterateChoice();
+                PrintMenu(choice);
                 if (choice == 'P')
                     lis.MapPreOrder(&MapPrint<std::string>, 0);
                 else if (choice == 'C')
                     ElemExists(lis);
-                else if (choice == 'E')
+                else if (choice == 'Q')
                     end = true;
             }
         }
