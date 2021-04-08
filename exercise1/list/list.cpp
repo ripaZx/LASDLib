@@ -59,8 +59,7 @@ List<Data>::List(const LinearContainer<Data>& con) {
             (*current) = new Node(con[i++]);
             if (i == size)
                 tail = (*current);
-            else
-                current = &((*current)->next);
+            current = &((*current)->next);
         }
     }
 }
@@ -75,13 +74,10 @@ List<Data>::List(const List<Data>& lis) {
         while(currentLis != nullptr)
         {
             (*current) = new Node(*currentLis);
-            // if (currentLis->next == nullptr)
-            //     tail = (*current);
-            //else
-            {
-                current = &((*current)->next);
-                currentLis = currentLis->next;
-            }
+            if (currentLis->next == nullptr)
+                tail = (*current);
+            current = &((*current)->next);
+            currentLis = currentLis->next;
         }
     }
 }
