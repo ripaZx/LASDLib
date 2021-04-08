@@ -5,19 +5,19 @@ namespace lasd {
 
 template <typename Data>
 List<Data>::Node::Node(const Data& dat) {
-    Element = new Data(dat);
+    Element = dat;
     next = nullptr;
 }
 
 template <typename Data>
 List<Data>::Node::Node(Data&& dat) {
-    Element = new Data(std::move(dat));
+    std::swap(Element, dat);
     next = nullptr;
 }
 
 template <typename Data>
 List<Data>::Node::Node(const Node& nod) {
-    Element = new Data(*nod.Element);
+    Element = nod.Element;
     next = nod.next;
 }
 
@@ -29,13 +29,12 @@ List<Data>::Node::Node(Node&& nod) noexcept {
 
 template <typename Data>
 List<Data>::Node::~Node() {
-    delete Element;
     next = nullptr;
 }
 
 template <typename Data>
 bool List<Data>::Node::operator==(const Node& nod) const noexcept {
-    if (*Element == *nod.Element)
+    if (Element == nod.Element)
         return true;
     else
         return false;
@@ -58,7 +57,10 @@ List<Data>::List(const LinearContainer<Data>& con) {
         while (i<size)
         {
             (*current) = new Node(con[i++]);
-            current = &((*current)->next);
+            if (i == size)
+                tail = (*current);
+            else
+                current = &((*current)->next);
         }
     }
 }
@@ -73,8 +75,13 @@ List<Data>::List(const List<Data>& lis) {
         while(currentLis != nullptr)
         {
             (*current) = new Node(*currentLis);
-            current = &((*current)->next);
-            currentLis = currentLis->next;
+            // if (currentLis->next == nullptr)
+            //     tail = (*current);
+            //else
+            {
+                current = &((*current)->next);
+                currentLis = currentLis->next;
+            }
         }
     }
 }
@@ -82,6 +89,7 @@ List<Data>::List(const List<Data>& lis) {
 template <typename Data>
 List<Data>::List(List<Data>&& lis) noexcept {
     std::swap(head, lis.head);
+    std::swap(tail, lis.tail);
     std::swap(size, lis.size);
 }
 
@@ -111,8 +119,12 @@ List<Data>& List<Data>::operator=(const List<Data>& lis) {
 
 template <typename Data>
 List<Data>& List<Data>::operator=(List<Data>&& lis) noexcept {
-    std::swap(head, lis.head);
-    std::swap(size, lis.size);
+    if (*this != lis)
+    {
+        std::swap(head, lis.head);
+        std::swap(tail, lis.tail);
+        std::swap(size, lis.size);
+    }
     return *this;
 }
 
@@ -145,17 +157,33 @@ inline bool List<Data>::operator!=(const List<Data>& lis) const noexcept {
 
 template <typename Data>
 void List<Data>::InsertAtFront(const Data& dat) {
-    Node* newHead = new Node(dat);
-    newHead->next = head;
-    head = newHead;
+    if (size == 0)
+    {
+        head = new Node(dat);
+        tail = head;
+    }
+    else
+    {
+        Node* newHead = new Node(dat);
+        newHead->next = head;
+        head = newHead;
+    }
     size++;
 }
 
 template <typename Data>
 void List<Data>::InsertAtFront(Data&& dat) noexcept {
-    Node* newHead = new Node(std::move(dat));
-    newHead->next = head;
-    head = newHead;
+    if (size == 0)
+    {
+        head = new Node(std::move(dat));
+        tail = head;
+    }
+    else
+    {
+        Node* newHead = new Node(std::move(dat));
+        newHead->next = head;
+        head = newHead;
+    }
     size++;
 }
 
@@ -176,7 +204,7 @@ template <typename Data>
 Data List<Data>::FrontNRemove() {
     if (size != 0)
     {
-        Data element = *(head->Element);
+        Data element = head->Element;
         RemoveFromFront();
         return element;
     }
@@ -186,37 +214,34 @@ Data List<Data>::FrontNRemove() {
 
 template <typename Data>
 void List<Data>::InsertAtBack(const Data& dat) {
-    if (head == nullptr)
+    if (size == 0)
+    {
         head = new Node(dat);
+        tail = head;
+    }
     else
     {
-        Node* newTail = new Node(dat);
-        Node* current = head;
-
-        while (current->next != nullptr)
-            current = current->next;
-        
-        current->next = newTail;
+        Node* newTail = new Node(dat);      
+        tail->next = newTail;
+        tail = tail->next;
     }
     size++;
 }
 
 template <typename Data>
 void List<Data>::InsertAtBack(Data&& dat) noexcept {
-    if (head == nullptr)
+    if (size == 0)
+    {
         head = new Node(std::move(dat));
+        tail = head;
+    }
     else
     {
         Node* newTail = new Node(std::move(dat));
-        Node* current = head;
-
-        while (current->next != nullptr)
-            current = current->next;
-        
-        current->next = newTail;
+        tail->next = newTail;
+        tail = tail->next;
     }
     size++;
-
 }
 
 template <typename Data>
@@ -231,6 +256,7 @@ void List<Data>::Clear() {
             head = current;
         }
         head = nullptr;
+        tail = nullptr;
         size = 0;
     }
 }
@@ -238,7 +264,7 @@ void List<Data>::Clear() {
 template <typename Data>
 Data& List<Data>::Front() const {
     if (size != 0)
-        return *head->Element;
+        return head->Element;
     else
         throw std::length_error("Access to an empty list.");
 }
@@ -246,19 +272,18 @@ Data& List<Data>::Front() const {
 template <typename Data>
 Data& List<Data>::Back() const {
     if (size != 0)
-    {
-        Node* current = head;
-        while (current->next != nullptr)
-            current = current->next;
-        return *current->Element;
-    }
+        return tail->Element;
     else
         throw std::length_error("Access to an empty list.");
 }
 
 template <typename Data>
 Data& List<Data>::operator[](const unsigned long index) const {
-    if (index < size)
+    if (index == size-1)
+        return Back();
+    else if (index == 0)
+        return Front();
+    else if (index < size-1)
     {
         Node* current = head;
         unsigned long acc = 0;
@@ -267,7 +292,7 @@ Data& List<Data>::operator[](const unsigned long index) const {
             current = current->next;
             acc++;
         }
-        return *current->Element;
+        return current->Element;
     }
     else
         throw std::out_of_range("Access at index "+ std::to_string(index) + "; list size " + std::to_string(size) + ".");
@@ -297,7 +322,7 @@ template <typename Data>
 void List<Data>::MapPreOrder(const MapFunctor func, void* par, Node* nod) {
         if (nod != nullptr)
         {
-            func(*nod->Element, par);
+            func(nod->Element, par);
             if (nod->next != nullptr)
                 MapPreOrder(func, par, nod->next);
         }
@@ -309,7 +334,7 @@ void List<Data>::MapPostOrder(const MapFunctor func, void* par, Node* nod) {
     {
         if (nod->next != nullptr)
             MapPostOrder(func, par, nod->next);
-        func(*nod->Element, par);
+        func(nod->Element, par);
     }
 }
 
@@ -317,7 +342,7 @@ template <typename Data>
 void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
     if (nod != nullptr)
     {
-        func(*nod->Element, par, acc);
+        func(nod->Element, par, acc);
         if (nod->next != nullptr)
             FoldPreOrder(func, par, acc, nod->next);
     }
@@ -329,7 +354,7 @@ void List<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* ac
     {
         if (nod->next != nullptr)
             FoldPostOrder(func, par, acc, nod->next);
-        func(*nod->Element, par, acc);
+        func(nod->Element, par, acc);
     }
 }
 /* ************************************************************************** */
