@@ -30,6 +30,9 @@ void RemoveFromFront(uint& testnum, uint& testerr, lasd::List<Data>& lst, bool c
     std::cout << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
+  } catch(std::exception exc) {
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -43,6 +46,9 @@ void FrontNRemove(uint& testnum, uint& testerr, lasd::List<Data>& lst, bool chk,
     std::cout << ((tst = ((lst.FrontNRemove() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
+  } catch(std::exception exc) {
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }

@@ -26,8 +26,8 @@ void GetFront(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& c
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -43,8 +43,8 @@ void SetFront(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& c
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -59,8 +59,8 @@ void GetBack(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& co
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -76,8 +76,8 @@ void SetBack(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& co
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -93,8 +93,8 @@ void SetAt(uint& testnum, uint& testerr, lasd::LinearContainer<Data>& con, bool 
   } catch(std::out_of_range exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
@@ -109,8 +109,8 @@ void GetAt(uint& testnum, uint& testerr, lasd::LinearContainer<Data>& con, bool 
   } catch(std::out_of_range exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
-    tst = true;
-    std::cout << std::endl << "Wrong std::exception: " << exc.what() << "!" << std::endl;
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
