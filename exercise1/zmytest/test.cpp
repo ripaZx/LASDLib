@@ -107,9 +107,27 @@ void PrintElement(const lasd::LinearContainer<Data>& con) {
         input = std::toupper(input);
     }
     if (input == 'P')
-        std::cout<< "Il primo elemento della struttura è: " << std::setprecision(17) << con.Front() << std::endl;
+    {
+        try
+        {
+            std::cout<< "Il primo elemento della struttura è: " << std::setprecision(17) << con.Front() << std::endl;
+        }
+        catch(const std::length_error& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+    }
     else if (input == 'U')
-        std::cout<< "L'ultimo elemento della struttura è: " << std::setprecision(17) << con.Back() << std::endl;
+    {
+        try
+        {
+            std::cout<< "L'ultimo elemento della struttura è: " << std::setprecision(17) << con.Back() << std::endl;
+        }
+        catch(const std::length_error& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+    }
     else if (input == 'I')
     {
         unsigned long i;
@@ -296,12 +314,26 @@ void LisInsOrRem(lasd::List<Data>& lis) {
         }
         if (choice == 'R')
         {
-            lis.RemoveFromFront();
+            try
+            {
+                lis.RemoveFromFront();
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
             std::cout<< std::endl << "Rimozione effettuata" << std::endl;
         }
         else if (choice == 'F')
         {
-            std::cout<< "Rimozione dell'elemento... " << lis.FrontNRemove() << " effettuata";
+            try
+            {
+                std::cout<< "Rimozione dell'elemento... " << lis.FrontNRemove() << " effettuata";
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
     }
 }
