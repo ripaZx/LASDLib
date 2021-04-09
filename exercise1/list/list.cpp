@@ -10,7 +10,7 @@ List<Data>::Node::Node(const Data& dat) {
 }
 
 template <typename Data>
-List<Data>::Node::Node(Data&& dat) {
+List<Data>::Node::Node(Data&& dat) noexcept {
     std::swap(Element, dat);
     next = nullptr;
 }
