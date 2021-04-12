@@ -24,9 +24,8 @@ private:
 protected:
 
   using List<Data>::Node;
+  using List<Data>::head;
   using LinearContainer<Data>::size;
-
-  Node* head = nullptr;
 
 public:
 
