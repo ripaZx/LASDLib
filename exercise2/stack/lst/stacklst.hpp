@@ -15,15 +15,12 @@ namespace lasd {
 
 template <typename Data>
 class StackLst : virtual public Stack<Data>,
-                 protected List<Data> { // Must extend Stack<Data> and List<Data>
+                 protected List<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  using List<Data>::Node;
   using List<Data>::head;
   using LinearContainer<Data>::size;
 
@@ -62,15 +59,15 @@ public:
 
   // Comparison operators
   bool operator==(const StackLst&) const noexcept;
-  inline bool operator!=(StackLst&&) const noexcept;
+  inline bool operator!=(const StackLst&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Stack)
 
-  void Push(const StackLst&) override; // Override Stack member (copy of the value)
-  void Push(StackLst&&) noexcept override; // Override Stack member (move of the value)
-  void Top() const override; // Override Stack member (must throw std::length_error when empty)
+  void Push(const Data&) override; // Override Stack member (copy of the value)
+  void Push(Data&&) noexcept override; // Override Stack member (move of the value)
+  Data& Top() const override; // Override Stack member (must throw std::length_error when empty)
   void Pop() override; // Override Stack member (must throw std::length_error when empty)
   Data TopNPop() override; // Override Stack member (must throw std::length_error when empty)
 

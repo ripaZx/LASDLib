@@ -19,70 +19,70 @@ using namespace std;
 
 /* ************************************************************************** */
 
-// template <typename Stk>
-// void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   try {
-//     Empty(loctestnum, loctesterr, stk, true);
-//     Size(loctestnum, loctesterr, stk, true, 0);
+template <typename Stk>
+void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  try {
+    Empty(loctestnum, loctesterr, stk, true);
+    Size(loctestnum, loctesterr, stk, true, 0);
 
-//     Top(loctestnum, loctesterr, stk, false, 0);
-//     TopNPop(loctestnum, loctesterr, stk, false, 0);
+    Top(loctestnum, loctesterr, stk, false, 0);
+    TopNPop(loctestnum, loctesterr, stk, false, 0);
 
-//     PushC(loctestnum, loctesterr, stk, 4);
-//     PushC(loctestnum, loctesterr, stk, 0);
-//     PushC(loctestnum, loctesterr, stk, 3);
-//     PushC(loctestnum, loctesterr, stk, 1);
-//     PushC(loctestnum, loctesterr, stk, 2);
+    PushC(loctestnum, loctesterr, stk, 4);
+    PushC(loctestnum, loctesterr, stk, 0);
+    PushC(loctestnum, loctesterr, stk, 3);
+    PushC(loctestnum, loctesterr, stk, 1);
+    PushC(loctestnum, loctesterr, stk, 2);
 
-//     Empty(loctestnum, loctesterr, stk, false);
-//     Size(loctestnum, loctesterr, stk, true, 5);
+    Empty(loctestnum, loctesterr, stk, false);
+    Size(loctestnum, loctesterr, stk, true, 5);
 
-//     TopNPop(loctestnum, loctesterr, stk, true, 2);
-//     Top(loctestnum, loctesterr, stk, true, 1);
+    TopNPop(loctestnum, loctesterr, stk, true, 2);
+    Top(loctestnum, loctesterr, stk, true, 1);
 
-//     Stk copstk(stk);
-//     EqualStack(loctestnum, loctesterr, stk, copstk, true);
-//     PushC(loctestnum, loctesterr, stk, 5);
-//     NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
+    Stk copstk(stk);
+    EqualStack(loctestnum, loctesterr, stk, copstk, true);
+    PushC(loctestnum, loctesterr, stk, 5);
+    NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
 
-//     copstk = stk;
-//     EqualStack(loctestnum, loctesterr, stk, copstk, true);
-//     PushC(loctestnum, loctesterr, copstk, 6);
-//     NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
+    copstk = stk;
+    EqualStack(loctestnum, loctesterr, stk, copstk, true);
+    PushC(loctestnum, loctesterr, copstk, 6);
+    NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
 
-//     Top(loctestnum, loctesterr, copstk, true, 6);
-//     copstk = std::move(stk);
-//     TopNPop(loctestnum, loctesterr, copstk, true, 5);
-//     Pop(loctestnum, loctesterr, copstk, true);
-//     Top(loctestnum, loctesterr, copstk, true, 3);
+    Top(loctestnum, loctesterr, copstk, true, 6);
+    copstk = std::move(stk);
+    TopNPop(loctestnum, loctesterr, copstk, true, 5);
+    Pop(loctestnum, loctesterr, copstk, true);
+    Top(loctestnum, loctesterr, copstk, true, 3);
 
-//     Stk movstk(std::move(stk));
-//     Top(loctestnum, loctesterr, stk, false, 0);
+    Stk movstk(std::move(stk));
+    Top(loctestnum, loctesterr, stk, false, 0);
 
-//     movstk.Clear();
-//     Pop(loctestnum, loctesterr, movstk, false);
-//     Empty(loctestnum, loctesterr, movstk, true);
-//     Size(loctestnum, loctesterr, movstk, true, 0);
-//   } catch(...) {
-//     loctestnum++; loctesterr++;
-//     cout << endl << "Unmanaged error! " << endl;
-//   }
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << "End of Stack<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
-// void stestStackInt(uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
+    movstk.Clear();
+    Pop(loctestnum, loctesterr, movstk, false);
+    Empty(loctestnum, loctesterr, movstk, true);
+    Size(loctestnum, loctesterr, movstk, true, 0);
+  } catch(...) {
+    loctestnum++; loctesterr++;
+    cout << endl << "Unmanaged error! " << endl;
+  }
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "End of Stack<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
+void stestStackInt(uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
 //   lasd::StackVec<int> stkvec;
 //   cout << endl << "Begin of StackVec<int> Test:" << endl;
 //   stestStackInt(stkvec, loctestnum, loctesterr);
-//   lasd::StackLst<int> stklst;
-//   cout << endl << "Begin of StackLst<int> Test:" << endl;
-//   stestStackInt(stklst, loctestnum, loctesterr);
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-// }
+  lasd::StackLst<int> stklst;
+  cout << endl << "Begin of StackLst<int> Test:" << endl;
+  stestStackInt(stklst, loctestnum, loctesterr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+}
 
 // template <typename Stk>
 // void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
@@ -173,15 +173,15 @@ using namespace std;
 //   testerr += loctesterr;
 // }
 
-// void stestStack(uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   stestStackInt(loctestnum, loctesterr);
+void stestStack(uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  stestStackInt(loctestnum, loctesterr);
 //   stestStackFloat(loctestnum, loctesterr);
 //   stestStackString(loctestnum, loctesterr);
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << endl << "Exercise 2 - Stack (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << endl << "Exercise 2 - Stack (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
 
 // /* ************************************************************************** */
 
@@ -351,9 +351,9 @@ using namespace std;
 
 // /* ************************************************************************** */
 
-// void testSimpleExercise2() {
-//   uint testnum = 0, testerr = 0;
-//   stestStack(testnum, testerr);
+void testSimpleExercise2() {
+  uint testnum = 0, testerr = 0;
+  stestStack(testnum, testerr);
 //   stestQueue(testnum, testerr);
-//   cout << endl << "Exercise 2 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
-// }
+  cout << endl << "Exercise 2 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
+}
