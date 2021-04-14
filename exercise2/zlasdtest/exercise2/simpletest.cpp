@@ -84,64 +84,64 @@ void stestStackInt(uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-// template <typename Stk>
-// void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   try {
-//     PushC(loctestnum, loctesterr, stk, 5.9);
-//     PushC(loctestnum, loctesterr, stk, 4.4);
-//     PushC(loctestnum, loctesterr, stk, 9.5);
+template <typename Stk>
+void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  try {
+    PushC(loctestnum, loctesterr, stk, 5.9);
+    PushC(loctestnum, loctesterr, stk, 4.4);
+    PushC(loctestnum, loctesterr, stk, 9.5);
 
-//     Empty(loctestnum, loctesterr, stk, false);
-//     Size(loctestnum, loctesterr, stk, true, 3);
+    Empty(loctestnum, loctesterr, stk, false);
+    Size(loctestnum, loctesterr, stk, true, 3);
 
-//     TopNPop(loctestnum, loctesterr, stk, true, 9.5);
-//     Top(loctestnum, loctesterr, stk, true, 4.4);
-//     Pop(loctestnum, loctesterr, stk, true);
-//     TopNPop(loctestnum, loctesterr, stk, true, 5.9);
-//     Pop(loctestnum, loctesterr, stk, false);
-//   } catch(...) {
-//     loctestnum++; loctesterr++;
-//     cout << endl << "Unmanaged error! " << endl;
-//   }
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << "End of Stack<double> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
-// void stestStackFloat(uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   lasd::StackVec<double> stkvec;
-//   cout << endl << "Begin of StackVec<double> Test:" << endl;
-//   stestStackFloat(stkvec, loctestnum, loctesterr);
-//   lasd::StackLst<double> stklst;
-//   cout << endl << "Begin of StackLst<double> Test:" << endl;
-//   stestStackFloat(stklst, loctestnum, loctesterr);
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-// }
+    TopNPop(loctestnum, loctesterr, stk, true, 9.5);
+    Top(loctestnum, loctesterr, stk, true, 4.4);
+    Pop(loctestnum, loctesterr, stk, true);
+    TopNPop(loctestnum, loctesterr, stk, true, 5.9);
+    Pop(loctestnum, loctesterr, stk, false);
+  } catch(...) {
+    loctestnum++; loctesterr++;
+    cout << endl << "Unmanaged error! " << endl;
+  }
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "End of Stack<double> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
+void stestStackFloat(uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  // lasd::StackVec<double> stkvec;
+  // cout << endl << "Begin of StackVec<double> Test:" << endl;
+  // stestStackFloat(stkvec, loctestnum, loctesterr);
+  lasd::StackLst<double> stklst;
+  cout << endl << "Begin of StackLst<double> Test:" << endl;
+  stestStackFloat(stklst, loctestnum, loctesterr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+}
 
-// template <typename Stk>
-// void stestStackString(Stk& stk, uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   try {
-//     PushM(loctestnum, loctesterr, stk, string("A"));
-//     PushM(loctestnum, loctesterr, stk, string("B"));
+template <typename Stk>
+void stestStackString(Stk& stk, uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  try {
+    PushM(loctestnum, loctesterr, stk, string("A"));
+    PushM(loctestnum, loctesterr, stk, string("B"));
 
-//     Empty(loctestnum, loctesterr, stk, false);
-//     Size(loctestnum, loctesterr, stk, true, 2);
+    Empty(loctestnum, loctesterr, stk, false);
+    Size(loctestnum, loctesterr, stk, true, 2);
 
-//     TopNPop(loctestnum, loctesterr, stk, true, string("B"));
-//     Top(loctestnum, loctesterr, stk, true, string("A"));
-//     Pop(loctestnum, loctesterr, stk, true);
-//     Pop(loctestnum, loctesterr, stk, false);
-//   } catch(...) {
-//     loctestnum++; loctesterr++;
-//     cout << endl << "Unmanaged error! " << endl;
-//   }
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << "End of Stack<string> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
+    TopNPop(loctestnum, loctesterr, stk, true, string("B"));
+    Top(loctestnum, loctesterr, stk, true, string("A"));
+    Pop(loctestnum, loctesterr, stk, true);
+    Pop(loctestnum, loctesterr, stk, false);
+  } catch(...) {
+    loctestnum++; loctesterr++;
+    cout << endl << "Unmanaged error! " << endl;
+  }
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "End of Stack<string> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
 // void stestStackString(uint& testnum, uint& testerr) {
 //   uint loctestnum = 0, loctesterr = 0;
 //   lasd::StackVec<string> stkvec;
@@ -176,79 +176,79 @@ void stestStackInt(uint& testnum, uint& testerr) {
 void stestStack(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   stestStackInt(loctestnum, loctesterr);
-//   stestStackFloat(loctestnum, loctesterr);
-//   stestStackString(loctestnum, loctesterr);
+  stestStackFloat(loctestnum, loctesterr);
+  // stestStackString(loctestnum, loctesterr);
   testnum += loctestnum;
   testerr += loctesterr;
   cout << endl << "Exercise 2 - Stack (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
 
-// /* ************************************************************************** */
+/* ************************************************************************** */
 
-// template <typename Que>
-// void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   try {
-//     Empty(loctestnum, loctesterr, que, true);
-//     Size(loctestnum, loctesterr, que, true, 0);
+template <typename Que>
+void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  try {
+    Empty(loctestnum, loctesterr, que, true);
+    Size(loctestnum, loctesterr, que, true, 0);
 
-//     Head(loctestnum, loctesterr, que, false, 0);
-//     HeadNDequeue(loctestnum, loctesterr, que, false, 0);
+    Head(loctestnum, loctesterr, que, false, 0);
+    HeadNDequeue(loctestnum, loctesterr, que, false, 0);
 
-//     EnqueueC(loctestnum, loctesterr, que, 4);
-//     EnqueueC(loctestnum, loctesterr, que, 0);
-//     EnqueueC(loctestnum, loctesterr, que, 3);
-//     EnqueueC(loctestnum, loctesterr, que, 1);
-//     EnqueueC(loctestnum, loctesterr, que, 2);
+    EnqueueC(loctestnum, loctesterr, que, 4);
+    EnqueueC(loctestnum, loctesterr, que, 0);
+    EnqueueC(loctestnum, loctesterr, que, 3);
+    EnqueueC(loctestnum, loctesterr, que, 1);
+    EnqueueC(loctestnum, loctesterr, que, 2);
 
-//     Empty(loctestnum, loctesterr, que, false);
-//     Size(loctestnum, loctesterr, que, true, 5);
+    Empty(loctestnum, loctesterr, que, false);
+    Size(loctestnum, loctesterr, que, true, 5);
 
-//     HeadNDequeue(loctestnum, loctesterr, que, true, 4);
-//     Head(loctestnum, loctesterr, que, true, 0);
+    HeadNDequeue(loctestnum, loctesterr, que, true, 4);
+    Head(loctestnum, loctesterr, que, true, 0);
 
-//     Que copque(que);
-//     EqualQueue(loctestnum, loctesterr, que, copque, true);
-//     EnqueueC(loctestnum, loctesterr, que, 5);
-//     NonEqualQueue(loctestnum, loctesterr, que, copque, true);
+    Que copque(que);
+    EqualQueue(loctestnum, loctesterr, que, copque, true);
+    EnqueueC(loctestnum, loctesterr, que, 5);
+    NonEqualQueue(loctestnum, loctesterr, que, copque, true);
 
-//     copque = que;
-//     EqualQueue(loctestnum, loctesterr, que, copque, true);
-//     EnqueueC(loctestnum, loctesterr, copque, 6);
-//     NonEqualQueue(loctestnum, loctesterr, que, copque, true);
+    copque = que;
+    EqualQueue(loctestnum, loctesterr, que, copque, true);
+    EnqueueC(loctestnum, loctesterr, copque, 6);
+    NonEqualQueue(loctestnum, loctesterr, que, copque, true);
 
-//     Head(loctestnum, loctesterr, copque, true, 0);
-//     copque = std::move(que);
-//     HeadNDequeue(loctestnum, loctesterr, copque, true, 0);
-//     Dequeue(loctestnum, loctesterr, copque, true);
-//     Head(loctestnum, loctesterr, copque, true, 1);
+    Head(loctestnum, loctesterr, copque, true, 0);
+    copque = std::move(que);
+    HeadNDequeue(loctestnum, loctesterr, copque, true, 0);
+    Dequeue(loctestnum, loctesterr, copque, true);
+    Head(loctestnum, loctesterr, copque, true, 1);
 
-//     Que movque(std::move(que));
-//     Head(loctestnum, loctesterr, que, false, 0);
+    Que movque(std::move(que));
+    Head(loctestnum, loctesterr, que, false, 0);
 
-//     movque.Clear();
-//     Dequeue(loctestnum, loctesterr, movque, false);
-//     Empty(loctestnum, loctesterr, movque, true);
-//     Size(loctestnum, loctesterr, movque, true, 0);
-//   } catch(...) {
-//     loctestnum++; loctesterr++;
-//     cout << endl << "Unmanaged error! " << endl;
-//   }
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << "End of Queue<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
-// void stestQueueInt(uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   lasd::QueueVec<int> quevec;
-//   cout << endl << "Begin of QueueVec<int> Test:" << endl;
-//   stestQueueInt(quevec, loctestnum, loctesterr);
-//   lasd::QueueLst<int> quelst;
-//   cout << endl << "Begin of QueueLst<int> Test:" << endl;
-//   stestQueueInt(quelst, loctestnum, loctesterr);
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-// }
+    movque.Clear();
+    Dequeue(loctestnum, loctesterr, movque, false);
+    Empty(loctestnum, loctesterr, movque, true);
+    Size(loctestnum, loctesterr, movque, true, 0);
+  } catch(...) {
+    loctestnum++; loctesterr++;
+    cout << endl << "Unmanaged error! " << endl;
+  }
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << "End of Queue<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
+void stestQueueInt(uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  // lasd::QueueVec<int> quevec;
+  // cout << endl << "Begin of QueueVec<int> Test:" << endl;
+  // stestQueueInt(quevec, loctestnum, loctesterr);
+  lasd::QueueLst<int> quelst;
+  cout << endl << "Begin of QueueLst<int> Test:" << endl;
+  stestQueueInt(quelst, loctestnum, loctesterr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+}
 
 // template <typename Que>
 // void stestQueueFloat(Que& que, uint& testnum, uint& testerr) {
@@ -339,21 +339,21 @@ void stestStack(uint& testnum, uint& testerr) {
 //   testerr += loctesterr;
 // }
 
-// void stestQueue(uint& testnum, uint& testerr) {
-//   uint loctestnum = 0, loctesterr = 0;
-//   stestQueueInt(loctestnum, loctesterr);
-//   stestQueueFloat(loctestnum, loctesterr);
-//   stestQueueString(loctestnum, loctesterr);
-//   testnum += loctestnum;
-//   testerr += loctesterr;
-//   cout << endl << "Exercise 2 - Queue (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-// }
+void stestQueue(uint& testnum, uint& testerr) {
+  uint loctestnum = 0, loctesterr = 0;
+  stestQueueInt(loctestnum, loctesterr);
+  // stestQueueFloat(loctestnum, loctesterr);
+  // stestQueueString(loctestnum, loctesterr);
+  testnum += loctestnum;
+  testerr += loctesterr;
+  cout << endl << "Exercise 2 - Queue (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
+}
 
 // /* ************************************************************************** */
 
 void testSimpleExercise2() {
   uint testnum = 0, testerr = 0;
   stestStack(testnum, testerr);
-//   stestQueue(testnum, testerr);
+  stestQueue(testnum, testerr);
   cout << endl << "Exercise 2 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }
