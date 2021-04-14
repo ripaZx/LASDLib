@@ -19,18 +19,16 @@ class StackVec : virtual public Stack<Data>,
 
 private:
 
-  // ...
-
 protected:
 
-  // using Vector<Data>::???;
-
-  // ...
+  using Vector<Data>::Elements;
+  using LinearContainer<Data>::size;
+  unsigned long head = 0;
 
 public:
 
   // Default constructor
-  StackVec() = default;
+  StackVec();
 
   /* ************************************************************************ */
 
@@ -70,7 +68,7 @@ public:
 
   void Push(const Data&) override; // Override Stack member (copy of the value)
   void Push(Data&&) noexcept override; // Override Stack member (move of the value)
-  void Top() const override; // Override Stack member (must throw std::length_error when empty)
+  Data& Top() const override; // Override Stack member (must throw std::length_error when empty)
   void Pop() override; // Override Stack member (must throw std::length_error when empty)
   Data TopNPop() override; // Override Stack member (must throw std::length_error when empty)
 
@@ -78,9 +76,9 @@ public:
 
   // Specific member functions (inherited from Container)
 
-  void Empty() override; // Override Container member
+  inline bool Empty() override; // Override Container member
 
-  void Size() override; // Override Container member
+  inline unsigned long Size() override; // Override Container member
 
   void Clear() override; // Override Container member
 
@@ -88,8 +86,8 @@ protected:
 
   // Auxiliary member functions
 
-  // type Expand() specifiers;
-  // type Reduce() specifiers;
+  void Expand();
+  void Reduce();
 
 };
 

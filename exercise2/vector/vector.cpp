@@ -56,7 +56,7 @@ bool Vector<Data>::operator==(const Vector<Data>& vec) const noexcept {
     if (size == vec.size)
     {
         for (unsigned long i=0; i<size; i++)
-            if (Elements[i]!= vec.Elements[i])
+            if (Elements[i] != vec.Elements[i])
                 return false;
         
         return true;
