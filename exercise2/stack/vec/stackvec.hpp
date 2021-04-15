@@ -23,7 +23,9 @@ protected:
 
   using Vector<Data>::Elements;
   using LinearContainer<Data>::size;
-  unsigned long head = 0;
+  unsigned long top = 0;
+
+  static const int basicOffset = 9;
 
 public:
 

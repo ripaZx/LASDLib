@@ -5,17 +5,17 @@ namespace lasd {
 
 template <typename Data>
 StackVec<Data>::StackVec() {
-    size = 9;
+    size = basicOffset;
     Elements = new Data[size];
-    head = 0;
+    top = 0;
 }
 
 template <typename Data>
 StackVec<Data>::StackVec(const LinearContainer<Data>& con) {
-    size = con.Size();
-    Elements = new Data[size+9];
-    head = size-1;
-    for (unsigned long i=0; i<size; i++)
+    top = con.Size();
+    size = top + basicOffset;
+    Elements = new Data[size];
+    for (unsigned long i=0; i<top; i++)
         Elements[i] = con[i];
 }
 
@@ -23,8 +23,8 @@ template <typename Data>
 StackVec<Data>::StackVec(const StackVec<Data>& sVec) {
     size = sVec.size;
     Elements = new Data[size];
-    head = sVec.head;
-    for (unsigned long i=0; i<size; i++)
+    top = sVec.top;
+    for (unsigned long i=0; i<top; i++)
         Elements[i] = sVec[i];
 }
 
@@ -32,7 +32,7 @@ template <typename Data>
 StackVec<Data>::StackVec(StackVec<Data>&& sVec) noexcept {
     std::swap(Elements, sVec.Elements);
     std::swap(size, sVec.size);
-    std::swap(head, sVec.head);
+    std::swap(top, sVec.top);
 }
 
 template <typename Data>
@@ -53,14 +53,23 @@ StackVec<Data>& StackVec<Data>::operator=(StackVec<Data>&& sVec) noexcept {
     {
         std::swap(Elements, sVec.Elements);
         std::swap(size, sVec.size);
-        std::swap(head, sVec.head);
+        std::swap(top, sVec.top);
     }
     return *this;
 }
 
 template <typename Data>
 bool StackVec<Data>::operator==(const StackVec<Data>& sVec) const noexcept {
-    return Vector<Data>::operator==(sVec);
+    if (top == sVec.top)
+    {
+        for (unsigned long i=0; i<top; i++)
+            if (Elements[i] != sVec.Elements[i])
+                return false;
+            
+        return true;
+    }
+    else
+        return false;
 }
 
 template <typename Data>
@@ -70,34 +79,34 @@ inline bool StackVec<Data>::operator!=(const StackVec<Data>& sVec) const noexcep
 
 template <typename Data>
 void StackVec<Data>::Push(const Data& dat) {
-    if(head == size)
+    if(top == size)
         Expand();
-    Elements[head] = dat;
-    head++;
+    Elements[top] = dat;
+    top++;
 }
 
 template <typename Data>
 void StackVec<Data>::Push(Data&& dat) noexcept {
-    if(head == size) 
+    if(top == size) 
         Expand();
-    Elements[head] = std::move(dat);
-    head++;
+    Elements[top] = std::move(dat);
+    top++;
 }
 
 template <typename Data>
 Data& StackVec<Data>::Top() const {
-    if (head > 0)
-        return Elements[head-1];
+    if (top > 0)
+        return Elements[top-1];
     else
         throw std::length_error("Access to an empty stack.");
 }
 
 template <typename Data>
 void StackVec<Data>::Pop() {
-    if (head > 0)
+    if (top > 0)
     {
-        head--;
-        if(head < size/4)
+        top--;
+        if(top < size/4)
             Reduce();
     }
     else
@@ -106,12 +115,12 @@ void StackVec<Data>::Pop() {
 
 template <typename Data>
 Data StackVec<Data>::TopNPop() {
-    if (head > 0)
+    if (top > 0)
     {
-        head--;
-        if(head < size/4)
+        top--;
+        if(top < size/4)
             Reduce();
-        return Elements[head];
+        return Elements[top];
     }
     else
         throw std::length_error("Access to an empty stack.");
@@ -119,12 +128,12 @@ Data StackVec<Data>::TopNPop() {
 
 template <typename Data>
 inline bool StackVec<Data>::Empty() const noexcept {
-    return (head == 0);
+    return (top == 0);
 }
 
 template <typename Data>
 inline unsigned long StackVec<Data>::Size() const noexcept {
-    return head;
+    return top;
 }
 
 template <typename Data>
@@ -132,7 +141,7 @@ void StackVec<Data>::Clear() {
     delete[] Elements;
     size = 9;
     Elements = new Data[size];
-    head = 0;
+    top = 0;
 }
 
 template <typename Data>
