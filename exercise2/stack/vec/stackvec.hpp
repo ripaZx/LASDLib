@@ -46,7 +46,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~StackVec();
+  ~StackVec() = default;
 
   /* ************************************************************************ */
 
@@ -76,9 +76,9 @@ public:
 
   // Specific member functions (inherited from Container)
 
-  inline bool Empty() override; // Override Container member
+  inline bool Empty() const noexcept override; // Override Container member
 
-  inline unsigned long Size() override; // Override Container member
+  inline unsigned long Size() const noexcept override; // Override Container member
 
   void Clear() override; // Override Container member
 

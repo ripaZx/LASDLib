@@ -15,13 +15,13 @@ StackVec<Data>::StackVec(const LinearContainer<Data>& con) {
     size = con.Size();
     Elements = new Data[size+9];
     head = size-1;
-    for (unsigned long i=0, j=head; i<size; i++, j--)
-        Elements[i] = con[j];
+    for (unsigned long i=0; i<size; i++)
+        Elements[i] = con[i];
 }
 
 template <typename Data>
 StackVec<Data>::StackVec(const StackVec<Data>& sVec) {
-    size = sVec.Size();
+    size = sVec.size;
     Elements = new Data[size];
     head = sVec.head;
     for (unsigned long i=0; i<size; i++)
@@ -36,15 +36,10 @@ StackVec<Data>::StackVec(StackVec<Data>&& sVec) noexcept {
 }
 
 template <typename Data>
-StackVec<Data>::~StackVec() {
-    delete[] Elements;
-}
-
-template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& sVec) {
     if(*this != sVec)
     {
-        size = sVec.Size();
+        size = sVec.size;
         StackVec<Data>* tmpStack = new StackVec<Data>(sVec);
         std::swap(*tmpStack, *this);
         delete tmpStack;
@@ -91,31 +86,44 @@ void StackVec<Data>::Push(Data&& dat) noexcept {
 
 template <typename Data>
 Data& StackVec<Data>::Top() const {
-    return Elements[head];
+    if (head > 0)
+        return Elements[head-1];
+    else
+        throw std::length_error("Access to an empty stack.");
 }
 
 template <typename Data>
 void StackVec<Data>::Pop() {
-    head--;
-    if(head < size/4)
-        Reduce();
+    if (head > 0)
+    {
+        head--;
+        if(head < size/4)
+            Reduce();
+    }
+    else
+        throw std::length_error("Access to an empty stack.");
 }
 
 template <typename Data>
 Data StackVec<Data>::TopNPop() {
-    head--;
-    if(head < size/4)
-        Reduce();
-    return Elements[head];
+    if (head > 0)
+    {
+        head--;
+        if(head < size/4)
+            Reduce();
+        return Elements[head];
+    }
+    else
+        throw std::length_error("Access to an empty stack.");
 }
 
 template <typename Data>
-inline bool StackVec<Data>::Empty() {
+inline bool StackVec<Data>::Empty() const noexcept {
     return (head == 0);
 }
 
 template <typename Data>
-inline unsigned long StackVec<Data>::Size() {
+inline unsigned long StackVec<Data>::Size() const noexcept {
     return head;
 }
 

@@ -4,28 +4,13 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-StackLst<Data>::StackLst(const LinearContainer<Data>& con) {
-    for (unsigned long i=0; i<con.Size(); i++)
-        InsertAtBack(con[i]);
-}
+StackLst<Data>::StackLst(const LinearContainer<Data>& con) : List<Data>::List(con) { }
 
 template <typename Data>
-StackLst<Data>::StackLst(const StackLst<Data>& sList) {
-    for(unsigned long i=0; i<sList.Size(); i++)
-        this->InsertAtBack(sList[i]);
-}
+StackLst<Data>::StackLst(const StackLst<Data>& sList) : List<Data>::List(sList) { }
 
 template <typename Data>
-StackLst<Data>::StackLst(StackLst<Data>&& sList) noexcept {
-    std::swap(head, sList.head);
-    std::swap(size, sList.size);
-}
-
-template <typename Data>
-StackLst<Data>::~StackLst() {
-    for(unsigned long i=0; i<size; i++)
-        this->RemoveFromFront();
-}
+StackLst<Data>::StackLst(StackLst<Data>&& sList) noexcept : List<Data>::List(std::move(sList)) { }
 
 template <typename Data>
 StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& sList) {
