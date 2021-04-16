@@ -139,7 +139,7 @@ inline unsigned long StackVec<Data>::Size() const noexcept {
 template <typename Data>
 void StackVec<Data>::Clear() {
     delete[] Elements;
-    size = 9;
+    size = basicOffset;
     Elements = new Data[size];
     top = 0;
 }

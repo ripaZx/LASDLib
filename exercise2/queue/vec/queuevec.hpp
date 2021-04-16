@@ -89,9 +89,9 @@ protected:
 
   // Auxiliary member functions
 
-  // type Expand() specifiers;
-  // type Reduce() specifiers;
-  // type SwapVectors(arguments) specifiers;
+  void Expand();
+  void Reduce();
+  void SwapVectors(arguments);
 
 };
 
