@@ -6,7 +6,7 @@ namespace lasd {
 template <typename Data>
 QueueLst<Data>::QueueLst(const LinearContainer<Data>& con) {
     for (unsigned long i=0; i<con.Size(); i++)
-        InsertAtBack(con[i]);
+        this->InsertAtBack(con[i]);
 }
 
 template <typename Data>

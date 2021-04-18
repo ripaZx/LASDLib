@@ -39,7 +39,6 @@ template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& sVec) {
     if(*this != sVec)
     {
-        size = sVec.size;
         StackVec<Data>* tmpStack = new StackVec<Data>(sVec);
         std::swap(*tmpStack, *this);
         delete tmpStack;

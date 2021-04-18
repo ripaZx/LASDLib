@@ -26,7 +26,7 @@ protected:
   unsigned long front = 0;
   unsigned long back = 0;
 
-  static const int basicOffset;
+  static const int basicOffset = 6;
 
 public:
 
@@ -91,7 +91,7 @@ protected:
 
   void Expand();
   void Reduce();
-  void SwapVectors(arguments);
+  void SwapVectors();
 
 };
 
