@@ -25,7 +25,7 @@ protected:
   using LinearContainer<Data>::size;
   unsigned long top = 0;
 
-  static const int basicOffset = 9;
+  static const int basicOffset = 6;
 
 public:
 
