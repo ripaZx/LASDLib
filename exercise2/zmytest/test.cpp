@@ -291,7 +291,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkVec.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkVec.Size()<< std::endl;
                         else if (choice == 'S')
@@ -317,7 +317,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkVec.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkVec.Size()<< std::endl;
                         else if (choice == 'S')
@@ -343,7 +343,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkVec.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkVec.Size()<< std::endl;
                         else if (choice == 'S')
@@ -372,7 +372,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkLst.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkLst.Size()<< std::endl;
                         else if (choice == 'S')
@@ -398,7 +398,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkLst.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkLst.Size()<< std::endl;
                         else if (choice == 'S')
@@ -424,7 +424,7 @@ void testMenu() {
                         else if (choice == 'H')
                             stackHead(stkLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "Lo stack " << (stkLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "Lo stack" << (stkLst.Empty() ? "" : " non") << " è vuoto." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "Lo stack ha dimensione: " << stkLst.Size()<< std::endl;
                         else if (choice == 'S')
@@ -456,13 +456,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queVec.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queVec.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queVec.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;
@@ -482,13 +482,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queVec.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queVec.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queVec.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;
@@ -508,13 +508,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queVec);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queVec.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queVec.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queVec.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queVec.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;
@@ -537,13 +537,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queLst.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queLst.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queLst.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;
@@ -563,13 +563,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queLst.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queLst.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queLst.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;
@@ -589,13 +589,13 @@ void testMenu() {
                         else if (choice == 'H')
                             queueHead(queLst);
                         else if (choice == 'V')
-                            std::cout<< std::endl << "La queue " << (queLst.Empty() ? "" : "non") << " è vuoto" << std::endl;
+                            std::cout<< std::endl << "La queue" << (queLst.Empty() ? "" : " non") << " è vuota." << std::endl;
                         else if (choice == 'D')
                             std::cout<< std::endl << "La queue ha dimensione: " << queLst.Size()<< std::endl;
                         else if (choice == 'S')
                         {
                             queLst.Clear();
-                            std::cout<< std::endl << "La queue è stato svuotato." << std::endl;
+                            std::cout<< std::endl << "La queue è stata svuotata." << std::endl;
                         }
                         else if (choice == 'Q')
                             end = true;

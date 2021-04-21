@@ -84,9 +84,7 @@ inline bool QueueVec<Data>::operator!=(const QueueVec<Data>& qVec) const noexcep
 template <typename Data>
 void QueueVec<Data>::Enqueue(const Data& dat) {
     if (front == (back+1)%size)
-    {
         Expand();
-    }
     Elements[back] = dat;
     back = (back+1)%size;
 }
@@ -94,9 +92,7 @@ void QueueVec<Data>::Enqueue(const Data& dat) {
 template <typename Data>
 void QueueVec<Data>::Enqueue(Data&& dat) noexcept {
     if (front == (back+1)%size)
-    {
         Expand();
-    }
     Elements[back] = std::move(dat);
     back = (back+1)%size;
 }
