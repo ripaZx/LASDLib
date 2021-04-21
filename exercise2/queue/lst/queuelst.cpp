@@ -23,12 +23,6 @@ QueueLst<Data>::QueueLst(QueueLst<Data>&& qList) noexcept {
 }
 
 template <typename Data>
-QueueLst<Data>::~QueueLst() {
-    for(unsigned long i=0; i<size; i++)
-        this->RemoveFromFront();
-}
-
-template <typename Data>
 QueueLst<Data>& QueueLst<Data>::operator=(const QueueLst<Data>& qList) {
     if (*this != qList)
     {

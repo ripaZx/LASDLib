@@ -77,7 +77,7 @@ void RandPopulateQueueString(lasd::Queue<Data>& que, const unsigned long& n) {
     std::default_random_engine gen(std::random_device{}());
     std::uniform_int_distribution<int> dist(97, 122);
     std::default_random_engine lenGen(std::random_device{}());
-    std::uniform_int_distribution<int> lenDist(1, 16);
+    std::uniform_int_distribution<int> lenDist(2, 16);
     for (unsigned long i=0; i<n; i++)
     {
         std::string randString;
@@ -93,7 +93,7 @@ void RandPopulateStackString(lasd::Stack<Data>& stk, const unsigned long& n) {
     std::default_random_engine gen(std::random_device{}());
     std::uniform_int_distribution<int> dist(97, 122);
     std::default_random_engine lenGen(std::random_device{}());
-    std::uniform_int_distribution<int> lenDist(1, 16);
+    std::uniform_int_distribution<int> lenDist(2, 16);
     for (unsigned long i=0; i<n; i++)
     {
         std::string randString;

@@ -98,7 +98,6 @@ List<Data>::~List() {
         delete head;
         head = nextNode;
     }
-    delete head;
 }
 
 template <typename Data>
