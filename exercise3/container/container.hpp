@@ -59,7 +59,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class LinearContainer : virtual public Container { // Must extend Container
+class LinearContainer : virtual public Container {
 
 private:
 
@@ -87,10 +87,10 @@ public:
 
   // Specific member functions
 
-  virtual Data& Front() const = 0; // (concrete function must throw std::length_error when empty)
-  virtual Data& Back() const = 0; // (concrete function must throw std::length_error when empty)
+  virtual Data& Front() const = 0;
+  virtual Data& Back() const = 0;
 
-  virtual Data& operator[](const unsigned long) const = 0; // (concrete function must throw std::out_of_range when out of range)
+  virtual Data& operator[](const unsigned long) const = 0;
 
 };
 
@@ -212,84 +212,152 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class BreadthMappableContainer { // Must extend MappableContainer
+class InOrderMappableContainer : virtual public MappableContainer<Data> {
 
 private:
 
-  // ...
-
 protected:
-
-  // ...
 
 public:
 
   // Destructor
-  // ~BreadthMappableContainer() specifiers
+  virtual ~InOrderMappableContainer() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
+  InOrderMappableContainer& operator=(const InOrderMappableContainer&) = delete;
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
+  InOrderMappableContainer& operator=(InOrderMappableContainer&&) noexcept = delete;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract types might not be possible.
-  // type operator!=(argument) specifiers; // Comparison of abstract types might not be possible.
+  bool operator==(const InOrderMappableContainer&) const noexcept = delete;
+  bool operator!=(const InOrderMappableContainer&) const noexcept = delete;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // using typename MappableContainer<Data>::MapFunctor;
+  using typename MappableContainer<Data>::MapFunctor;
 
-  // type MapBreadth(arguments) specifiers;
+  virtual void MapInOrder(const MapFunctor, void*) = 0;
 
 };
 
 /* ************************************************************************** */
 
 template <typename Data>
-class BreadthFoldableContainer { // Must extend FoldableContainer
+class InOrderFoldableContainer : virtual public FoldableContainer<Data> { 
 
 private:
 
-  // ...
-
 protected:
-
-  // ...
 
 public:
 
   // Destructor
-  // ~BreadthFoldableContainer() specifiers
+  virtual ~InOrderFoldableContainer() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
+  InOrderFoldableContainer& operator=(const InOrderFoldableContainer&) = delete;
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
+  InOrderFoldableContainer& operator=(InOrderFoldableContainer&&) noexcept = delete;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract types might not be possible.
-  // type operator!=(argument) specifiers; // Comparison of abstract types might not be possible.
+  bool operator==(const InOrderFoldableContainer&) const noexcept = delete;
+  bool operator!=(const InOrderFoldableContainer&) const noexcept = delete;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // using typename FoldableContainer<Data>::FoldFunctor;
+  using typename MappableContainer<Data>::MapFunctor;
 
-  // type FoldBreadth(arguments) specifiers;
+  virtual void FoldInOrder(const FoldFunctor, const void*, void*) const = 0;
+
+};
+
+/* ************************************************************************** */
+
+template <typename Data>
+class BreadthMappableContainer : virtual public MappableContainer<Data> {
+
+private:
+
+protected:
+
+public:
+
+  // Destructor
+  virtual ~BreadthMappableContainer() = default;
+
+  /* ************************************************************************ */
+
+  // Copy assignment
+  BreadthMappableContainer& operator=(const BreadthMappableContainer&) = delete;
+
+  // Move assignment
+  BreadthMappableContainer& operator=(BreadthMappableContainer&&) noexcept = delete;
+
+  /* ************************************************************************ */
+
+  // Comparison operators
+  bool operator==(const BreadthMappableContainer&) const noexcept = delete;
+  bool operator!=(const BreadthMappableContainer&) const noexcept = delete;
+
+  /* ************************************************************************ */
+
+  // Specific member functions
+
+  using typename MappableContainer<Data>::MapFunctor;
+
+  virtual void MapBreadth(const MapFunctor, void*) = 0;
+
+};
+
+/* ************************************************************************** */
+
+template <typename Data>
+class BreadthFoldableContainer : virtual public FoldableContainer<Data> {
+
+private:
+
+protected:
+
+public:
+
+  // Destructor
+  virtual ~BreadthFoldableContainer() = default;
+
+  /* ************************************************************************ */
+
+  // Copy assignment
+  BreadthFoldableContainer& operator=(const BreadthFoldableContainer&) = delete;
+
+  // Move assignment
+  BreadthFoldableContainer& operator=(BreadthFoldableContainer&&) noexcept = delete;
+
+  /* ************************************************************************ */
+
+  // Comparison operators
+  bool operator==(const BreadthFoldableContainer&) const noexcept = delete;
+  bool operator!=(const BreadthFoldableContainer&) const noexcept = delete;
+
+  /* ************************************************************************ */
+
+  // Specific member functions
+
+  using typename FoldableContainer<Data>::FoldFunctor;
+
+  virtual void FoldBreadth(const FoldFunctor, const void*, void*) const = 0;
 
 };
 
