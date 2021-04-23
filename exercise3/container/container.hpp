@@ -279,7 +279,7 @@ public:
 
   // Specific member functions
 
-  using typename MappableContainer<Data>::MapFunctor;
+  using typename FoldableContainer<Data>::FoldFunctor;
 
   virtual void FoldInOrder(const FoldFunctor, const void*, void*) const = 0;
 
