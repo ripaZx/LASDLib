@@ -39,7 +39,7 @@ void SetFront(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& c
   try {
     std::cout << " " << testnum << " Setting the front of the linear container to \"" << val << "\": ";
     con.Front() = val;
-    std::cout << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
+    std::cout << ((tst = ((con.Front() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
@@ -72,26 +72,9 @@ void SetBack(uint& testnum, uint& testerr, const lasd::LinearContainer<Data>& co
   try {
     std::cout << " " << testnum << " Setting the back of the linear container to \"" << val << "\": ";
     con.Back() = val;
-    std::cout << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
+    std::cout << ((tst = ((con.Back() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    tst = false;
-    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
-  }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void SetAt(uint& testnum, uint& testerr, lasd::LinearContainer<Data>& con, bool chk, const ulong& ind, const Data& val) {
-  bool tst;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " Set of the linear container at index \"" << ind << "\" with value \"" << val << "\": ";
-    con[ind] = val;
-    std::cout << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::out_of_range exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     tst = false;
     std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
@@ -108,6 +91,23 @@ void GetAt(uint& testnum, uint& testerr, lasd::LinearContainer<Data>& con, bool 
     std::cout << ((tst = ((con[ind] == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::out_of_range exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
+  } catch(std::exception exc) {
+    tst = false;
+    std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
+  }
+  testerr += (1 - (uint) tst);
+}
+
+template <typename Data>
+void SetAt(uint& testnum, uint& testerr, lasd::LinearContainer<Data>& con, bool chk, const ulong& ind, const Data& val) {
+  bool tst;
+  testnum++;
+  try {
+    std::cout << " " << testnum << " Set of the linear container at index \"" << ind << "\" with value \"" << val << "\": ";
+    con[ind] = val;
+    std::cout << ((tst = ((con[ind] == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
+  } catch(std::out_of_range exc) {
+    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     tst = false;
     std::cout << std::endl << "Wrong exception: " << exc.what() << "!" << std::endl;
@@ -173,6 +173,11 @@ void MapIncrement(Data& dat, void* _) {
 }
 
 template <typename Data>
+void MapDecrement(Data& dat, void* _) {
+  dat--;
+}
+
+template <typename Data>
 void MapIncrementNPrint(Data& dat, void* _) {
   std::cout << dat++ << "->" << dat << "; ";
 }
@@ -180,6 +185,11 @@ void MapIncrementNPrint(Data& dat, void* _) {
 template <typename Data>
 void MapDouble(Data& dat, void* _) {
   dat *= 2;
+}
+
+template <typename Data>
+void MapHalf(Data& dat, void* _) {
+  dat /= 2;
 }
 
 template <typename Data>
@@ -266,7 +276,7 @@ void MapBreadth(uint& testnum, uint& testerr, lasd::BreadthMappableContainer<Dat
   testnum++;
   Parameter par = {inipar};
   try {
-    std::cout << " " << testnum << " Executing map in pre order - ";
+    std::cout << " " << testnum << " Executing map in breadth - ";
     con.MapBreadth(fun, &par);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
@@ -286,7 +296,7 @@ void FoldBreadth(uint& testnum, uint& testerr, const lasd::BreadthFoldableContai
   Parameter par = {inipar};
   Value val = inival;
   try {
-    std::cout << " " << testnum << " Executing fold in post order - ";
+    std::cout << " " << testnum << " Executing fold in breadth - ";
     con.FoldBreadth(fun, &par, &val);
     std::cout << "obtained value is \"" << val << "\": ";
     std::cout << ((tst = ((val == finval) == chk)) ? "Correct" : "Error") << "!" << std::endl;
