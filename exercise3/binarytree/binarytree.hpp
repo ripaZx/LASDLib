@@ -28,8 +28,6 @@ protected:
 
   using BreadthMappableContainer<Data>::size;
 
-  Node* root;
-
 public:
 
   struct Node {
@@ -39,8 +37,10 @@ public:
   protected:
 
     Data Element;
-    Node* left = nullptr;
-    Node* right = nullptr;
+    
+    // Comparison operators
+    bool operator==(const Node&) const noexcept;
+    inline bool operator!=(const Node&) const noexcept;
 
   public:
 
@@ -58,12 +58,6 @@ public:
 
     // Move assignment
     Node& operator=(Node&&) noexcept = delete;
-
-    /* ********************************************************************** */
-
-    // Comparison operators
-    bool operator==(const Node&) const noexcept;
-    inline bool operator!=(const Node&) const noexcept;
 
     /* ********************************************************************** */
 
@@ -89,7 +83,7 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  tBinaryTree& operator=(const BinaryTree&) = delete;
+  BinaryTree& operator=(const BinaryTree&) = delete;
 
   // Move assignment
   BinaryTree& operator=(BinaryTree&&) noexcept = delete;
@@ -104,7 +98,7 @@ public:
 
   // Specific member functions
 
-  virtual Node& Root() const; // (concrete function must throw std::length_error when empty)
+  virtual Node& Root() const = 0; // (concrete function must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
