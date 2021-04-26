@@ -294,22 +294,22 @@ Data& List<Data>::operator[](const unsigned long index) const {
 }
 
 template <typename Data>
-void List<Data>::MapPreOrder(const MapFunctor func, void* par) {
+inline void List<Data>::MapPreOrder(const MapFunctor func, void* par) {
     MapPreOrder(func, par, head);
 }
 
 template <typename Data>
-void List<Data>::MapPostOrder(const MapFunctor func, void* par) {
+inline void List<Data>::MapPostOrder(const MapFunctor func, void* par) {
     MapPostOrder(func, par, head);
 }
 
 template <typename Data>
-void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
+inline void List<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
     FoldPreOrder(func, par, acc, head);
 }
 
 template <typename Data>
-void List<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc) const {
+inline void List<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc) const {
     FoldPostOrder(func, par, acc, head);
 }
 

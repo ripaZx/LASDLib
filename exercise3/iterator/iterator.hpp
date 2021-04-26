@@ -149,12 +149,11 @@ public:
 
   // Specific member functions
 
-  bool Terminated() const noexcept override; // Override Iterator member
+  bool Terminated() const noexcept override;
 
-  virtual bool ForwardTerminated() const noexcept = 0; // (concrete function should not throw exceptions)
+  virtual bool ForwardTerminated() const noexcept = 0;
 
-  virtual bool BackwardTerminated() const noexcept = 0; // (concrete function should not throw exceptions)
-
+  virtual bool BackwardTerminated() const noexcept = 0;
 };
 
 /* ************************************************************************** */

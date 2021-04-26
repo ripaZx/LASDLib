@@ -106,28 +106,28 @@ public:
 
   // Specific member functions
 
-  void InsertAtFront(const Data&); // Copy of the value
-  void InsertAtFront(Data&&) noexcept; // Move of the value
-  void RemoveFromFront(); // (must throw std::length_error when empty)
-  Data FrontNRemove(); // (must throw std::length_error when empty)
+  void InsertAtFront(const Data&);
+  void InsertAtFront(Data&&) noexcept;
+  void RemoveFromFront();
+  Data FrontNRemove();
 
-  void InsertAtBack(const Data&); // Copy of the value
-  void InsertAtBack(Data&&) noexcept; // Move of the value
+  void InsertAtBack(const Data&);
+  void InsertAtBack(Data&&) noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  void Clear() override; // Override Container member
+  void Clear() override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  Data& Front() const override; // Override LinearContainer member (must throw std::length_error when empty)
-  Data& Back() const override; // Override LinearContainer member (must throw std::length_error when empty)
+  Data& Front() const override;
+  Data& Back() const override;
 
-  Data& operator[](const unsigned long) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  Data& operator[](const unsigned long) const override;
 
   /* ************************************************************************ */
 
@@ -135,8 +135,8 @@ public:
 
   using typename MappableContainer<Data>::MapFunctor;
 
-  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  inline void MapPreOrder(const MapFunctor, void*) override;
+  inline void MapPostOrder(const MapFunctor, void*) override;
 
   /* ************************************************************************ */
 
@@ -144,22 +144,22 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  inline void FoldPreOrder(const FoldFunctor, const void*, void*) const override;
+  inline void FoldPostOrder(const FoldFunctor, const void*, void*) const override;
 
 protected:
 
   // Auxiliary member functions (for MappableContainer)
 
-  void MapPreOrder(const MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
-  void MapPostOrder(const MapFunctor, void*, Node*); // Accessory function executing from one point of the list onwards
+  void MapPreOrder(const MapFunctor, void*, Node*);
+  void MapPostOrder(const MapFunctor, void*, Node*);
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for FoldableContainer)
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one point of the list onwards
-  void FoldPostOrder(const FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one point of the list onwards
+  void FoldPreOrder(const FoldFunctor, const void*, void*, const Node*) const;
+  void FoldPostOrder(const FoldFunctor, const void*, void*, const Node*) const;
 
 };
 
