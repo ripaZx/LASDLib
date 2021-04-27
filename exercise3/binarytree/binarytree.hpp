@@ -8,7 +8,7 @@
 
 #include "../iterator/iterator.hpp"
 
-// #include "..."
+#include "../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
 
@@ -172,13 +172,13 @@ protected:
 
   // Auxiliary member functions (for BreadthMappableContainer)
 
-  void MapBreadth(const MapFunctor, void*, Node*); // Accessory function executing from one node of the tree
+  void MapBreadth(const MapFunctor, void*, Queue<Node>&); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for BreadthFoldableContainer)
 
-  void FoldBreadth(const FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one node of the tree
+  void FoldBreadth(const FoldFunctor, const void*, void*, Queue<Node>&) const; // Accessory function executing from one node of the tree
 
 };
 

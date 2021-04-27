@@ -83,12 +83,16 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void
 
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par) {
-    MapBreadth(func, par, Root());
+    QueueLst<Node> que = new QueueLst<Node>();
+    que.Enqueue(Root());
+    MapBreadth(func, par, que);
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc) const {
-    FoldBreadth(func, par, Root());
+    QueueLst<Node> que = new QueueLst<Node>();
+    que.Enqueue(Root());
+    FoldBreadth(func, par, acc, que);
 }
 
 template <typename Data>
@@ -217,7 +221,7 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void
             }
             else if (nod->HasLeftChild())
             {
-                FoldInOrder(func, par, nod->LeftChild());
+                FoldInOrder(func, par, acc, nod->LeftChild());
                 func(nod->Element, par, acc);
             }
             else if (nod->HasRightChild())
@@ -232,20 +236,37 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void
 }
 
 template <typename Data>
-void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par, Node* nod) {
-    if (nod != nullptr)
+void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par, Queue<Node>& que) {
+    while (!que.Empty())
     {
-        if (!nod->IsLeaf())
-        {
-            if
-        }
+        Node* nod = que.Head();
+        func(nod->Element, par);
+        que.Dequeue();
+
+        if(nod->HasLeftChild())
+            que.Enqueue(nod->LeftChild());
+        
+        if (nod->HasRightChild())
+            que.Enqueue(nod->RightChild());
     }
 }
 
 template <typename Data>
-void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
-    
+void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc, Queue<Node>& que) const {
+    while (!que.Empty())
+    {
+        Node* nod = que.Head();
+        func(nod->Element, par, acc);
+        que.Dequeue();
+
+        if(nod->HasLeftChild())
+            que.Enqueue(nod->LeftChild());
+        
+        if (nod->HasRightChild())
+            que.Enqueue(nod->RightChild());
+    }
 }
+
 /* ************************************************************************** */
 
 }
