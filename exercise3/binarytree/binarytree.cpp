@@ -96,18 +96,18 @@ void BinaryTree<Data>::MapPreOrder(const MapFunctor func, void* par, Node* nod) 
     if (nod != nullptr)
     {
         func(nod->Element, par);
-        if (!nod.IsLeaf())
+        if (!nod->IsLeaf())
         {
-            if (nod.HasLeftChild() && nod.HasRightChild())
+            if (nod->HasLeftChild() && nod->HasRightChild())
             {
-                func(nod.LeftChild(), par);
-                func(nod.RightChild(), par);
+                MapPreOrder(func, par, nod->LeftChild();
+                MapPreOrder(func, par, nod->RightChild());
             }
-            else if (nod.HasLeftChild())
-                func(nod.LeftChild(), par);
+            else if (nod->HasLeftChild())
+                MapPreOrder(func, par, nod->LeftChild());
 
-            else if(nod.HasRightChild())
-                func(nod.RightChild(), par);
+            else if(nod->HasRightChild())
+                MapPreOrder(func, par, nod->RightChild());
         }          
     }
 }
@@ -116,18 +116,18 @@ template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const MapFunctor func, void* par, Node* nod) {
     if (nod != nullptr)
     {
-        if (!nod.IsLeaf())
+        if (!nod->IsLeaf())
         {
-            if (nod.HasLeftChild() && nod.HasRightChild())
+            if (nod->HasLeftChild() && nod->HasRightChild())
             {
-                func(nod.LeftChild(), par);
-                func(nod.RightChild(), par);
+                MapPostOrder(func, par, nod->LeftChild();
+                MapPostOrder(func, par, nod->RightChild());
             }
-            else if (nod.HasLeftChild())
-                func(nod.LeftChild(), par);
+            else if (nod->HasLeftChild())
+                MapPostOrder(func, par, nod->LeftChild();
 
-            else if(nod.HasRightChild())
-                func(nod.RightChild(), par);
+            else if(nod->HasRightChild())
+                MapPostOrder(func, par, nod->RightChild());
         }
         func(nod->Element, par);
     }
@@ -138,18 +138,18 @@ void BinaryTree<Data>::FoldPreOrder(const FoldFunctor func, const void* par, voi
     if (nod != nullptr)
     {
         func(nod->Element, par, acc);
-        if (!nod.IsLeaf())
+        if (!nod->IsLeaf())
         {
-            if (nod.HasLeftChild() && nod.HasRightChild())
+            if (nod->HasLeftChild() && nod->HasRightChild())
             {
-                FoldPreOrder(func, par, acc, nod->LeftChild);
-                FoldPreOrder(func, par, acc, nod->RightChild);
+                FoldPreOrder(func, par, acc, nod->LeftChild());
+                FoldPreOrder(func, par, acc, nod->RightChild());
             }
-            else if (nod.HasLeftChild())
-                FoldPreOrder(func, par, acc, nod->LeftChild);
+            else if (nod->HasLeftChild())
+                FoldPreOrder(func, par, acc, nod->LeftChild());
 
-            else if(nod.HasRightChild())
-                FoldPreOrder(func, par, acc, nod->RightChild);
+            else if(nod->HasRightChild())
+                FoldPreOrder(func, par, acc, nod->RightChild());
         }   
     }
 }
@@ -158,31 +158,94 @@ template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
     if (nod != nullptr)
     {
-        if (!nod.IsLeaf())
+        if (!nod->IsLeaf())
         {
-            if (nod.HasLeftChild() && nod.HasRightChild())
+            if (nod->HasLeftChild() && nod->HasRightChild())
             {
-                FoldPostOrder(func, par, acc, nod->LeftChild);
-                FoldPostOrder(func, par, acc, nod->RightChild);
+                FoldPostOrder(func, par, acc, nod->LeftChild());
+                FoldPostOrder(func, par, acc, nod->RightChild());
             }
-            else if (nod.HasLeftChild())
-                FoldPostOrder(func, par, acc, nod->LeftChild);
+            else if (nod->HasLeftChild())
+                FoldPostOrder(func, par, acc, nod->LeftChild());
 
-            else if(nod.HasRightChild())
-                 FoldPostOrder(func, par, acc, nod->RightChild);
+            else if(nod->HasRightChild())
+                 FoldPostOrder(func, par, acc, nod->RightChild());
         }
         func(nod->Element, par, acc);
     }
 }
 
 template <typename Data>
-void BinaryTree<Data>::MapInOrder(const MapFunctor func, void* par) {
+void BinaryTree<Data>::MapInOrder(const MapFunctor func, void* par, Node* nod) {
     if (nod != nullptr)
     {
-        
+        if (!nod->IsLeaf())
+        {
+            if (nod->HasLeftChild() && nod->HasRightChild())
+            {
+                MapInOrder(func, par, nod->LeftChild());
+                func(nod->Element, par);
+                MapInOrder(func, par, nod->RightChild());
+            }
+            else if (nod->HasLeftChild())
+            {
+                MapInOrder(func, par, nod->LeftChild());
+                func(nod->Element, par);
+            }
+            else if (nod->HasRightChild())
+            {
+                func(nod->Element, par);
+                MapInOrder(func, par, nod->RightChild());
+            }
+        }
+        else
+            func(nod->Element, par);
     }
 }
 
+template <typename Data>
+void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
+    if (nod != nullptr)
+    {
+        if (!nod->IsLeaf())
+        {
+            if (nod->HasLeftChild() && nod->HasRightChild())
+            {
+                FoldInOrder(func, par, acc, nod->LeftChild());
+                func(nod->Element, par, acc);
+                FoldInOrder(func, par, acc, nod->RightChild())
+            }
+            else if (nod->HasLeftChild())
+            {
+                FoldInOrder(func, par, nod->LeftChild());
+                func(nod->Element, par, acc);
+            }
+            else if (nod->HasRightChild())
+            {
+                func(nod->Element, par, acc);
+                FoldInOrder(func, par, acc, nod->RightChild());
+            }
+        }
+        else
+            func(nod->Element, par, acc);
+    }
+}
+
+template <typename Data>
+void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par, Node* nod) {
+    if (nod != nullptr)
+    {
+        if (!nod->IsLeaf())
+        {
+            if
+        }
+    }
+}
+
+template <typename Data>
+void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc, const Node* nod) const {
+    
+}
 /* ************************************************************************** */
 
 }
