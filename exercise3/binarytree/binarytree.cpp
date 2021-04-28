@@ -336,7 +336,7 @@ inline bool BTPreOrderIterator<Data>::operator!=(const BTPreOrderIterator<Data>&
 template <typename Data>
 Data& BTPreOrderIterator<Data>::operator*() {
     if (!Terminated())
-        return *current;
+        return current->Element();
     else
         throw std::out_of_range("Access to an empty tree.");
 }
@@ -356,6 +356,8 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     current = stk.Empty() ?
      nullptr :
      stk.TopNPop();
+    
+    return *this;
 }
 
 /* ************************************************************************** */
@@ -430,7 +432,7 @@ inline bool BTBreadthIterator<Data>::operator!=(const BTBreadthIterator<Data>& i
 template <typename Data>
 Data& BTBreadthIterator<Data>::operator*() {
     if (!Terminated())
-        return *current;
+        return current->Element();
     else
         throw std::out_of_range("Access to an empty tree");
 }
@@ -450,6 +452,8 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
     current = que.Empty() ?
      nullptr :
      que.HeadNDequeue();
+    
+    return *this;
 }
 
 /* ************************************************************************** */

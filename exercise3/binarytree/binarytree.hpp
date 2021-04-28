@@ -254,7 +254,8 @@ private:
 
 protected:
 
-  // ...
+  typename BinaryTree<Data>::Node* current = nullptr;
+  StackLst<typename BinaryTree<Data>::Node*> stk;
 
 public:
 
@@ -314,7 +315,8 @@ private:
 
 protected:
 
-  // ...
+  typename BinaryTree<Data>::Node* current = nullptr;
+  StackLst<typename BinaryTree<Data>::Node*> stk;
 
 public:
 
