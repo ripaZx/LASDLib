@@ -9,26 +9,33 @@ template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node& nod) const noexcept {
     if (size == nod.size)
     {
-        if (Element() != nod.Element())
+        if (this->Element() != nod.Element())
             return false;
         
-        if (isLeaf() && nod.IsLeaf())
+        if (this->isLeaf() && nod.IsLeaf())
             return true;
         
         else if (HasLeftChild() && HasRightChild())
-            nod.HasLeftChild() && nod.HasRightChild() ?
-            return LeftChild() == nod.LeftChild() && RightChild() == nod.RightChild() :
-            return false;
-
+        {
+            if (nod.HasLeftChild() && nod.HasRightChild())
+                return LeftChild() == nod.LeftChild() && RightChild() == nod.RightChild();
+            else
+                return false;
+        }
         else if (HasLeftChild())
-            nod.HasLeftChild() ?
-            return LeftChild() == nod.LeftChild() :
-            return false;
-
+        {
+            if (nod.HasLeftChild())
+                return LeftChild() == nod.LeftChild();
+            else
+                return false;
+        }
         else if (HasRightChild())
-            nod.HasRightChild() ?
-            return RightChild() == nod.RightChild() :
-            return false;
+        {
+            if (nod.HasRightChild()) 
+                return RightChild() == nod.RightChild();
+            else
+                return false;
+        }
     }
 }
 
@@ -221,7 +228,7 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void
             {
                 FoldInOrder(func, par, acc, nod->LeftChild());
                 func(nod->Element(), par, acc);
-                FoldInOrder(func, par, acc, nod->RightChild())
+                FoldInOrder(func, par, acc, nod->RightChild());
             }
             else if (nod->HasLeftChild())
             {
@@ -342,9 +349,9 @@ bool BTPreOrderIterator<Data>::Terminated() const noexcept {
 template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     if (current->HasRightChild())
-        stk.Push(current->RightChild());
+        stk.Push(&current->RightChild());
     if (current->HasLeftChild())
-        stk.Push(current->LeftChild());
+        stk.Push(&current->LeftChild());
 
     current = stk.Empty() ?
      nullptr :
@@ -436,11 +443,11 @@ bool BTBreadthIterator<Data>::Terminated() const noexcept {
 template <typename Data>
 BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
     if (current->HasLeftChild())
-        que.Enqueue(current->LeftChild());
+        que.Enqueue(&current->LeftChild());
     if (current->HasRightChild())
-        que.Enqueue(current->RightChild());
+        que.Enqueue(&current->RightChild());
     
-    current = que.Empty ?
+    current = que.Empty() ?
      nullptr :
      que.HeadNDequeue();
 }

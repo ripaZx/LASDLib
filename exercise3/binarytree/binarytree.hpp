@@ -62,7 +62,7 @@ public:
 
     // Specific member functions
 
-    virtual Data& Element() const noexcept = 0;
+    virtual Data& Element() noexcept = 0;
     virtual const Data& Element() const noexcept = 0;
 
     bool IsLeaf() const noexcept;
@@ -192,8 +192,8 @@ private:
 
 protected:
 
-  struct BinaryTree<Data>::Node* current;
-  StackLst<Node*> stk;
+  typename BinaryTree<Data>::Node* current = nullptr;
+  StackLst<typename BinaryTree<Data>::Node*> stk;
 
 public:
 
@@ -375,8 +375,8 @@ private:
 
 protected:
 
-  struct BinaryTree<Data>::Node* current = nullptr;
-  QueueLst<Node*> que;
+  typename BinaryTree<Data>::Node* current = nullptr;
+  QueueLst<typename BinaryTree<Data>::Node*> que;
 
 public:
 

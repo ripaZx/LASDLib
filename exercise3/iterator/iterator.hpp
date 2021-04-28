@@ -47,7 +47,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class ForwardIterator : virtual public Iterator {
+class ForwardIterator : virtual public Iterator<Data> {
 
 private:
 
@@ -83,7 +83,7 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class BackwardIterator : virtual public Iterator {
+class BackwardIterator : virtual public Iterator<Data> {
 
 private:
 
@@ -119,8 +119,8 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class BidirectionalIterator : virtual public ForwardIterator,
-                              virtual public BackwardIterator {
+class BidirectionalIterator : virtual public ForwardIterator<Data>,
+                              virtual public BackwardIterator<Data> {
 
 private:
 
