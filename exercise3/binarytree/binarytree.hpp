@@ -62,8 +62,8 @@ public:
 
     // Specific member functions
 
-    virtual Data& Element() noexcept = 0;
     virtual const Data& Element() const noexcept = 0;
+    virtual Data& Element() noexcept = 0;
 
     bool IsLeaf() const noexcept;
     virtual bool HasLeftChild() const noexcept = 0;
@@ -188,12 +188,11 @@ class BTPreOrderIterator : virtual public ForwardIterator<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  typename BinaryTree<Data>::Node* current = nullptr;
-  StackLst<typename BinaryTree<Data>::Node*> stk;
+  using Node = typename BinaryTree<Data>::Node;
+  Node* current = nullptr;
+  StackLst<Node*> stk;
 
 public:
 
@@ -250,12 +249,15 @@ class BTPostOrderIterator : virtual public ForwardIterator<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  typename BinaryTree<Data>::Node* current = nullptr;
-  StackLst<typename BinaryTree<Data>::Node*> stk;
+  using Node = typename BinaryTree<Data>::Node;
+  Node* current = nullptr;
+  StackLst<Node*> stk;
+
+  
+  // Accessory function to instantiate the class to the right node
+  Node& LeftMostLeaf(Node&);
 
 public:
 
@@ -309,14 +311,17 @@ public:
 
 template <typename Data>
 class BTInOrderIterator : virtual public ForwardIterator<Data> {
-private:
 
-  // ...
+private:
 
 protected:
 
-  typename BinaryTree<Data>::Node* current = nullptr;
-  StackLst<typename BinaryTree<Data>::Node*> stk;
+  using Node = typename BinaryTree<Data>::Node;
+  Node* current = nullptr;
+  StackLst<Node*> stk;
+
+  // Accessory function to instantiate the class to the right node
+  Node& LeftMostNode(Node&);
 
 public:
 
@@ -373,12 +378,11 @@ class BTBreadthIterator : virtual public ForwardIterator<Data> {
 
 private:
 
-  // ...
-
 protected:
 
-  typename BinaryTree<Data>::Node* current = nullptr;
-  QueueLst<typename BinaryTree<Data>::Node*> que;
+  using Node = typename BinaryTree<Data>::Node;
+  Node* current = nullptr;
+  QueueLst<Node*> que;
 
 public:
 

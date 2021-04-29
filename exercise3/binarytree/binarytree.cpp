@@ -325,7 +325,7 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(BTPreOrderIterator
 
 template <typename Data>
 bool BTPreOrderIterator<Data>::operator==(const BTPreOrderIterator<Data>& itr) const noexcept {
-    return *current == *itr.current;
+    return *current == *itr.current && stk == itr.stk;
 }
 
 template <typename Data>
@@ -363,14 +363,173 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
 /* ************************************************************************** */
 
 template <typename Data>
+typename BinaryTree<Data>::Node& BTPostOrderIterator<Data>::LeftMostLeaf(Node& nod) {
+    if (nod.HasLeftChild())
+    {
+        stk.Push(&nod);
+        return LeftMostLeaf(nod.LeftChild());
+    }
+    else if (nod.HasRightChild())
+    {
+        stk.Push(&nod);
+        return LeftMostLeaf(nod.RightChild());
+    }
+    else if (nod.IsLeaf())
+        return nod;
+}
+
+template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt) {
+    current = &LeftMostLeaf(Root());
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>::BTPostOrderIterator(const BTPostOrderIterator<Data>& itr) {
+    current = itr.current;
+    stk = itr.stk;
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>::BTPostOrderIterator(BTPostOrderIterator<Data>&& itr) noexcept {
+    std::swap(current, itr.current);
+    std::swap(stk, itr.stk);
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>::~BTPostOrderIterator() {
+    current = nullptr;
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(const BTPostOrderIterator<Data>& itr) {
+    if (*this != itr)
+    {
+        BTPostOrderIterator<Data>* tmpItr = new BTPostOrderIterator<Data>(itr);
+        std::swap(*this, tmpItr);
+        delete tmpItr;
+    }
+    return *this;
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(BTPostOrderIterator<Data>&& itr) noexcept {
+    if (*this != itr)
+    {
+        std::swap(current, itr.current);
+        std::swap(stk, itr.stk);
+    }
+    return *this;
+}
+
+template <typename Data>
+bool BTPostOrderIterator<Data>::operator==(const BTPostOrderIterator<Data>& itr) const noexcept {
+    return *current == *itr.current && stk == itr.stk;
+}
+
+template <typename Data>
+inline bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator<Data>& itr) const noexcept {
+    return !(*this==itr);
+}
+
+template <typename Data>
+Data& BTPostOrderIterator<Data>::operator*() {
+    if (!Terminated())
+        return current->Element();
+    else
+        throw std::out_of_range("Access to an empty tree.");
+}
+
+template <typename Data>
+bool BTPostOrderIterator<Data>::Terminated() const noexcept {
+    return (current == nullptr);
+}
+
+template <typename Data>
+BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
 
 }
 
 /* ************************************************************************** */
 
 template <typename Data>
+typename BinaryTree<Data>::Node& BTInOrderIterator<Data>::LeftMostNode(Node& nod) {
+    if (nod.HasLeftChild())
+    {
+        stk.Push(&nod);
+        return LeftMostNode(nod.LeftChild());
+    }
+    else
+        return nod;
+}
+
+template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt) {
+    current = &LeftMostNode(bt.Root());
+}
+
+template <typename Data>
+BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator<Data>& itr) {
+    current = itr.current;
+    stk = itr.stk;
+}
+
+template <typename Data>
+BTInOrderIterator<Data>::BTInOrderIterator(BTInOrderIterator<Data>&& itr) noexcept {
+    std::swap(current, itr.current);
+    std::swap(stk, itr.stk);
+}
+
+template <typename Data>
+BTInOrderIterator<Data>::~BTInOrderIterator() {
+    current = nullptr;
+}
+
+template <typename Data>
+BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(const BTInOrderIterator<Data>& itr) {
+    if (*this != itr)
+    {
+        BTInOrderIterator<Data>* tmpItr = new BTInOrderIterator<Data>(itr);
+        std::swap(*this, tmpItr);
+        delete tmpItr;
+    }
+    return *this;
+}
+
+template <typename Data>
+BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(BTInOrderIterator<Data>&& itr) noexcept {
+    if (*this != itr)
+    {
+        std::swap(current, itr.current);
+        std::swap(stk, itr.stk);
+    }
+    return *this;
+}
+
+template <typename Data>
+bool BTInOrderIterator<Data>::operator==(const BTInOrderIterator<Data>& itr) const noexcept {
+    return *current == *itr.current && stk == itr.stk;
+}
+
+template <typename Data>
+inline bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator<Data>& itr) const noexcept {
+    return !(*this==itr);
+}
+
+template <typename Data>
+Data& BTInOrderIterator<Data>::operator*() {
+    if (!Terminated())
+        return current->Element();
+    else
+        throw std::out_of_range("Access to an empty tree.");
+}
+
+template <typename Data>
+bool BTInOrderIterator<Data>::Terminated() const noexcept {
+    return (current == nullptr);
+}
+
+template <typename Data>
+BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
 
 }
 
@@ -421,7 +580,7 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator=(BTBreadthIterator<Da
 
 template <typename Data>
 bool BTBreadthIterator<Data>::operator==(const BTBreadthIterator<Data>& itr) const noexcept {
-    return *current == *itr.current;
+    return *current == *itr.current && que == itr.que;
 }
 
 template <typename Data>
