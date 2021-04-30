@@ -353,13 +353,13 @@ typename BinaryTree<Data>::Node& BTPostOrderIterator<Data>::LeftMostLeaf(Node& n
         stk.Push(&nod);
         return LeftMostLeaf(nod.RightChild());
     }
-    else if (nod.IsLeaf())
+    else
         return nod;
 }
 
 template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt) {
-    current = &LeftMostLeaf(Root());
+    current = &LeftMostLeaf(bt.Root());
 }
 
 template <typename Data>
@@ -425,7 +425,16 @@ bool BTPostOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
+    if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
+        current = &LeftMostLeaf(stk.Top()->RightChild());
+
+    else if (stk.Empty())
+        current = nullptr;
     
+    else
+        current = stk.TopNPop();
+
+    return *this;
 }
 
 /* ************************************************************************** */
@@ -509,7 +518,15 @@ bool BTInOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
+    if (current->IsLeaf())
+        current = stk.Empty() ?
+         nullptr :
+         stk.TopNPop();
 
+    else if (current->HasRightChild())
+        current = &LeftMostNode(current->RightChild());
+
+    return *this;
 }
 
 /* ************************************************************************** */

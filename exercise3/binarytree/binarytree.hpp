@@ -190,7 +190,7 @@ private:
 
 protected:
 
-  using Node = typename BinaryTree<Data>::Node;
+  using typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   StackLst<Node*> stk;
 
@@ -251,7 +251,7 @@ private:
 
 protected:
 
-  using Node = typename BinaryTree<Data>::Node;
+  using typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   StackLst<Node*> stk;
 
@@ -316,7 +316,7 @@ private:
 
 protected:
 
-  using Node = typename BinaryTree<Data>::Node;
+  using typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   StackLst<Node*> stk;
 
@@ -380,7 +380,7 @@ private:
 
 protected:
 
-  using Node = typename BinaryTree<Data>::Node;
+  using typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   QueueLst<Node*> que;
 
