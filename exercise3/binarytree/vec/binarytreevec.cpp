@@ -35,12 +35,12 @@ bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept {
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::LeftChild() const {
-    return &owner[(index*2)+1];
+    return (*owner)[(index*2)+1];
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild() const {
-    return &owner[(index*2)+2];
+    return (*owner)[(index*2)+2];
 }
 
 /* ************************************************************************** */
