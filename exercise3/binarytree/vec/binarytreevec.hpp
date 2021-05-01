@@ -30,8 +30,8 @@ protected:
 
     Data Element;
 
-    unsigned long index;
-    Vector<NodeVec>* owningVec;
+    unsigned long index = 0;
+    Vector<NodeVec>* owner;
   
   public:
 
@@ -41,7 +41,7 @@ protected:
   ~NodeVec();
 
   NodeVec& operator=(const NodeVec&);
-  NodeVec& operator=(NodeVec&) noexcept;
+  NodeVec& operator=(NodeVec&&) noexcept;
 
   const Data& Element() const noexcept override;
   Data& Element() noexcept override;
@@ -59,7 +59,7 @@ protected:
 public:
 
   // Default constructor
-  BinaryTreeVec();
+  BinaryTreeVec() = default;
 
   /* ************************************************************************ */
 
