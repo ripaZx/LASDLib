@@ -7,15 +7,11 @@ namespace lasd {
 
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node& nod) const noexcept {
-    if (size != 0)
+    if (this->Element() != nod.Element())
+        return false;
+    else
     {
-        if (this->Element() != nod.Element())
-            return false;
-
-        if (this->IsLeaf() && nod.IsLeaf())
-            return true;
-        
-        else if (HasLeftChild() && HasRightChild())
+        if (HasLeftChild() && HasRightChild())
         {
             if (nod.HasLeftChild() && nod.HasRightChild())
                 return LeftChild() == nod.LeftChild() && RightChild() == nod.RightChild();
@@ -36,9 +32,9 @@ bool BinaryTree<Data>::Node::operator==(const Node& nod) const noexcept {
             else
                 return false;
         }
+        else
+            return true;
     }
-    else 
-        return false;
 }
 
 template <typename Data>
@@ -96,15 +92,15 @@ inline void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* pa
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par) {
     QueueLst<Node*> que;
-    que.Enqueue(Root());
-    MapBreadth(func, par, que);
+    que.Enqueue(&Root());
+    MapBreadth(func, par, &que);
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc) const {
     QueueLst<Node*> que;
-    que.Enqueue(Root());
-    FoldBreadth(func, par, acc, que);
+    que.Enqueue(&Root());
+    FoldBreadth(func, par, acc, &que);
 }
 
 template <typename Data>
@@ -228,34 +224,34 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void
 }
 
 template <typename Data>
-void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par, Queue<Node>& que) {
-    while (!que.Empty())
+void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par, Queue<Node*>* que) {
+    while (!que->Empty())
     {
-        Node* nod = que.Head();
+        Node* nod = que->Head();
         func(nod->Element(), par);
-        que.Dequeue();
+        que->Dequeue();
 
         if(nod->HasLeftChild())
-            que.Enqueue(nod->LeftChild());
+            que->Enqueue(&nod->LeftChild());
         
         if (nod->HasRightChild())
-            que.Enqueue(nod->RightChild());
+            que->Enqueue(&nod->RightChild());
     }
 }
 
 template <typename Data>
-void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc, Queue<Node>& que) const {
-    while (!que.Empty())
+void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc, Queue<Node*>* que) const {
+    while (!que->Empty())
     {
-        Node* nod = que.Head();
+        Node* nod = que->Head();
         func(nod->Element(), par, acc);
-        que.Dequeue();
+        que->Dequeue();
 
         if(nod->HasLeftChild())
-            que.Enqueue(nod->LeftChild());
+            que->Enqueue(&nod->LeftChild());
         
         if (nod->HasRightChild())
-            que.Enqueue(nod->RightChild());
+            que->Enqueue(&nod->RightChild());
     }
 }
 

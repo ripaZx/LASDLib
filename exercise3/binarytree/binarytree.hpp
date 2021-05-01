@@ -69,8 +69,8 @@ public:
     virtual bool HasLeftChild() const noexcept = 0;
     virtual bool HasRightChild() const noexcept = 0;
 
-    virtual Node& LeftChild() = 0;
-    virtual Node& RightChild() = 0;
+    virtual Node& LeftChild() const = 0;
+    virtual Node& RightChild() const = 0;
 
   };
 
@@ -171,13 +171,13 @@ protected:
 
   // Auxiliary member functions (for BreadthMappableContainer)
 
-  void MapBreadth(const MapFunctor, void*, Queue<Node>&); // Accessory function executing from one node of the tree
+  void MapBreadth(const MapFunctor, void*, Queue<Node*>*); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for BreadthFoldableContainer)
 
-  void FoldBreadth(const FoldFunctor, const void*, void*, Queue<Node>&) const; // Accessory function executing from one node of the tree
+  void FoldBreadth(const FoldFunctor, const void*, void*, Queue<Node*>*) const; // Accessory function executing from one node of the tree
 
 };
 
@@ -190,7 +190,7 @@ private:
 
 protected:
 
-  using typename BinaryTree<Data>::Node;
+  using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   StackLst<Node*> stk;
 
@@ -230,15 +230,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  BTPreOrderIterator& operator++(); // (throw std::out_of_range when terminated)
+  BTPreOrderIterator& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -251,7 +251,7 @@ private:
 
 protected:
 
-  using typename BinaryTree<Data>::Node;
+  using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
   StackLst<Node*> stk;
 
@@ -295,15 +295,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  BTPostOrderIterator& operator++(); // (throw std::out_of_range when terminated)
+  BTPostOrderIterator& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -316,9 +316,9 @@ private:
 
 protected:
 
-  using typename BinaryTree<Data>::Node;
+  using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
-  StackLst<Node*> stk;
+  StackLst<typename BinaryTree<Data>::Node*> stk;
 
   // Accessory function to instantiate the class to the right node
   Node& LeftMostNode(Node&);
@@ -359,15 +359,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  BTInOrderIterator& operator++(); // (throw std::out_of_range when terminated)
+  BTInOrderIterator& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -380,9 +380,9 @@ private:
 
 protected:
 
-  using typename BinaryTree<Data>::Node;
+  using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
-  QueueLst<Node*> que;
+  QueueLst<typename BinaryTree<Data>::Node*> que;
 
 public:
 
@@ -420,15 +420,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  BTBreadthIterator& operator++(); // (throw std::out_of_range when terminated)
+  BTBreadthIterator& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 

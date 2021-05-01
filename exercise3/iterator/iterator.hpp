@@ -38,7 +38,7 @@ public:
 
   // Specific member functions
 
-  virtual Data& operator*() = 0;
+  virtual Data& operator*() const = 0;
 
   virtual bool Terminated() const noexcept = 0;
 
