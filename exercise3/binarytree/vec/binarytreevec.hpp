@@ -27,30 +27,39 @@ protected:
   private:
 
   protected:
-
-    Data Element;
+  
+  public:
+  
+    // Member variables
+    Data Elem;
 
     unsigned long index = 0;
     Vector<NodeVec>* owner;
-  
-  public:
 
-  NodeVec(const Data&);
-  NodeVec(Data&&) noexcept;
 
-  ~NodeVec();
+    // Destructor
+    ~NodeVec();
 
-  NodeVec& operator=(const NodeVec&);
-  NodeVec& operator=(NodeVec&&) noexcept;
+    /* ********************************************************************** */
 
-  const Data& Element() const noexcept override;
-  Data& Element() noexcept override;
+    // Copy assignment
+    NodeVec& operator=(const NodeVec&);
 
-  bool HasLeftChild() const noexcept override;
-  bool HasRightChild() const noexcept override;
+    // Move assignment
+    NodeVec& operator=(NodeVec&&) noexcept;
 
-  NodeVec& LeftChild() override;
-  NodeVec& RightChild() override;
+    /* ********************************************************************** */
+
+    // Specific member functions
+
+    const Data& Element() const noexcept override;
+    Data& Element() noexcept override;
+
+    bool HasLeftChild() const noexcept override;
+    bool HasRightChild() const noexcept override;
+
+    NodeVec& LeftChild() const override;
+    NodeVec& RightChild() const override;
 
   };
 
