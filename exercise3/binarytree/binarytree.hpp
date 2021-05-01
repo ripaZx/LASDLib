@@ -105,8 +105,8 @@ public:
 
   using typename MappableContainer<Data>::MapFunctor;
 
-  void MapPreOrder(const MapFunctor, void*) override;
-  void MapPostOrder(const MapFunctor, void*) override;
+  inline void MapPreOrder(const MapFunctor, void*) override;
+  inline void MapPostOrder(const MapFunctor, void*) override;
 
   /* ************************************************************************ */
 
@@ -114,32 +114,32 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*) const override;
-  void FoldPostOrder(const FoldFunctor, const void*, void*) const override;
+  inline void FoldPreOrder(const FoldFunctor, const void*, void*) const override;
+  inline void FoldPostOrder(const FoldFunctor, const void*, void*) const override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from InOrderMappableContainer)
 
-  void MapInOrder(const MapFunctor, void*) override;
+  inline void MapInOrder(const MapFunctor, void*) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from InOrderFoldableContainer)
 
-  void FoldInOrder(const FoldFunctor, const void*, void*) const override;
+  inline void FoldInOrder(const FoldFunctor, const void*, void*) const override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BreadthMappableContainer)
 
-  void MapBreadth(const MapFunctor, void*) override;
+  inline void MapBreadth(const MapFunctor, void*) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BreadthFoldableContainer)
 
-  void FoldBreadth(const FoldFunctor, const void*, void*) const override;
+  inline void FoldBreadth(const FoldFunctor, const void*, void*) const override;
 
 protected:
 
@@ -230,7 +230,7 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*(); // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
   bool Terminated() const noexcept; // (should not throw exceptions)
 
@@ -295,7 +295,7 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*(); // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
   bool Terminated() const noexcept; // (should not throw exceptions)
 
@@ -359,7 +359,7 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*(); // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
   bool Terminated() const noexcept; // (should not throw exceptions)
 
@@ -420,7 +420,7 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*(); // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
   bool Terminated() const noexcept; // (should not throw exceptions)
 
