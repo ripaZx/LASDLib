@@ -36,10 +36,8 @@ public:
   private:
 
   protected:
-    
-    // Comparison operators
-    bool operator==(const Node&) const noexcept;
-    inline bool operator!=(const Node&) const noexcept;
+
+  bool CompareSubTrees(const Node&) const noexcept;
 
   public:
 
@@ -57,6 +55,10 @@ public:
 
     // Move assignment
     Node& operator=(Node&&) noexcept = delete;
+
+    // Comparison operators
+    bool operator==(const Node&) const noexcept;
+    inline bool operator!=(const Node&) const noexcept;
 
     /* ********************************************************************** */
 

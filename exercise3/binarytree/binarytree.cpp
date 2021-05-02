@@ -6,35 +6,43 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-bool BinaryTree<Data>::Node::operator==(const Node& nod) const noexcept {
-    if (this->Element() != nod.Element())
+bool BinaryTree<Data>::Node::CompareSubTrees(const Node& nod) const noexcept {
+    if (*this != nod)
         return false;
     else
     {
         if (HasLeftChild() && HasRightChild())
         {
             if (nod.HasLeftChild() && nod.HasRightChild())
-                return LeftChild() == nod.LeftChild() && RightChild() == nod.RightChild();
+                return LeftChild().CompareSubTrees(nod.LeftChild()) && RightChild().CompareSubTrees(nod.RightChild());
             else
                 return false;
         }
         else if (HasLeftChild())
         {
             if (nod.HasLeftChild())
-                return LeftChild() == nod.LeftChild();
+                return LeftChild().CompareSubTrees(nod.LeftChild());
             else
                 return false;
         }
         else if (HasRightChild())
         {
             if (nod.HasRightChild()) 
-                return RightChild() == nod.RightChild();
+                return RightChild().CompareSubTrees(nod.RightChild());
             else
                 return false;
         }
         else
             return true;
     }
+}
+
+template <typename Data>
+bool BinaryTree<Data>::Node::operator==(const Node& nod) const noexcept {
+    if (Element() == nod.Element())
+        return true;
+    else
+        return false;
 }
 
 template <typename Data>
@@ -51,7 +59,7 @@ bool BinaryTree<Data>::Node::IsLeaf() const noexcept {
 
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
-    return Root() == tree.Root();
+    return Root().CompareSubTrees(tree.Root());
 }
 
 template <typename Data>
