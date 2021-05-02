@@ -28,14 +28,22 @@ protected:
   protected:
 
     Data Elem;
-    NodeLnk* left;
-    NodeLnk* right;
+    NodeLnk* left = nullptr;
+    NodeLnk* right = nullptr;
 
   public:
 
-    // Constructors
+    friend class BinaryTreeLnk<Data>;
+
+    // Specific constructors
     NodeLnk(const Data&);
     NodeLnk(Data&&) noexcept;
+
+    // Copy Constructor
+    NodeLnk(const NodeLnk&);
+
+    //Move Constructor
+    NodeLnk(NodeLnk&&) noexcept;
 
     // Destructor
     ~NodeLnk();
@@ -63,7 +71,7 @@ protected:
 
   };
 
-  NodeLnk* root;
+  NodeLnk* root = nullptr;
 
 public:
 
