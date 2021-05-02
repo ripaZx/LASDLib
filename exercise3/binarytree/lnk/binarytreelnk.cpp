@@ -162,7 +162,10 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk&& bt) noexcept
 
 template <typename Data>
 bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk& bt) const noexcept {
-    return (*root).CompareSubTrees(*bt.root);
+    if (size == bt.size)
+        return (*root).CompareSubTrees(*bt.root);
+    else
+        return false;
 }
 
 template <typename Data>
@@ -172,7 +175,10 @@ inline bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk& bt) const noexc
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
-    return *root;
+    if (size != 0)
+        return *root;
+    else
+        throw std::length_error("Access to an empty tree (link).");
 }
 
 template <typename Data>

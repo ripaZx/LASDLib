@@ -16,14 +16,21 @@ BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec&& nod) noexcept {
 }
 
 template <typename Data>
+BinaryTreeVec<Data>::NodeVec::~NodeVec() {
+    owner = nullptr;
+}
+
+template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec& nod) {
     Elem = nod.Elem;
+    index = nod.index;
     return *this;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& nod) noexcept {
-    std::swap(this->Elem, nod.Elem);
+    std::swap(Elem, nod.Elem);
+    std::swap(index, nod.index);
     return *this;
 }
 
@@ -74,7 +81,12 @@ BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& con) {
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data>& bt) {
     size = bt.size;
-    btVec = bt.btVec;
+    btVec.Resize(size);
+    for (unsigned long i=0; i<size; i++)
+    {
+        btVec[i] = bt.btVec[i];
+        btVec[i].owner = &btVec;
+    }
 }
 
 template <typename Data>
@@ -87,7 +99,11 @@ template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& bt) {
     if (*this != bt)
     {
-        btVec = bt.btVec;
+        for (unsigned long i=0; i<size; i++)
+        {
+            btVec[i] = bt.btVec[i];
+            btVec[i].owner = &btVec;
+        }
         size = bt.size;
     }
     return *this;
@@ -97,19 +113,27 @@ template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& bt) noexcept {
     if (*this != bt)
     {
-        std::swap(btVec, bt.btVec);
         std::swap(size, bt.size);
+        btVec.Resize(size);
+        for (unsigned long i=0; i<size; i++)
+        {
+            std::swap(btVec[i], bt.btVec[i]);
+            std::swap(btVec[i].owner, bt.btVec[i].owner);
+        }
     }
     return *this;
 }
 
 template <typename Data>
-bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec<Data>& bt) const noexcept {
-    return size == bt.size && btVec == bt.btVec;
+bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& bt) const noexcept {
+    if (size == bt.size)
+        return btVec == bt.btVec;
+    else 
+        return false;
 }
 
 template <typename Data>
-inline bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec<Data>& bt) const noexcept {
+inline bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec& bt) const noexcept {
     return !(*this == bt);
 }
 
@@ -118,7 +142,7 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::Root() const {
     if (size != 0)
         return btVec[0];
     else
-        throw std::length_error("Access to an empty tree (vector)");
+        throw std::length_error("Access to an empty tree (vector).");
 }
 
 template <typename Data>

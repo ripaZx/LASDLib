@@ -59,7 +59,10 @@ bool BinaryTree<Data>::Node::IsLeaf() const noexcept {
 
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
-    return Root().CompareSubTrees(tree.Root());
+    if (size == tree.size)
+        return Root().CompareSubTrees(tree.Root());
+    else 
+        return false;
 }
 
 template <typename Data>
@@ -79,12 +82,12 @@ inline void BinaryTree<Data>::MapPostOrder(const MapFunctor func, void* par) {
 
 template <typename Data>
 inline void BinaryTree<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
-    FoldPreOrder(func, par, &Root());
+    FoldPreOrder(func, par, acc, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc) const {
-    FoldPostOrder(func, par, &Root());
+    FoldPostOrder(func, par, acc, &Root());
 }
 
 template <typename Data>
