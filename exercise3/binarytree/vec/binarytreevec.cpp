@@ -17,12 +17,14 @@ BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec&& nod) noexcept {
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec& nod) {
-    this->Elem = nod.Elem;
+    Elem = nod.Elem;
+    return *this;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& nod) noexcept {
     std::swap(this->Elem, nod.Elem);
+    return *this;
 }
 
 template <typename Data>

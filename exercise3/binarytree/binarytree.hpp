@@ -92,8 +92,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const BinaryTree&) const noexcept;
-  inline bool operator!=(const BinaryTree&) const noexcept;
+  virtual bool operator==(const BinaryTree&) const noexcept;
+  virtual inline bool operator!=(const BinaryTree&) const noexcept;
 
   /* ************************************************************************ */
 

@@ -18,7 +18,7 @@ List<Data>::Node::Node(Data&& dat) noexcept {
 template <typename Data>
 List<Data>::Node::Node(const Node& nod) {
     Element = nod.Element;
-    next = nod.next;
+    next = nullptr;
 }
 
 template <typename Data>
