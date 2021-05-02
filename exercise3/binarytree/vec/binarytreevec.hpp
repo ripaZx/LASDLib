@@ -27,18 +27,27 @@ protected:
   private:
 
   protected:
+
+    Data Elem;
   
   public:
   
     // Member variables
-    Data Elem;
-
     unsigned long index = 0;
-    Vector<NodeVec>* owner;
+    Vector<NodeVec>* owner = nullptr;
+
+    // Constructor
+    NodeVec() = default;
+
+    //Copy constructor
+    NodeVec(const NodeVec&);
+
+    //Move constructor
+    NodeVec(NodeVec&&) noexcept;
 
 
     // Destructor
-    ~NodeVec();
+    ~NodeVec() = default;
 
     /* ********************************************************************** */
 
@@ -86,7 +95,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~BinaryTreeVec();
+  ~BinaryTreeVec() = default;
 
   /* ************************************************************************ */
 

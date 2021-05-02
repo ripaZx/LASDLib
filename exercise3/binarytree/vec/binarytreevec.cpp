@@ -4,6 +4,18 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
+BinaryTreeVec<Data>::NodeVec::NodeVec(const NodeVec& nod) {
+    Elem = nod.Elem;
+    index = nod.index;
+}
+
+template <typename Data>
+BinaryTreeVec<Data>::NodeVec::NodeVec(NodeVec&& nod) noexcept {
+    std::swap(Elem, nod.Elem);
+    std::swap(index, nod.index);
+}
+
+template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec& nod) {
     this->Elem = nod.Elem;
 }
@@ -48,9 +60,10 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild(
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& con) {
     size = con.Size();
+    btVec.Resize(size);
     for (unsigned long i=0; i<size; i++)
     {
-        btVec[i].Elem = con[i];
+        btVec[i].Element() = con[i];
         btVec[i].index = i;
         btVec[i].owner = &btVec;
     }
