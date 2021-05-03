@@ -99,12 +99,13 @@ template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& bt) {
     if (*this != bt)
     {
+        size = bt.size;
+        btVec.Resize(size);
         for (unsigned long i=0; i<size; i++)
         {
             btVec[i] = bt.btVec[i];
             btVec[i].owner = &btVec;
         }
-        size = bt.size;
     }
     return *this;
 }
@@ -114,12 +115,7 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& bt) no
     if (*this != bt)
     {
         std::swap(size, bt.size);
-        btVec.Resize(size);
-        for (unsigned long i=0; i<size; i++)
-        {
-            std::swap(btVec[i], bt.btVec[i]);
-            std::swap(btVec[i].owner, bt.btVec[i].owner);
-        }
+        std::swap(btVec, bt.btVec);
     }
     return *this;
 }

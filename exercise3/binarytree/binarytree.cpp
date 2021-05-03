@@ -59,7 +59,9 @@ bool BinaryTree<Data>::Node::IsLeaf() const noexcept {
 
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
-    if (size == tree.size)
+    if (size == 0 && tree.size == 0)
+        return true;
+    else if (size == tree.size)
         return Root().CompareSubTrees(tree.Root());
     else 
         return false;
@@ -434,12 +436,12 @@ bool BTPostOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
-    if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
-        current = &LeftMostLeaf(stk.Top()->RightChild());
-
-    else if (stk.Empty())
+    if (stk.Empty())
         current = nullptr;
-    
+
+    else if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
+        current = &LeftMostLeaf(stk.Top()->RightChild());
+  
     else
         current = stk.TopNPop();
 

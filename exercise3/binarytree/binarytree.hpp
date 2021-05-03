@@ -67,7 +67,7 @@ public:
     virtual const Data& Element() const noexcept = 0;
     virtual Data& Element() noexcept = 0;
 
-    bool IsLeaf() const noexcept;
+    virtual bool IsLeaf() const noexcept;
     virtual bool HasLeftChild() const noexcept = 0;
     virtual bool HasRightChild() const noexcept = 0;
 

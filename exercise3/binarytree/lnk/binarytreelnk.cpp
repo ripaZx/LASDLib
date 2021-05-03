@@ -27,6 +27,8 @@ template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
     delete left;
     delete right;
+    left = nullptr;
+    right = nullptr;
 }
 
 template <typename Data>
@@ -95,7 +97,7 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& con) {
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk& bt) {
+BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data>& bt) {
     size = bt.size;
     if (size != 0)
     {
@@ -128,7 +130,7 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk& bt) {
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk&& bt) noexcept {
+BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data>&& bt) noexcept {
     std::swap(root, bt.root);
     std::swap(size, bt.size);
 }
@@ -139,7 +141,7 @@ BinaryTreeLnk<Data>::~BinaryTreeLnk() {
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk& bt) {
+BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data>& bt) {
     if (*this != bt)
     {
         size = bt.size;
@@ -151,7 +153,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk& bt) {
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk&& bt) noexcept {
+BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data>&& bt) noexcept {
     if (*this != bt)
     {
         std::swap(root, bt.root);
@@ -162,7 +164,9 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk&& bt) noexcept
 
 template <typename Data>
 bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk& bt) const noexcept {
-    if (size == bt.size)
+    if (size == 0 && bt.size == 0)
+        return true;
+    else if (size == bt.size)
         return (*root).CompareSubTrees(*bt.root);
     else
         return false;
@@ -184,9 +188,9 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
 template <typename Data>
 void BinaryTreeLnk<Data>::Clear() {
     delete root;
+    root = nullptr;
     size = 0;
 }
-
 
 /* ************************************************************************** */
 
