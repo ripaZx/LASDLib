@@ -529,13 +529,13 @@ bool BTInOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
-    if (current->IsLeaf())
+    if (current->HasRightChild())
+        current = &LeftMostNode(current->RightChild());
+
+    else
         current = stk.Empty() ?
          nullptr :
          stk.TopNPop();
-
-    else if (current->HasRightChild())
-        current = &LeftMostNode(current->RightChild());
 
     return *this;
 }
