@@ -123,6 +123,16 @@ public:
 
   void Clear() override; // Override Container member
 
+  /* ************************************************************************ */
+
+  using typename MappableContainer<Data>::MapFunctor;
+
+  void MapBreadth(const MapFunctor func, void*) override;
+
+  using typename FoldableContainer<Data>::FoldFunctor;
+
+  void FoldBreadth(const FoldFunctor func, const void*, void*) const override;
+
 };
 
 /* ************************************************************************** */

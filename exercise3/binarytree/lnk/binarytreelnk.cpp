@@ -27,19 +27,19 @@ template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
     delete left;
     delete right;
-    left = nullptr;
-    right = nullptr;
 }
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const NodeLnk& nod) {
-    Elem = nod.Elem;
+    if (*this != nod)
+        Elem = nod.Elem;
     return *this;
 }
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(NodeLnk&& nod) noexcept {
-    std::swap(Elem, nod.Elem);
+    if (*this != nod)
+        std::swap(Elem, nod.Elem);
     return *this;
 }
 
@@ -163,7 +163,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data>&& bt) no
 }
 
 template <typename Data>
-bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk& bt) const noexcept {
+bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk<Data>& bt) const noexcept {
     if (size == 0 && bt.size == 0)
         return true;
     else if (size == bt.size)
@@ -173,7 +173,7 @@ bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk& bt) const noexcept {
 }
 
 template <typename Data>
-inline bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk& bt) const noexcept {
+inline bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data>& bt) const noexcept {
     return !(*this == bt);
 }
 

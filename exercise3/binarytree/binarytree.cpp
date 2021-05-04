@@ -1,6 +1,4 @@
 
-// #include "..."
-
 namespace lasd {
 
 /* ************************************************************************** */
@@ -58,7 +56,7 @@ bool BinaryTree<Data>::Node::IsLeaf() const noexcept {
 /* ************************************************************************** */
 
 template <typename Data>
-bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
+bool BinaryTree<Data>::operator==(const BinaryTree<Data>& tree) const noexcept {
     if (size == 0 && tree.size == 0)
         return true;
     else if (size == tree.size)
@@ -68,7 +66,7 @@ bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
 }
 
 template <typename Data>
-inline bool BinaryTree<Data>::operator!=(const BinaryTree& tree) const noexcept {
+inline bool BinaryTree<Data>::operator!=(const BinaryTree<Data>& tree) const noexcept {
     return !(*this == tree);
 }
 

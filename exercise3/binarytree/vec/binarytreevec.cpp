@@ -22,26 +22,32 @@ BinaryTreeVec<Data>::NodeVec::~NodeVec() {
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec& nod) {
-    Elem = nod.Elem;
-    index = nod.index;
+    if (*this != nod)
+    {
+        Elem = nod.Elem;
+        index = nod.index;
+    }
     return *this;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& nod) noexcept {
-    std::swap(Elem, nod.Elem);
-    std::swap(index, nod.index);
+    if (*this != nod)
+    {
+        std::swap(Elem, nod.Elem);
+        std::swap(index, nod.index);
+    }
     return *this;
 }
 
 template <typename Data>
 const Data& BinaryTreeVec<Data>::NodeVec::Element() const noexcept {
-    return this->Elem;
+    return Elem;
 }
 
 template <typename Data>
 Data& BinaryTreeVec<Data>::NodeVec::Element() noexcept {
-    return this->Elem;
+    return Elem;
 }
 
 template <typename Data>
@@ -90,7 +96,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data>& bt) {
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec&& bt) noexcept {
+BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data>&& bt) noexcept {
     std::swap(size, bt.size);
     std::swap(btVec, bt.btVec);
 }
@@ -121,7 +127,7 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& bt) no
 }
 
 template <typename Data>
-bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& bt) const noexcept {
+bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec<Data>& bt) const noexcept {
     if (size == bt.size)
         return btVec == bt.btVec;
     else 
@@ -129,7 +135,7 @@ bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& bt) const noexcept {
 }
 
 template <typename Data>
-inline bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec& bt) const noexcept {
+inline bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec<Data>& bt) const noexcept {
     return !(*this == bt);
 }
 
@@ -145,6 +151,18 @@ template <typename Data>
 void BinaryTreeVec<Data>::Clear() {
     btVec.Clear();
     size = 0;
+}
+
+template <typename Data>
+void BinaryTreeVec<Data>::MapBreadth(const MapFunctor func, void* par) {
+    for (unsigned long i=0; i<size; i++)
+        func(btVec[i].Element(), par);
+}
+
+template <typename Data>
+void BinaryTreeVec<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc) const {
+    for (unsigned long i=0; i<size; i++)
+        func(btVec[i].Element(), par, acc);
 }
 
 /* ************************************************************************** */
