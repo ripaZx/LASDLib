@@ -67,18 +67,18 @@ void MapPrint(const Data& dat, void* _) {
 template <typename Data>
 void StructurePrint(lasd::BinaryTree<Data>& bt) {
     char choice;
-    std::cout<< std::endl <<"Selezionare un ordine per la stampa degli elementi: " << std::endl << "[P]reOrder    P[O]stOrder    [I]nOrder    [B]readth    " << std::endl;
+    std::cout<< std::endl <<"Selezionare un ordine per la stampa degli elementi: " << std::endl << "P[R]eOrder    P[O]stOrder    [I]nOrder    [B]readth    " << std::endl;
     std::cin.clear();
     std::cin>>choice;
     choice = std::toupper(choice);
-    while (choice != 'P' && choice != 'O' && choice != 'I' && choice != 'B')
+    while (choice != 'R' && choice != 'O' && choice != 'I' && choice != 'B')
     {
-        std::cout<< std::endl <<"Inserire uno tra P, O, I oppure B..."<< std::endl;
+        std::cout<< std::endl <<"Inserire uno tra R, O, I oppure B..."<< std::endl;
         std::cin.clear();
         std::cin>>choice;
         choice = std::toupper(choice);
     }
-    if (choice == 'P')
+    if (choice == 'R')
     {
         std::cout<< std::endl <<"Stampa degli elementi nella struttura in Pre Order"<< std::endl;
         bt.MapPreOrder(&MapPrint<Data>, 0);
@@ -200,14 +200,124 @@ void StringInsert(lasd::MappableContainer<Data>& con) {
     con.MapPreOrder(&MapInsert<Data>, &str);
 }
 
+template <typename Data>
+void ExploreTree(lasd::BinaryTree<Data>& bt) {
+    char choice;
+    bool end = false;
+    typename lasd::BinaryTree<Data>::Node* nod = &bt.Root();
+    while (!end)
+    {
+        std::cout<< std::endl << "Selezionare l'azione da intraprendere: " << std::endl << "[A]ccesso    [S]postamento    [E]sci" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'A' && choice != 'S' && choice != 'E')
+        {
+            std::cout << std::endl <<"Inserire uno tra A, S oppure E..."<< std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        if (choice == 'A')
+        {
+            std::cout<< std::endl << "Definire il tipo di accesso" << std::endl << "[R]ead    [W]rite" << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+            while (choice != 'R' && choice != 'W')
+            {
+                std::cout<< std::endl << "Inserire uno tra R e W..."<< std::endl;
+                std::cin.clear();
+                std::cin>>choice;
+                choice = std::toupper(choice);
+            }
+            if (choice == 'R')
+                std::cout<< std::endl << "L'elemento del nodo a cui si ha effettuato accesso è: " << nod->Element() << std::endl;
+            else if (choice == 'W')
+            {
+                Data elem;
+                do
+                {
+                    std::cout<< std::endl <<"Quale elemento inserire nella posizione corrente dell'albero?"<< std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin>>elem;
+                } while(std::cin.fail());
+                nod->Element() = elem;
+            }
+        }
+        else if (choice == 'S')
+        {
+            std::cout<< std::endl << "Selezionare quale figlio esplorare: " << std::endl << "[D]estro    [S]inistro" << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+            while (choice != 'D' && choice != 'S')
+            {
+                std::cout<< std::endl << "Inserire uno tra D e S..." << std::endl;
+                std::cin.clear();
+                std::cin>>choice;
+                choice = std::toupper(choice);
+            }
+            if (choice == 'D')
+            {
+                if (nod->HasRightChild())
+                    nod = &nod->RightChild();
+                else
+                    std::cout<< std::endl << "Il nodo corrente non ha figlio destro." << std::endl;
+            }
+            else if (choice == 'S')
+            {
+                if (nod->HasLeftChild())
+                    nod = &nod->LeftChild();
+                else
+                    std::cout<< std::endl << "Il nodo corrente non ha figlio sinistro." << std::endl;
+            }
+        }
+        else if (choice == 'E')
+            end = true;
+    }
+}
+
+template <typename Data>
+void IteratorNavigation(lasd::BinaryTree<Data>& bt) {
+    char choice;
+    std::cout<< std::endl << "Selezionare il tipo di iteratore da usare: " << std::endl << "P[R]eOrder    P[O]stOrder    [I]nOrder    [B]readth    "<< std::endl;
+    std::cin.clear();
+    std::cin>>choice;
+    while (choice != 'R' && choice != 'O' && choice != 'I' && choice != 'B')
+    {
+        std::cout<< std::endl <<"Inserire uno tra R, O, I oppure B..."<< std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+    }
+    if (choice == 'R')
+    {
+        lasd::BTPreOrderIterator<Data> itr(bt);
+    }
+    else if (choice == 'O')
+    {
+        lasd::BTPostOrderIterator<Data> itr(bt);
+    }
+    else if (choice == 'I')
+    {
+        lasd::BTInOrderIterator<Data> itr(bt);
+    }
+    else if (choice == 'B')
+    {
+        lasd::BTBreadthIterator<Data> itr(bt);
+    }
+}
+
 void PrintMenu(char& choice) {
-    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[V]isualizzazione    [E]sistenza    [F]old    [M]ap    [Q]uit    " << std::endl;
+    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[V]isualizzazione    [E]sistenza    [F]old    [M]ap    [O]perazioni sui nodi    [I]teratori    [Q]uit    " << std::endl;
     std::cin.clear();
     std::cin>>choice;
     choice = std::toupper(choice);
-    while(choice != 'V' && choice != 'E' && choice != 'F' && choice != 'M' && choice != 'Q')
+    while(choice != 'V' && choice != 'E' && choice != 'F' && choice != 'M' && choice != 'O'  && choice != 'I' && choice != 'Q')
     {
-        std::cout<< std::endl <<"Inserire uno tra V, E, F, M oppure Q..."<< std::endl;
+        std::cout<< std::endl <<"Inserire uno tra V, E, F, M, O, I oppure Q..."<< std::endl;
         std::cin.clear();
         std::cin>>choice;
         choice = std::toupper(choice);
@@ -259,6 +369,8 @@ void testMenu() {
                         SmallerThanNProd(btV);
                     else if (choice == 'M')
                         btV.MapPreOrder(&MapTriple<int>, 0);
+                    else if (choice == 'O')
+                        ExploreTree(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -279,6 +391,8 @@ void testMenu() {
                         BiggerThanNSum(btV);
                     else if (choice == 'M')
                         btV.MapPostOrder(&MapCube<float>, 0);
+                    else if (choice == 'O')
+                        ExploreTree(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -299,6 +413,8 @@ void testMenu() {
                         ShorterThanNConcat(btV);
                     else if (choice == 'M')
                         StringInsert(btV);
+                    else if (choice == 'O')
+                        ExploreTree(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -322,6 +438,8 @@ void testMenu() {
                         SmallerThanNProd(btL);
                     else if (choice == 'M')
                         btL.MapPreOrder(&MapTriple<int>, 0);
+                    else if (choice == 'O')
+                        ExploreTree(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -342,6 +460,8 @@ void testMenu() {
                         BiggerThanNSum(btL);
                     else if (choice == 'M')
                         btL.MapPostOrder(&MapCube<float>, 0);
+                    else if (choice == 'O')
+                        ExploreTree(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -362,6 +482,8 @@ void testMenu() {
                         ShorterThanNConcat(btL);
                     else if (choice == 'M')
                         StringInsert(btL);
+                    else if (choice == 'O')
+                        ExploreTree(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
