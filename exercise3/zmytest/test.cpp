@@ -280,11 +280,44 @@ void ExploreTree(lasd::BinaryTree<Data>& bt) {
 }
 
 template <typename Data>
-void IteratorNavigation(lasd::BinaryTree<Data>& bt) {
+void IteratorNavigation(lasd::ForwardIterator<Data>& itr) {
+    char choice;
+    bool end = false;
+    while (!end)
+    {
+        std::cout<< "Il dato puntato dall'iteratore è: " << *itr << std::endl;
+        std::cout<< "Passare al prossimo dato oppure terminare la visita? " << std::endl << "[N]ext    [Q]uit"<< std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'N' && choice != 'Q')
+        {
+            std::cout<< std::endl <<"Inserire uno tra N e Q..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        if (choice == 'N')
+        {
+            ++itr;
+            if (itr.Terminated())
+            {
+                std::cout<< "L'iteratore è arrivato alla fine della struttura." << std::endl;
+                end = true;
+            }
+        }
+        else if (choice == 'Q')
+            end = true;
+    }
+}
+
+template <typename Data>
+void IteratorSelection(lasd::BinaryTree<Data>& bt) {
     char choice;
     std::cout<< std::endl << "Selezionare il tipo di iteratore da usare: " << std::endl << "P[R]eOrder    P[O]stOrder    [I]nOrder    [B]readth    "<< std::endl;
     std::cin.clear();
     std::cin>>choice;
+    choice = std::toupper(choice);
     while (choice != 'R' && choice != 'O' && choice != 'I' && choice != 'B')
     {
         std::cout<< std::endl <<"Inserire uno tra R, O, I oppure B..."<< std::endl;
@@ -294,19 +327,23 @@ void IteratorNavigation(lasd::BinaryTree<Data>& bt) {
     }
     if (choice == 'R')
     {
-        lasd::BTPreOrderIterator<Data> itr(bt);
+        lasd::BTPreOrderIterator<Data>* itr = new lasd::BTPreOrderIterator<Data>(bt);
+        IteratorNavigation(*itr);
     }
     else if (choice == 'O')
     {
-        lasd::BTPostOrderIterator<Data> itr(bt);
+        lasd::BTPostOrderIterator<Data>* itr = new lasd::BTPostOrderIterator<Data>(bt);
+        IteratorNavigation(*itr);
     }
     else if (choice == 'I')
     {
-        lasd::BTInOrderIterator<Data> itr(bt);
+        lasd::BTInOrderIterator<Data>* itr = new lasd::BTInOrderIterator<Data>(bt);
+        IteratorNavigation(*itr);
     }
     else if (choice == 'B')
     {
-        lasd::BTBreadthIterator<Data> itr(bt);
+        lasd::BTBreadthIterator<Data>* itr = new lasd::BTBreadthIterator<Data>(bt);
+        IteratorNavigation(*itr);
     }
 }
 
@@ -371,6 +408,8 @@ void testMenu() {
                         btV.MapPreOrder(&MapTriple<int>, 0);
                     else if (choice == 'O')
                         ExploreTree(btV);
+                    else if (choice == 'I')
+                        IteratorSelection(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
