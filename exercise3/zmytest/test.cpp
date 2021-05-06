@@ -432,6 +432,8 @@ void testMenu() {
                         btV.MapPostOrder(&MapCube<float>, 0);
                     else if (choice == 'O')
                         ExploreTree(btV);
+                    else if (choice == 'I')
+                        IteratorSelection(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -454,6 +456,8 @@ void testMenu() {
                         StringInsert(btV);
                     else if (choice == 'O')
                         ExploreTree(btV);
+                    else if (choice == 'I')
+                        IteratorSelection(btV);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -479,6 +483,8 @@ void testMenu() {
                         btL.MapPreOrder(&MapTriple<int>, 0);
                     else if (choice == 'O')
                         ExploreTree(btL);
+                    else if (choice == 'I')
+                        IteratorSelection(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -501,6 +507,8 @@ void testMenu() {
                         btL.MapPostOrder(&MapCube<float>, 0);
                     else if (choice == 'O')
                         ExploreTree(btL);
+                    else if (choice == 'I')
+                        IteratorSelection(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -523,6 +531,8 @@ void testMenu() {
                         StringInsert(btL);
                     else if (choice == 'O')
                         ExploreTree(btL);
+                    else if (choice == 'I')
+                        IteratorSelection(btL);
                     else if (choice == 'Q')
                         end = true;
                 }
