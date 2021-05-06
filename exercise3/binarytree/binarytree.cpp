@@ -72,32 +72,38 @@ inline bool BinaryTree<Data>::operator!=(const BinaryTree<Data>& tree) const noe
 
 template <typename Data>
 inline void BinaryTree<Data>::MapPreOrder(const MapFunctor func, void* par) {
-    MapPreOrder(func, par, &Root());
+    if (size != 0)
+        MapPreOrder(func, par, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::MapPostOrder(const MapFunctor func, void* par) {
-    MapPostOrder(func, par, &Root());
+    if (size != 0)
+        MapPostOrder(func, par, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::FoldPreOrder(const FoldFunctor func, const void* par, void* acc) const {
-    FoldPreOrder(func, par, acc, &Root());
+    if (size != 0)
+        FoldPreOrder(func, par, acc, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::FoldPostOrder(const FoldFunctor func, const void* par, void* acc) const {
-    FoldPostOrder(func, par, acc, &Root());
+    if (size != 0)
+        FoldPostOrder(func, par, acc, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::MapInOrder(const MapFunctor func, void* par) {
-    MapInOrder(func, par, &Root());
+    if (size != 0)
+        MapInOrder(func, par, &Root());
 }
 
 template <typename Data>
 inline void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* par, void* acc) const {
-    FoldInOrder(func, par, acc, &Root());
+    if (size != 0)
+        FoldInOrder(func, par, acc, &Root());
 }
 
 template <typename Data>
