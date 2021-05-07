@@ -62,12 +62,18 @@ bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept {
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::LeftChild() const {
-    return (*owner)[(index*2)+1];
+    if (HasLeftChild())
+        return (*owner)[(index*2)+1];
+    else
+        throw std::out_of_range("Access to a non existent node.");
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild() const {
-    return (*owner)[(index*2)+2];
+    if (HasRightChild())
+        return (*owner)[(index*2)+2];
+    else
+        throw std::out_of_range("Access to a non existent node.");
 }
 
 /* ************************************************************************** */

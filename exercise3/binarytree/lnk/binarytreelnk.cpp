@@ -65,12 +65,18 @@ bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept {
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const {
-    return *left;
+    if (HasLeftChild())
+        return *left;
+    else
+        throw std::out_of_range("Access to a non existent node.");
 }
 
 template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const {
-    return *right;
+    if (HasRightChild())
+        return *right;
+    else
+        throw std::out_of_range("Access to a non existent node.");
 }
 
 /* ************************************************************************** */

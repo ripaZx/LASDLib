@@ -332,7 +332,7 @@ Data& BTPreOrderIterator<Data>::operator*() const {
     if (!Terminated())
         return current->Element();
     else
-        throw std::out_of_range("Access to an empty tree.");
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 template <typename Data>
@@ -342,16 +342,21 @@ bool BTPreOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
-    if (current->HasRightChild())
-        stk.Push(&current->RightChild());
-    if (current->HasLeftChild())
-        stk.Push(&current->LeftChild());
+    if (current != nullptr)
+    {
+        if (current->HasRightChild())
+            stk.Push(&current->RightChild());
+        if (current->HasLeftChild())
+            stk.Push(&current->LeftChild());
 
-    current = stk.Empty() ?
-     nullptr :
-     stk.TopNPop();
-    
-    return *this;
+        current = stk.Empty() ?
+        nullptr :
+        stk.TopNPop();
+        
+        return *this;
+    }
+    else
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 /* ************************************************************************** */
@@ -430,7 +435,7 @@ Data& BTPostOrderIterator<Data>::operator*() const {
     if (!Terminated())
         return current->Element();
     else
-        throw std::out_of_range("Access to an empty tree.");
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 template <typename Data>
@@ -440,16 +445,21 @@ bool BTPostOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
-    if (stk.Empty())
-        current = nullptr;
+    if (current != nullptr)
+    {
+        if (stk.Empty())
+            current = nullptr;
 
-    else if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
-        current = &LeftMostLeaf(stk.Top()->RightChild());
-  
+        else if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
+            current = &LeftMostLeaf(stk.Top()->RightChild());
+    
+        else
+            current = stk.TopNPop();
+
+        return *this;
+    }
     else
-        current = stk.TopNPop();
-
-    return *this;
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 /* ************************************************************************** */
@@ -523,7 +533,7 @@ Data& BTInOrderIterator<Data>::operator*() const {
     if (!Terminated())
         return current->Element();
     else
-        throw std::out_of_range("Access to an empty tree.");
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 template <typename Data>
@@ -533,15 +543,20 @@ bool BTInOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
-    if (current->HasRightChild())
-        current = &LeftMostNode(current->RightChild());
+    if (current != nullptr)
+    {
+        if (current->HasRightChild())
+            current = &LeftMostNode(current->RightChild());
 
+        else
+            current = stk.Empty() ?
+            nullptr :
+            stk.TopNPop();
+
+        return *this;
+    }
     else
-        current = stk.Empty() ?
-         nullptr :
-         stk.TopNPop();
-
-    return *this;
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 /* ************************************************************************** */
@@ -604,7 +619,7 @@ Data& BTBreadthIterator<Data>::operator*() const {
     if (!Terminated())
         return current->Element();
     else
-        throw std::out_of_range("Access to an empty tree");
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 template <typename Data>
@@ -614,16 +629,21 @@ bool BTBreadthIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
-    if (current->HasLeftChild())
-        que.Enqueue(&current->LeftChild());
-    if (current->HasRightChild())
-        que.Enqueue(&current->RightChild());
-    
-    current = que.Empty() ?
-     nullptr :
-     que.HeadNDequeue();
-    
-    return *this;
+    if (current != nullptr)
+    {
+        if (current->HasLeftChild())
+            que.Enqueue(&current->LeftChild());
+        if (current->HasRightChild())
+            que.Enqueue(&current->RightChild());
+        
+        current = que.Empty() ?
+        nullptr :
+        que.HeadNDequeue();
+        
+        return *this;
+    }
+    else
+        throw std::out_of_range("Access to a terminated iterator.");
 }
 
 /* ************************************************************************** */
