@@ -81,7 +81,7 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  BinaryTreeLnk(const LinearContainer<Data>&); // A binary tree obtained from a LinearContainer
+  BinaryTreeLnk(const LinearContainer<Data>&);
 
   /* ************************************************************************ */
 
@@ -108,19 +108,19 @@ public:
 
   // Comparison operators
   bool operator==(const BinaryTreeLnk&) const noexcept;
-  bool operator!=(const BinaryTreeLnk&) const noexcept;
+  inline bool operator!=(const BinaryTreeLnk&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BinaryTree)
 
-  NodeLnk& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
+  NodeLnk& Root() const override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  void Clear() override; // Override Container member
+  void Clear() override;
 
 };
 
