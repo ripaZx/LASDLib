@@ -127,7 +127,12 @@ void BST<Data>::RemoveMax() {
 
 template <typename Data>
 const Data& BST<Data>::Predecessor(const Data& dat) const {
-
+    NodeLnk* const* ptr = FindPointerToPredecessor(root, dat);
+    if (ptr != nullptr)
+        return (*ptr)->Elem;
+    
+    else
+        throw std::length_error("Predecessor out of bounds.");
 }
 
 template <typename Data>
@@ -142,7 +147,12 @@ void BST<Data>::RemovePredecessor(const Data& dat) {
 
 template <typename Data>
 const Data& BST<Data>::Successor(const Data& dat) const {
+    NodeLnk* const* ptr = FindPointerToSuccessor(root, dat);
+    if (ptr != nullptr)
+        return (*ptr)->Elem;
 
+    else
+        throw std::length_error("Successor out of bounds.");
 }
 
 template <typename Data>
@@ -160,6 +170,73 @@ bool BST<Data>::Exists(const Data& dat) const noexcept {
     return (FindPointerTo(root, dat) != nullptr);
 }
 
+template <typename Data>
+Data BST<Data>::DataNDelete(NodeLnk* nod) {
+
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::Detach(NodeLnk*& nod) noexcept {
+    if (nod != nullptr)
+    {
+        if (nod->left == nullptr)
+            return SkipOnRight(nod);
+        
+        else if (nod->right == nullptr)
+            return SkipOnLeft(nod);
+        
+        else
+        {
+            NodeLnk* max = DetachMax(nod->left);
+            std::swap(nod->Elem, max->Elem);
+            return max;
+        }
+    }
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::DetachMin(NodeLnk*& nod) noexcept {
+    return SkipOnRight(FindPointerToMin(nod));
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk*& nod) noexcept {
+    return SkipOnLeft(FindPointerToMax(nod));
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnLeft(NodeLnk*& nod) noexcept {
+    NodeLnk* lef = nullptr;
+    if (nod != nullptr)
+    {
+        std::swap(lef, nod->left);
+        std::swap(lef, nod);
+        --size;
+    }
+    return lef;
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(NodeLnk*& nod) noexcept {
+    NodeLnk* rig = nullptr;
+    if (nod != nullptr)
+    {
+        std::swap(rig, nod->right);
+        std::swap(rig, nod);
+        --size;
+    }
+    return rig;
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMin(NodeLnk*& nod) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(*this)->FindPointerToMin(nod));
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMax(NodeLnk*& nod) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(*this)->FindPointerToMax(nod));
+}
 
 /* ************************************************************************** */
 

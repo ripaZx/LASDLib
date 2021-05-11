@@ -109,13 +109,13 @@ protected:
   NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
   const NodeLnk*& FindPointerToMax(const NodeLnk*&) const noexcept;
 
-  NodeLnk*& FindPointerTo(NodeLnk*&) noexcept;
-  const NodeLnk*& FindPointerTo(const NodeLnk*&) const noexcept;
+  NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
+  const NodeLnk*& FindPointerTo(const NodeLnk*&, const Data&) const noexcept;
 
-  NodeLnk*& FindPointerToPredecessor(NodeLnk*&) noexcept;
-  const NodeLnk*& FindPointerToPredecessor(const NodeLnk*&) const noexcept;
-  NodeLnk*& FindPointerToSuccessor(NodeLnk*&) noexcept;
-  const NodeLnk*& FindPointerToSuccessor(const NodeLnk*&) const noexcept;
+  NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept;
+  const NodeLnk*& FindPointerToPredecessor(const NodeLnk*&, const Data&) const noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
+  const NodeLnk*& FindPointerToSuccessor(const NodeLnk*&, const Data&) const noexcept;
 
 };
 
