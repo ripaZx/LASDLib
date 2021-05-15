@@ -27,11 +27,11 @@ protected:
 
   protected:
 
+  public:
+  
     Data Elem;
     NodeLnk* left = nullptr;
     NodeLnk* right = nullptr;
-
-  public:
 
     friend class BinaryTreeLnk<Data>;
 
