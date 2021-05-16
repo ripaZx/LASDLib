@@ -1,4 +1,5 @@
 
+
 namespace lasd {
 
 /* ************************************************************************** */
@@ -450,7 +451,7 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
         if (stk.Empty())
             current = nullptr;
 
-        else if (current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
+        else if (stk.Top()->HasLeftChild() && current == &stk.Top()->LeftChild() && stk.Top()->HasRightChild())
             current = &LeftMostLeaf(stk.Top()->RightChild());
     
         else

@@ -320,7 +320,7 @@ protected:
 
   using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
-  StackLst<typename BinaryTree<Data>::Node*> stk;
+  StackLst<Node*> stk;
 
   // Accessory function to instantiate the class to the right node
   Node& LeftMostNode(Node&);
@@ -384,7 +384,7 @@ protected:
 
   using Node = typename BinaryTree<Data>::Node;
   Node* current = nullptr;
-  QueueLst<typename BinaryTree<Data>::Node*> que;
+  QueueLst<Node*> que;
 
 public:
 
