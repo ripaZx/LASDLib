@@ -1,4 +1,4 @@
-#include <iostream>
+
 namespace lasd {
 
 /* ************************************************************************** */
@@ -17,15 +17,12 @@ BST<Data>::BST(BST<Data>&& bst) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(st
 
 template <typename Data>
 BST<Data>& BST<Data>::operator=(const BST<Data>& bst) {
-    if (*this != bst)
-        BinaryTreeLnk<Data>::operator=(bst);
-    return *this;
+    return BinaryTreeLnk<Data>::operator=(bst);
 }
 
 template <typename Data>
 BST<Data>& BST<Data>::operator=(BST<Data>&& bst) noexcept {
-    if (*this != bst)
-        BinaryTreeLnk<Data>::operator=(std::move(bst));
+    BinaryTreeLnk<Data>::operator=(std::move(bst));
     return *this;
 }
 
@@ -148,6 +145,7 @@ Data BST<Data>::PredecessorNRemove(const Data& dat) {
     NodeLnk*& ptr = FindPointerToPredecessor(root, dat);
     if (ptr != nullptr)
         return DataNDelete(Detach(ptr));
+
     else
         throw std::length_error("Access to a non existent NodeLnk.");
 }
@@ -157,6 +155,7 @@ void BST<Data>::RemovePredecessor(const Data& dat) {
     NodeLnk*& ptr = FindPointerToPredecessor(root, dat);
     if (ptr != nullptr)
         delete Detach(ptr);
+
     else
         throw std::length_error("Access to a non existent NodeLnk.");
 }
@@ -176,6 +175,7 @@ Data BST<Data>::SuccessorNRemove(const Data& dat) {
     NodeLnk*& ptr = FindPointerToSuccessor(root, dat);
     if (ptr != nullptr)
         return DataNDelete(Detach(ptr));
+
     else
         throw std::length_error("Access to a non existent NodeLnk.");
 }
@@ -185,6 +185,7 @@ void BST<Data>::RemoveSuccessor(const Data& dat) {
     NodeLnk*& ptr = FindPointerToSuccessor(root, dat);
     if (ptr != nullptr)
         delete Detach(ptr);
+        
     else
         throw std::length_error("Access to a non existent NodeLnk.");
 }
