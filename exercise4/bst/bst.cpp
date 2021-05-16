@@ -330,33 +330,28 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToPredecessor(NodeLnk*& nod,
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToPredecessor(NodeLnk* const& nod, const Data& dat) const noexcept {
     NodeLnk* const* pre = nullptr;
-    NodeLnk* current = nod;
-    while (current != nullptr)
+    NodeLnk* const* current = &nod;
+    while ((*current) != nullptr)
     {
-        if (current->Elem < dat)
+        if ((*current)->Elem > dat)
+            current = &((*current)->left);
+
+        else if ((*current)->Elem < dat)
         {
-            pre = &current;
-            if (current->HasRightChild())
-                current = current->right;
-            else
-                return *pre;
+            pre = current;
+            current = &((*current)->right);
         }
+
         else
         {
-            if (current->HasLeftChild())
-            {
-                if (current->Elem > dat)
-                    current = current->left;
-
-                else
-                {
-                    pre = &FindPointerToMax(current->left);
-                    return *pre;
-                }
-            }
-            else
+            if ((*current)->left == nullptr)
                 return *pre;
             
+            else
+            {
+                pre = &FindPointerToMax((*current)->left);
+                return *pre;
+            }
         }
     }
     return *pre;
@@ -370,25 +365,25 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToSuccessor(NodeLnk*& nod, c
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToSuccessor(NodeLnk* const& nod, const Data& dat) const noexcept {
     NodeLnk* const* suc = nullptr;
-    NodeLnk* current = nod;
-    while (current != nullptr)
+    NodeLnk* const* current = &nod;
+    while ((*current) != nullptr)
     {
-        if (current->Elem > dat)
+        if ((*current)->Elem > dat)
         {
-            suc = &current;
-            current = current->left;
+            suc = current;
+            current = &((*current)->left);
         }
-        else if (current->Elem < dat)
-            current = current->right;
+        else if ((*current)->Elem < dat)
+            current = &((*current)->right);
 
         else
         {
-            if (current->right == nullptr)
+            if ((*current)->right == nullptr)
                 return *suc;
             
             else
             {
-                suc = &FindPointerToMin(current->right);
+                suc = &FindPointerToMin((*current)->right);
                 return *suc;
             }
         }
