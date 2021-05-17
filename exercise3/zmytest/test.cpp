@@ -164,7 +164,7 @@ void AuxFoldConcat(const std::string& dat, const void* val, void* reString) {
 template <typename Data>
 void ShorterThanNConcat(const lasd::FoldableContainer<Data>& con) {
     int n;
-    std::string reString{};
+    std::string reString{ };
     do
     {
         std::cout<< std::endl << "Concatenare le stringhe con lunghezza minore di quale numero?" << std::endl;
