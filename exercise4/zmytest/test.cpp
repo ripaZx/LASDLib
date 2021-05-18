@@ -167,14 +167,49 @@ void ShorterThanNConcat(const lasd::FoldableContainer<Data>& con) {
     std::cout<< std::endl << "La stringa ottenuta è: " << reString << std::endl;
 }
 
-void PrintMenu(char& choice) {
-    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[V]isualizzazione    [E]sistenza    [F]old    [Q]uit    " << std::endl;
+template <typename Data>
+void InsertOrRemoveElem(lasd::BST<Data>& bst) {
+    char choice;
+    bool end = false;
+    Data elem;
+    do  
+    {
+        std::cout<< std::endl << "Inserire l'elemento su cui operare..." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>elem;
+    } while (std::cin.fail());
+    std::cout<< std::endl << "Selezionare l'azione da intraprendere: " << std::endl << "[I]nserimento     [R]imozione" << std::endl;
     std::cin.clear();
     std::cin>>choice;
     choice = std::toupper(choice);
-    while(choice != 'V' && choice != 'E' && choice != 'F' && choice != 'M' && choice != 'O'  && choice != 'I' && choice != 'Q')
+    while (choice != 'I' && choice != 'R')
     {
-        std::cout<< std::endl <<"Inserire uno tra V, E, F, oppure Q..."<< std::endl;
+        std::cout << std::endl << "Inserire uno tra I o R..." << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+    }
+    if (choice == 'I')
+    {
+        bst.Insert(elem);
+        std::cout << std::endl << "Elemento inserito." << std::endl;
+    }
+    else if (choice == 'R')
+    {
+        bst.Remove(elem);
+        std::cout << std::endl << "Elemento eliminato." << std::endl;
+    }
+}
+
+void PrintMenu(char& choice) {
+    std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[V]isualizzazione    [E]sistenza    [F]old    [D]ato da inserire/rimuovere    [P]osizione da leggere/rimuovere    [Q]uit    " << std::endl;
+    std::cin.clear();
+    std::cin>>choice;
+    choice = std::toupper(choice);
+    while(choice != 'V' && choice != 'E' && choice != 'F' && choice != 'D' && choice != 'P' && choice != 'Q')
+    {
+        std::cout<< std::endl <<"Inserire uno tra V, E, F, O, P oppure Q..."<< std::endl;
         std::cin.clear();
         std::cin>>choice;
         choice = std::toupper(choice);
@@ -221,6 +256,8 @@ void testMenu() {
                     ElemExists(bst);
                 else if (choice == 'F')
                     SmallerThanNProd(bst);
+                else if (choice == 'D')
+                    InsertOrRemoveElem(bst);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -238,6 +275,8 @@ void testMenu() {
                     ElemExists(bst);
                 else if (choice == 'F')
                     BiggerThanNSum(bst);
+                else if (choice == 'D')
+                    InsertOrRemoveElem(bst);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -255,6 +294,8 @@ void testMenu() {
                     ElemExists(bst);
                 else if (choice == 'F')
                     ShorterThanNConcat(bst);
+                else if (choice == 'D')
+                    InsertOrRemoveElem(bst);
                 else if (choice == 'Q')
                     end = true;
             }
