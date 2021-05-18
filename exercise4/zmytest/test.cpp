@@ -170,7 +170,6 @@ void ShorterThanNConcat(const lasd::FoldableContainer<Data>& con) {
 template <typename Data>
 void InsertOrRemoveElem(lasd::BST<Data>& bst) {
     char choice;
-    bool end = false;
     Data elem;
     do  
     {
@@ -199,6 +198,130 @@ void InsertOrRemoveElem(lasd::BST<Data>& bst) {
     {
         bst.Remove(elem);
         std::cout << std::endl << "Elemento eliminato." << std::endl;
+    }
+}
+
+template <typename Data>
+void ReadOrRemove(lasd::BST<Data>& bst) {
+    char choice;
+    std::cout << std::endl << "Su quale elemento dell'albero operare?" << std::endl << "M[i]n    M[a]x    [P]redecessor    [S]uccessor" << std::endl;
+    std::cin.clear();
+    std::cin>>choice;
+    choice = std::toupper(choice);
+    while (choice != 'I' && choice != 'A' && choice != 'P' && choice != 'S')
+    {
+        std::cout << std::endl << "Inserire uno tra I, A, P oppure S" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+    }
+    if (choice == 'I')
+    {
+        std::cout<< std::endl << "Selezionare l'operazione da eseguire" << std::endl << "[D]estructiveRead    [L]ettura    [R]imozione" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'D' && choice != 'L' && choice != 'R')
+        {
+            std::cout << std::endl << "Inserire uno tra D, L oppure R..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        if (choice == 'D')
+            std::cout << "Rimozione dell'elemento " << bst.MinNRemove() << "riuscita" << std::endl;
+        else if (choice == 'L')
+            std::cout << "Lettura dell'elemento: " << bst.Min() << std::endl;
+        else if (choice == 'R')
+        {
+            bst.RemoveMin();
+            std::cout << "Minimo rimosso." << std::endl;
+        }
+    }
+    else if (choice == 'A')
+    {
+        std::cout<< std::endl << "Selezionare l'operazione da eseguire" << std::endl << "[D]estructiveRead    [L]ettura    [R]imozione" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'D' && choice != 'L' && choice != 'R')
+        {
+            std::cout << std::endl << "Inserire uno tra D, L oppure R..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        if (choice == 'D')
+            std::cout << "Rimozione dell'elemento " << bst.MaxNRemove() << "riuscita" << std::endl;
+        else if (choice == 'L')
+            std::cout << "Lettura dell'elemento: " << bst.Max() << std::endl;
+        else if (choice == 'R')
+        {
+            bst.RemoveMax();
+            std::cout << "Massimo rimosso." << std::endl;
+        }
+    }
+    else if (choice == 'P')
+    {
+        Data elem;
+        std::cout<< std::endl << "Selezionare l'operazione da eseguire" << std::endl << "[D]estructiveRead    [L]ettura    [R]imozione" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'D' && choice != 'L' && choice != 'R')
+        {
+            std::cout << std::endl << "Inserire uno tra D, L oppure R..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        do
+        {
+            std::cout<< std::endl << "Inserire l'elemento di cui cercare il predecessore..." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin>>elem;
+        } while (std::cin.fail());
+        if (choice == 'D')
+            std::cout << "Rimozione dell'elemento " << bst.PredecessorNRemove(elem) << "riuscita" << std::endl;
+        else if (choice == 'L')
+            std::cout << "Lettura dell'elemento: " << bst.Predecessor(elem) << std::endl;
+        else if (choice == 'R')
+        {
+            bst.RemovePredecessor(elem);
+            std::cout << "Predecessore di "<< elem <<" rimosso." << std::endl;
+        }
+    }
+    else if (choice == 'S')
+    {
+        Data elem;
+        std::cout<< std::endl << "Selezionare l'operazione da eseguire" << std::endl << "[D]estructiveRead    [L]ettura    [R]imozione" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'D' && choice != 'L' && choice != 'R')
+        {
+            std::cout << std::endl << "Inserire uno tra D, L oppure R..." << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        do
+        {
+            std::cout<< std::endl << "Inserire l'elemento di cui cercare il predecessore..." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin>>elem;
+        } while (std::cin.fail());
+        if (choice == 'D')
+            std::cout << "Rimozione dell'elemento " << bst.SuccessorNRemove(elem) << "riuscita" << std::endl;
+        else if (choice == 'L')
+            std::cout << "Lettura dell'elemento: " << bst.Successor(elem) << std::endl;
+        else if (choice == 'R')
+        {
+            bst.RemoveSuccessor(elem);
+            std::cout << "Successore di "<< elem << " rimosso." << std::endl;
+        }
     }
 }
 
@@ -258,6 +381,8 @@ void testMenu() {
                     SmallerThanNProd(bst);
                 else if (choice == 'D')
                     InsertOrRemoveElem(bst);
+                else if (choice == 'P')
+                    ReadOrRemove(bst);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -277,6 +402,8 @@ void testMenu() {
                     BiggerThanNSum(bst);
                 else if (choice == 'D')
                     InsertOrRemoveElem(bst);
+                else if (choice == 'P')
+                    ReadOrRemove(bst);
                 else if (choice == 'Q')
                     end = true;
             }
@@ -296,6 +423,8 @@ void testMenu() {
                     ShorterThanNConcat(bst);
                 else if (choice == 'D')
                     InsertOrRemoveElem(bst);
+                else if (choice == 'P')
+                    ReadOrRemove(bst);
                 else if (choice == 'Q')
                     end = true;
             }
