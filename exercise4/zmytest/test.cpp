@@ -229,13 +229,38 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
             choice = std::toupper(choice);
         }
         if (choice == 'D')
-            std::cout << "Rimozione dell'elemento " << bst.MinNRemove() << "riuscita" << std::endl;
+        {
+            try
+            {
+                std::cout << "Rimozione dell'elemento " << bst.MinNRemove() << "riuscita" << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'L')
-            std::cout << "Lettura dell'elemento: " << bst.Min() << std::endl;
+        {
+            try
+            {
+                std::cout << "Lettura dell'elemento: " << bst.Min() << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'R')
         {
-            bst.RemoveMin();
-            std::cout << "Minimo rimosso." << std::endl;
+            try
+            {
+                bst.RemoveMin();
+                std::cout << "Minimo rimosso." << std::endl;
+            }
+            catch (const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
     }
     else if (choice == 'A')
@@ -252,13 +277,38 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
             choice = std::toupper(choice);
         }
         if (choice == 'D')
-            std::cout << "Rimozione dell'elemento " << bst.MaxNRemove() << "riuscita" << std::endl;
+        {
+            try
+            {
+                std::cout << "Rimozione dell'elemento " << bst.MaxNRemove() << "riuscita" << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'L')
-            std::cout << "Lettura dell'elemento: " << bst.Max() << std::endl;
+        {
+            try
+            {
+                std::cout << "Lettura dell'elemento: " << bst.Max() << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'R')
         {
-            bst.RemoveMax();
-            std::cout << "Massimo rimosso." << std::endl;
+            try
+            {
+                bst.RemoveMax();
+                std::cout << "Massimo rimosso." << std::endl;
+            }
+            catch (const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
     }
     else if (choice == 'P')
@@ -283,13 +333,38 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
             std::cin>>elem;
         } while (std::cin.fail());
         if (choice == 'D')
-            std::cout << "Rimozione dell'elemento " << bst.PredecessorNRemove(elem) << "riuscita" << std::endl;
+        {
+            try
+            {
+                std::cout << "Rimozione dell'elemento " << bst.PredecessorNRemove(elem) << "riuscita" << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'L')
-            std::cout << "Lettura dell'elemento: " << bst.Predecessor(elem) << std::endl;
+        {
+            try
+            {
+                std::cout << "Lettura dell'elemento: " << bst.Predecessor(elem) << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'R')
         {
-            bst.RemovePredecessor(elem);
-            std::cout << "Predecessore di "<< elem <<" rimosso." << std::endl;
+            try
+            {
+                bst.RemovePredecessor(elem);
+                std::cout << "Predecessore di " << elem << " rimosso." << std::endl;
+            }
+            catch (const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
     }
     else if (choice == 'S')
@@ -314,13 +389,38 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
             std::cin>>elem;
         } while (std::cin.fail());
         if (choice == 'D')
-            std::cout << "Rimozione dell'elemento " << bst.SuccessorNRemove(elem) << "riuscita" << std::endl;
+        {
+            try
+            {
+                std::cout << "Rimozione dell'elemento " << bst.SuccessorNRemove(elem) << "riuscita" << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'L')
-            std::cout << "Lettura dell'elemento: " << bst.Successor(elem) << std::endl;
+        {
+            try
+            {
+                std::cout << "Lettura dell'elemento: " << bst.Successor(elem) << std::endl;
+            }
+            catch(const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+        }
         else if (choice == 'R')
         {
-            bst.RemoveSuccessor(elem);
-            std::cout << "Successore di "<< elem << " rimosso." << std::endl;
+            try
+            {
+                bst.RemoveSuccessor(elem);
+                std::cout << "Successore di " << elem << " rimosso." << std::endl;
+            }
+            catch (const std::length_error& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
     }
 }
