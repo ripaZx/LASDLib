@@ -6,7 +6,7 @@
 #include <iomanip>
 
 void StructureSelection(char& tInput) {
-    std::cout<< std::endl <<"Selezionare il tipo di dato da trattare:"<< std::endl <<"    [I]nt    [F]loat    [S]tring..."<< std::endl;
+    std::cout<< std::endl <<"Selezionare il tipo di dato da trattare:"<< std::endl <<"    [I]nt    [F]loat    [S]tring"<< std::endl;
     std::cin>>tInput;
     tInput = std::toupper(tInput);
     while(tInput != 'I' && tInput != 'F' && tInput != 'S')
@@ -232,7 +232,7 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
         {
             try
             {
-                std::cout << "Rimozione dell'elemento " << bst.MinNRemove() << "riuscita" << std::endl;
+                std::cout << "Rimozione dell'elemento " << bst.MinNRemove() << " riuscita" << std::endl;
             }
             catch(const std::length_error& e)
             {
@@ -280,7 +280,7 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
         {
             try
             {
-                std::cout << "Rimozione dell'elemento " << bst.MaxNRemove() << "riuscita" << std::endl;
+                std::cout << "Rimozione dell'elemento " << bst.MaxNRemove() << " riuscita" << std::endl;
             }
             catch(const std::length_error& e)
             {
@@ -336,7 +336,7 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
         {
             try
             {
-                std::cout << "Rimozione dell'elemento " << bst.PredecessorNRemove(elem) << "riuscita" << std::endl;
+                std::cout << "Rimozione dell'elemento " << bst.PredecessorNRemove(elem) << " riuscita" << std::endl;
             }
             catch(const std::length_error& e)
             {
@@ -392,7 +392,7 @@ void ReadOrRemove(lasd::BST<Data>& bst) {
         {
             try
             {
-                std::cout << "Rimozione dell'elemento " << bst.SuccessorNRemove(elem) << "riuscita" << std::endl;
+                std::cout << "Rimozione dell'elemento " << bst.SuccessorNRemove(elem) << " riuscita" << std::endl;
             }
             catch(const std::length_error& e)
             {
