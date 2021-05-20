@@ -64,9 +64,9 @@ public:
 
   // Specific member functions
 
-  void Insert(const Data&) noexcept; // Copy of the value
+  void Insert(const Data&); // Copy of the value
   void Insert(Data&&) noexcept; // Move of the value
-  void Remove(const Data&) noexcept;
+  void Remove(const Data&);
 
   const Data& Min() const; // (concrete function must throw std::length_error when empty)
   Data MinNRemove(); // (concrete function must throw std::length_error when empty)

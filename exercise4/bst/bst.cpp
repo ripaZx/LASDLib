@@ -52,7 +52,7 @@ inline bool BST<Data>::operator!=(const BST<Data>& bst) const noexcept {
 
 
 template <typename Data>
-void BST<Data>::Insert(const Data& dat) noexcept {
+void BST<Data>::Insert(const Data& dat) {
     NodeLnk*& nod = FindPointerTo(root, dat);
     if (nod == nullptr)
     {
@@ -72,7 +72,7 @@ void BST<Data>::Insert(Data&& dat) noexcept {
 }
 
 template <typename Data>
-void BST<Data>::Remove(const Data& dat) noexcept {
+void BST<Data>::Remove(const Data& dat) {
     delete Detach(FindPointerTo(root, dat));
 }
 
