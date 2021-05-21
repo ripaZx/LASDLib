@@ -329,6 +329,7 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(NodeLnk*
             pre = current;
             current = &((*current)->right);
         }
+
         else
         {
             if ((*current)->left == nullptr)
