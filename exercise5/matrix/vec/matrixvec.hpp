@@ -15,7 +15,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class MatrixVec : virtual public Matrix<Data> {
+class MatrixVec : virtual public Matrix<Data>,
+                  protected Vector<Data> {
 
 private:
 
@@ -23,46 +24,47 @@ private:
 
 protected:
 
-  // using Matrix<Data>::???;
+  using Matrix<Data>::rows;
+  using Matrix<Data>::columns;
 
   // ...
 
 public:
 
   // Default constructor
-  // MatrixVec() specifiers;
+  MatrixVec() = default;
 
   /* ************************************************************************ */
 
   // Specific constructors
-  // MatrixVec(argument) specifiers; // A matrix of some specified dimension
+  MatrixVec(const unsigned long, const unsigned long); // A matrix of some specified dimension
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // MatrixVec(argument) specifiers;
+  MatrixVec(const MatrixVec&);
 
   // Move constructor
-  // MatrixVec(argument) specifiers;
+  MatrixVec(MatrixVec&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~MatrixVec() specifiers;
+  ~MatrixVec() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  MatrixVec& operator=(const MatrixVec&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  MatrixVec& operator=(MatrixVec&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const MatrixVec&) const noexcept;
+  bool operator!=(const MatrixVec&) const noexcept;
 
   /* ************************************************************************ */
 
