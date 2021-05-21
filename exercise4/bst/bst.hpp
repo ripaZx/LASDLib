@@ -68,21 +68,21 @@ public:
   void Insert(Data&&) noexcept; // Move of the value
   void Remove(const Data&);
 
-  const Data& Min() const; // (concrete function must throw std::length_error when empty)
-  Data MinNRemove(); // (concrete function must throw std::length_error when empty)
-  void RemoveMin(); // (concrete function must throw std::length_error when empty)
+  const Data& Min() const;
+  Data MinNRemove();
+  void RemoveMin();
 
-  const Data& Max() const; // (concrete function must throw std::length_error when empty)
-  Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
-  void RemoveMax(); // (concrete function must throw std::length_error when empty)
+  const Data& Max() const;
+  Data MaxNRemove();
+  void RemoveMax();
 
-  const Data& Predecessor(const Data&) const; // (concrete function must throw std::length_error when not found)
-  Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
-  void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when not found)
+  const Data& Predecessor(const Data&) const;
+  Data PredecessorNRemove(const Data&);
+  void RemovePredecessor(const Data&);
 
-  const Data& Successor(const Data&) const; // (concrete function must throw std::length_error when not found)
-  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
-  void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
+  const Data& Successor(const Data&) const;
+  Data SuccessorNRemove(const Data&);
+  void RemoveSuccessor(const Data&);
 
   /* ************************************************************************ */
 
