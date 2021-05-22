@@ -47,6 +47,21 @@ inline bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexce
     return !(*this == mat);
 }
 
+template <typename Data>
+void MatrixVec<Data>::RowResize(const unsigned long newRows) {
+
+}
+
+template <typename Data>
+void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
+
+}
+
+template <typename Data>
+bool MatrixVec<Data>::ExistsCell() const noexcept {
+    
+}
+
 /* ************************************************************************** */
 
 }

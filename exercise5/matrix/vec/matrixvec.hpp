@@ -70,10 +70,10 @@ public:
 
   // Specific member functions (inherited from Matrix)
 
-  // type RowResize() specifiers; // Override Matrix member
-  // type ColumnResize() specifiers; // Override Matrix member
+  void RowResize(const unsigned long) override; // Override Matrix member
+  void ColumnResize(const unsigned long) override; // Override Matrix member
 
-  // type ExistsCell() specifiers; // Override Matrix member (should not throw exceptions)
+  bool ExistsCell() const noexcept override; // Override Matrix member (should not throw exceptions)
 
   // type operator()() specifiers; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
   // type operator()() specifiers; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
