@@ -49,12 +49,12 @@ inline bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexce
 
 template <typename Data>
 void MatrixVec<Data>::RowResize(const unsigned long newRows) {
-    
+    Vector<Data>::Resize(newRows*columns);
 }
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
-
+    
 }
 
 template <typename Data>
@@ -67,7 +67,7 @@ bool MatrixVec<Data>::ExistsCell(const unsigned long row, const unsigned long co
 
 template <typename Data>
 Data& MatrixVec<Data>::operator()(const unsigned long row, const unsigned long col) {
-    // const_cast di operator()
+    return const_cast<Data&>(static_cast<const MatrixVec<Data> *>(this)->operator()(row, col));
 }
 
 template <typename Data>
