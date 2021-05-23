@@ -52,10 +52,10 @@ public:
   virtual void RowResize(const unsigned long) = 0;
   virtual void ColumnResize(const unsigned long) = 0;
 
-  virtual bool ExistsCell() const noexcept = 0; // (concrete function should not throw exceptions)
+  virtual bool ExistsCell(const unsigned long, const unsigned long) const noexcept = 0; // (concrete function should not throw exceptions)
 
-  virtual Data& operator()() = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
-  virtual const Data& operator()() const = 0; // Immutable access to the element (concrete function should throw exceptions when not present)
+  virtual Data& operator()(const unsigned long, const unsigned long) = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
+  virtual const Data& operator()(const unsigned long, const unsigned long) const = 0; // Immutable access to the element (concrete function should throw exceptions when not present)
 
 };
 
