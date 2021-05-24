@@ -26,7 +26,7 @@ protected:
 public:
 
   // Destructor
-  virtual ~Matrix() = delete;
+  virtual ~Matrix() = default;
 
   /* ************************************************************************ */
 

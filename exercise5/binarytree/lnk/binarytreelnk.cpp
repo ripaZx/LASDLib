@@ -27,6 +27,8 @@ template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
     delete left;
     delete right;
+    left = nullptr;
+    right = nullptr;
 }
 
 template <typename Data>
@@ -144,6 +146,7 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data>&& bt) noexcept {
 template <typename Data>
 BinaryTreeLnk<Data>::~BinaryTreeLnk() {
     delete root;
+    root = nullptr;
 }
 
 template <typename Data>

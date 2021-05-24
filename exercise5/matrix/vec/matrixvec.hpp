@@ -20,14 +20,11 @@ class MatrixVec : virtual public Matrix<Data>,
 
 private:
 
-  // ...
-
 protected:
 
   using Matrix<Data>::rows;
   using Matrix<Data>::columns;
-
-  // ...
+  using Vector<Data>::size;
 
 public:
 
@@ -88,19 +85,25 @@ public:
 
   // Specific member functions (inherited from MappableContainer)
 
-  using typename MappableContainer<Data>::MapFunctor;
+  // using typename MappableContainer<Data>::MapFunctor;
 
-  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  // void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  // void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
+
+  using Vector<Data>::MapPreOrder;
+  using Vector<Data>::MapPostOrder;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
 
-  using typename FoldableContainer<Data>::FoldFunctor;
+  // using typename FoldableContainer<Data>::FoldFunctor;
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  // void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  // void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+
+  using Vector<Data>::FoldPreOrder;
+  using Vector<Data>::FoldPostOrder;
 
 };
 
