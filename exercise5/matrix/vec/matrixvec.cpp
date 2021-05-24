@@ -67,7 +67,7 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
         unsigned long i = 0, j = 0;
         while (i<limit)
         {
-            if (/* condizione di swap */)
+            if (j%newCols == i%columns)
             {
                 std::swap(Vector<Data>::Elements[i], tmpElements[j]);
                 i++;
