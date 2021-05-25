@@ -24,7 +24,6 @@ protected:
 
   using Matrix<Data>::rows;
   using Matrix<Data>::columns;
-  using Vector<Data>::size;
 
 public:
 
