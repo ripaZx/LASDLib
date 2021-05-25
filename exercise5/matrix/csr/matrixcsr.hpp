@@ -6,8 +6,8 @@
 
 #include "../matrix.hpp"
 
-// #include "../../list/list.hpp"
-// #include "../../vector/vector.hpp"
+#include "../../list/list.hpp"
+#include "../../vector/vector.hpp"
 
 /* ************************************************************************** */
 
@@ -16,27 +16,29 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class MatrixCSR { // Must extend Matrix<Data>
+class MatrixCSR : virtual public Matrix<Data>,
+                  protected List<std::pair<Data, unsigned long>> {
 
 private:
 
-  // ...
-
 protected:
 
-  // using Matrix<Data>::???;
+  using Matrix<Data>::rows;
+  using Matrix<Data>::columns;
 
-  // ...
+  using List<std::pair<Data, unsigned long>>::head;
+
+  Vector<Data**> rowVec;
 
 public:
 
   // Default constructor
-  // MatrixCSR() specifiers;
+  MatrixCSR();
 
   /* ************************************************************************ */
 
   // Specific constructors
-  // MatrixCSR(argument) specifiers; // A matrix of some specified dimension
+  MatrixCSR(const unsigned long, const unsigned long); // A matrix of some specified dimension
 
   /* ************************************************************************ */
 
