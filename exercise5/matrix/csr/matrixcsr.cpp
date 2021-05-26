@@ -90,7 +90,23 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
 
 template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long col) const noexcept {
-
+    if (row < rows && col < columns)
+    {
+        if (rowVec[row] == rowVec[row+1])
+            return false;
+        else
+        {
+            Node* nod = *(rowVec[row]);
+            while (nod->Element.second <= col)
+            {
+                if (nod->Element.second == col)
+                    return true;
+                else
+                    nod = nod->next;
+            }
+            return false;
+        }
+    }
 }
 
 template <typename Data>
