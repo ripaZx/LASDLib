@@ -26,9 +26,11 @@ protected:
   using Matrix<Data>::rows;
   using Matrix<Data>::columns;
 
+  using typename List<std::pair<Data, unsigned long>>::Node;
+
   using List<std::pair<Data, unsigned long>>::head;
 
-  Vector<Data**> rowVec;
+  Vector<Node**> rowVec;
 
 public:
 
@@ -43,61 +45,65 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  // MatrixCSR(argument) specifiers;
+  MatrixCSR(const MatrixCSR&);
 
   // Move constructor
-  // MatrixCSR(argument) specifiers;
+  MatrixCSR(MatrixCSR&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~MatrixCSR() specifiers;
+  ~MatrixCSR() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  MatrixCSR& operator=(const MatrixCSR&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  MatrixCSR& operator=(MatrixCSR&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const MatrixCSR&) const noexcept;
+  inline bool operator!=(const MatrixCSR&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Matrix)
 
-  // type RowResize() specifiers; // Override Matrix member
-  // type ColumnResize() specifiers; // Override Matrix member
+  void RowResize(const unsigned long) override; // Override Matrix member
+  void ColumnResize(const unsigned long) override; // Override Matrix member
 
-  // type ExistsCell() specifiers; // Override Matrix member (should not throw exceptions)
+  bool ExistsCell(const unsigned long, const unsigned long) const noexcept override; // Override Matrix member (should not throw exceptions)
 
-  // type operator()() specifiers; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-  // type operator()() specifiers; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
+  Data& operator()(const unsigned long, const unsigned long) override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
+  const Data& operator()(const unsigned long, const unsigned long) const override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  // type Clear() specifiers; // Override Container member
+  void Clear() override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from MappableContainer)
 
-  // type MapPreOrder(arguments) specifiers; // Override MappableContainer member
-  // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
+  using typename MappableContainer<Data>::MapFunctor;
+
+  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
 
-  // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
-  // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
+  using typename FoldableContainer<Data>::FoldFunctor;
+
+  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
 
 };
 
