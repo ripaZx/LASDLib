@@ -60,7 +60,7 @@ public:
 
   // Comparison operators
   bool operator==(const MatrixVec&) const noexcept;
-  bool operator!=(const MatrixVec&) const noexcept;
+  inline bool operator!=(const MatrixVec&) const noexcept;
 
   /* ************************************************************************ */
 
@@ -84,22 +84,12 @@ public:
 
   // Specific member functions (inherited from MappableContainer)
 
-  // using typename MappableContainer<Data>::MapFunctor;
-
-  // void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  // void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
-
   using Vector<Data>::MapPreOrder;
   using Vector<Data>::MapPostOrder;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
-
-  // using typename FoldableContainer<Data>::FoldFunctor;
-
-  // void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  // void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
 
   using Vector<Data>::FoldPreOrder;
   using Vector<Data>::FoldPostOrder;
