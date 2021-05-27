@@ -95,7 +95,28 @@ inline bool MatrixCSR<Data>::operator!=(const MatrixCSR& mat) const noexcept {
 
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newRows) {
+    //TODO!! CONTROLLA BENE
+    // if (newRows == 0)
+    //     Clear();
+    // else if (newRows < rows)
+    // {
+    //     Node* nextNode;
+    //     while (nextNode != nullptr)
+    //     {
+    //         nextNode = *rowVec[newRows]->next;
+    //         delete *rowVec[newRows];
+    //         rowVec[newRows] = &nextNode;
+    //     }
+    //     rowVec.Resize(newRows+1);
+    //     rows = newRows;
+    // }
+    // else
+    // {
+    //     rowVec.Resize(newRows+1);
+    //     for (; rows<=newRows; rows++)
 
+
+    // }
 }
 
 template <typename Data>
