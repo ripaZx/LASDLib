@@ -66,7 +66,7 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
     {
         Data* tmpElements = new Data[newCols*rows] {};
         unsigned long i = 0, j = 0;
-        while (i < Vector<Data>::size)
+        while (i < size)
         {
             if (j%newCols == i%columns)
             {
@@ -76,7 +76,7 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
             (newCols > columns) ? j++ : i++;
         }
         std::swap(Vector<Data>::Elements, tmpElements);
-        Vector<Data>::size = newCols*rows;
+        size = newCols*rows;
         columns = newCols;
         delete tmpElements;
     }

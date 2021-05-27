@@ -23,11 +23,10 @@ private:
 
 protected:
 
-  using Matrix<Data>::rows;
-  using Matrix<Data>::columns;
-
   using typename List<std::pair<Data, unsigned long>>::Node;
 
+  using Matrix<Data>::rows;
+  using Matrix<Data>::columns;
   using List<std::pair<Data, unsigned long>>::head;
 
   Vector<Node**> rowVec;

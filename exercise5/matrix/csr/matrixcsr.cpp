@@ -5,6 +5,7 @@ namespace lasd {
 
 template <typename Data>
 MatrixCSR<Data>::MatrixCSR() {
+    rowVec.Resize(1);
     rowVec[0] = &head;
 }
 
@@ -20,9 +21,23 @@ MatrixCSR<Data>::MatrixCSR(const unsigned long row, const unsigned long col) {
 
 template <typename Data>
 MatrixCSR<Data>::MatrixCSR(const MatrixCSR& mat) {
+    Node** current = &head;
+    Node* currentMat = mat.head;
+    Vector<Node**> tmpVec(mat.rowVec.Size());
+    for (unsigned long i=0; i<tmpVec.Size(); i++)
+    {
+        tmpVec[i] = current;
+        if (mat.rowVec[i] != mat.rowVec[i+1])
+            while (currentMat != *(mat.rowVec[i+1]))
+            {
+                *current = new Node(*currentMat);
+                current = &((*current)->next);
+                currentMat = currentMat->next;
+            }
+    }
+    std::swap(tmpVec, rowVec);
     rows = mat.rows;
     columns = mat.columns;
-    // Eseguire la copia per inserimenti
 }
 
 template <typename Data>
@@ -92,21 +107,18 @@ template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long col) const noexcept {
     if (row < rows && col < columns)
     {
-        if (rowVec[row] == rowVec[row+1])
-            return false;
-        else
+        Node* nod = *(rowVec[row]);
+        while (nod != *(rowVec[row+1]))
         {
-            Node* nod = *(rowVec[row]);
-            while (nod->Element.second <= col)
-            {
-                if (nod->Element.second == col)
-                    return true;
-                else
-                    nod = nod->next;
-            }
-            return false;
+            if (nod->Element.second == col)
+                return true;
+            else
+                nod = nod->next;
         }
+        return false;
     }
+    else
+        return false;
 }
 
 template <typename Data>
@@ -122,7 +134,8 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned 
 template <typename Data>
 void MatrixCSR<Data>::Clear() {
     List<std::pair<Data, unsigned long>>::Clear();
-    rowVec.Clear();
+    rowVec.Resize(1);
+    rowVec[0] = &head;
     rows = 0;
     columns = 0;
 }
@@ -154,8 +167,7 @@ void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor func, const void* par, voi
         [&func] (const std::pair<Data, unsigned long>& dat, const void* parx, void* accx) { func(dat.first, parx, accx); }
         , par, acc);
 }
- 
- 
+
 /* ************************************************************************** */
 
 }
