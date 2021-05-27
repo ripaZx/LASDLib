@@ -108,16 +108,22 @@ inline void BinaryTree<Data>::FoldInOrder(const FoldFunctor func, const void* pa
 
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor func, void* par) {
-    QueueLst<Node*> que;
-    que.Enqueue(&Root());
-    MapBreadth(func, par, &que);
+    if (size != 0)
+    {
+        QueueLst<Node*> que;
+        que.Enqueue(&Root());
+        MapBreadth(func, par, &que);
+    }
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc) const {
-    QueueLst<Node*> que;
-    que.Enqueue(&Root());
-    FoldBreadth(func, par, acc, &que);
+    if (size != 0)
+    {
+        QueueLst<Node*> que;
+        que.Enqueue(&Root());
+        FoldBreadth(func, par, acc, &que);
+    }
 }
 
 template <typename Data>
