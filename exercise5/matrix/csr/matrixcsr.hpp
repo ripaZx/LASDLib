@@ -27,6 +27,7 @@ protected:
 
   using Matrix<Data>::rows;
   using Matrix<Data>::columns;
+  using List<std::pair<Data, unsigned long>>::size;
   using List<std::pair<Data, unsigned long>>::head;
 
   Vector<Node**> rowVec;

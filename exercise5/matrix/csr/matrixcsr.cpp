@@ -38,22 +38,28 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR& mat) {
     std::swap(tmpVec, rowVec);
     rows = mat.rows;
     columns = mat.columns;
+    size = mat.size;
 }
 
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(MatrixCSR&& mat) noexcept {
+MatrixCSR<Data>::MatrixCSR(MatrixCSR&& mat) noexcept : MatrixCSR() {
     std::swap(rows, mat.rows);
     std::swap(columns, mat.columns);
+    std::swap(size, mat.size);
     std::swap(head, mat.head);
     std::swap(rowVec, mat.rowVec);
+    unsigned long i = 0;
+    while (rowVec[i] == &mat.head)
+        rowVec[i++] = &head;
+    i = 0;
+    while (mat.rowVec[i] == &head)
+        mat.rowVec[i++] = &mat.head;
 }
 
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR& mat) {
     if (*this != mat)
     {
-        rows = mat.rows;
-        columns = mat.columns;
         MatrixCSR<Data>* tmpMat = new MatrixCSR<Data>(mat);
         std::swap(*tmpMat, *this);
         delete tmpMat;
@@ -67,25 +73,54 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR&& mat) noexcept {
     {
         std::swap(rows, mat.rows);
         std::swap(columns, mat.columns);
+        std::swap(size, mat.size);
         std::swap(head, mat.head);
         std::swap(rowVec, mat.rowVec);
+        unsigned long i = 0;
+        while (rowVec[i] == &mat.head)
+            rowVec[i++] = &head;
+        i = 0;
+        while (mat.rowVec[i] == &head)
+            mat.rowVec[i++] = &mat.head;
     }
     return *this;
 }
 
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR& mat) const noexcept {
-    Node* current = head;
-    Node* currentMat = mat.head;
-    while (current != nullptr)
+    if (size == mat.size)
     {
-        if (current->Element.first != currentMat->Element.first || current->Element.second != currentMat->Element.second)
-            return false;
-        
-        current = current->next;
-        currentMat = currentMat->next;
+        Node* current = head;
+        Node* currentMat = mat.head;
+        unsigned long i = 0;
+        if (rowVec.Size() != mat.rowVec.Size())
+            return false
+        else
+            while (*rowVec[i] != nullptr)
+            {
+                if (rowVec[i] != rowVec[i+1])
+                {
+                    if (mat.rowVec[i] == mat.rowVec[i+1])
+                        return false;
+                }
+                else
+                    if (mat.rowVec[i] != mat.rowVec[i+1])
+                        return false;
+                
+                i++;
+            }
+        while (current != nullptr)
+        {
+            if (current->Element.first != currentMat->Element.first || current->Element.second != currentMat->Element.second)
+                return false;
+            
+            current = current->next;
+            currentMat = currentMat->next;
+        }
+        return true;
     }
-    return true;
+    else
+        return false;
 }
 
 template <typename Data>
@@ -95,28 +130,30 @@ inline bool MatrixCSR<Data>::operator!=(const MatrixCSR& mat) const noexcept {
 
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newRows) {
-    //TODO!! CONTROLLA BENE
-    // if (newRows == 0)
-    //     Clear();
-    // else if (newRows < rows)
-    // {
-    //     Node* nextNode;
-    //     while (nextNode != nullptr)
-    //     {
-    //         nextNode = *rowVec[newRows]->next;
-    //         delete *rowVec[newRows];
-    //         rowVec[newRows] = &nextNode;
-    //     }
-    //     rowVec.Resize(newRows+1);
-    //     rows = newRows;
-    // }
-    // else
-    // {
-    //     rowVec.Resize(newRows+1);
-    //     for (; rows<=newRows; rows++)
-
-
-    // }
+    if (newRows == 0)
+    {
+        List<std::pair<Data, unsigned long>>::Clear();
+        rowVec.Resize(1);
+    }
+    else if (newRows < rows)
+    {
+        Node* nextNode;
+        while (nextNode != nullptr)
+        {
+            nextNode = *rowVec[newRows]->next;
+            delete *rowVec[newRows];
+            rowVec[newRows] = &nextNode;
+        }
+        rowVec.Resize(newRows+1);
+        *rowVec[newRows] = nullptr;
+    }
+    else
+    {
+        rowVec.Resize(newRows+1);
+        for (unsigned long i=(rows+1); i<=newRows; i++)
+            rowVec[i] = rowVec[rows];
+    }
+    rows = newRows;
 }
 
 template <typename Data>
@@ -156,7 +193,6 @@ template <typename Data>
 void MatrixCSR<Data>::Clear() {
     List<std::pair<Data, unsigned long>>::Clear();
     rowVec.Resize(1);
-    rowVec[0] = &head;
     rows = 0;
     columns = 0;
 }
