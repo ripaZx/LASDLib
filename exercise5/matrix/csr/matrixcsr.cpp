@@ -87,7 +87,7 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR& mat) const noexcept {
     {
         unsigned long i = 0;
         if (rowVec.Size() != mat.rowVec.Size())
-            return false
+            return false;
         else
             while (*rowVec[i] != nullptr)
             {
@@ -144,6 +144,35 @@ void MatrixCSR<Data>::RowResize(const unsigned long newRows) {
 
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
+    if (newCols == 0)
+    {
+        List<std::pair<Data, unsigned long>>::Clear();
+        for (unsigned long i=1; i<=rows; i++)
+            rowVec[i] = rowVec[0];
+    }
+    else if (newCols < columns)
+    {
+        for (unsigned long i=0; i<rowVec.Size(); i++)
+        {
+            Node** current = rowVec[i];
+            while (current != rowVec[i+1] && (*current)->Element.second < newCols)
+                current = &((*current)->next);
+
+            if (current != rowVec[i+1])
+            {
+                Node* nextNode;
+                Node* nod = *current;
+                while (nod != *rowVec[i+1])
+                {
+                    nextNode = nod->next;
+                    delete nod;
+                    nod = nextNode;
+                }
+                *current = nod;
+            }
+        }
+    }
+    columns = newCols;
 }
 
 template <typename Data>
