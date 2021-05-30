@@ -186,8 +186,7 @@ bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long co
             if (nod->Element.second == col)
                 return true;
 
-            else
-                nod = nod->next;
+            nod = nod->next;
         }
         return false;
     }
@@ -215,8 +214,8 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned 
         {
             if (nod->Element.second == col)
                 return nod->Element.first;
-            else
-                nod = nod->next;
+
+            nod = nod->next;
         }
         throw std::length_error("The cell is empty");
     }
