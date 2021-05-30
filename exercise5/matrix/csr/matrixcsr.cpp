@@ -23,18 +23,19 @@ template <typename Data>
 MatrixCSR<Data>::MatrixCSR(const MatrixCSR& mat) {
     Node** current = &head;
     Node* currentMat = mat.head;
-    Vector<Node**> tmpVec(mat.rowVec.Size());
-    for (unsigned long i=0; i<tmpVec.Size(); i++)
+    Vector<Node**> tmpVec(mat.rows+1);
+    for (unsigned long i=0; i<mat.rows; i++)
     {
         tmpVec[i] = current;
         if (mat.rowVec[i] != mat.rowVec[i+1])
-            while (currentMat != *(mat.rowVec[i+1]))
+            while (currentMat != *(mat.rowVec[i+1]) && currentMat != nullptr)
             {
                 *current = new Node(*currentMat);
                 current = &((*current)->next);
                 currentMat = currentMat->next;
             }
     }
+    tmpVec[mat.rows] = current;
     std::swap(tmpVec, rowVec);
     rows = mat.rows;
     columns = mat.columns;
@@ -49,7 +50,7 @@ MatrixCSR<Data>::MatrixCSR(MatrixCSR&& mat) noexcept : MatrixCSR() {
     std::swap(head, mat.head);
     std::swap(rowVec, mat.rowVec);
     mat.rowVec[0] = &mat.head;
-    for (unsigned long i=0; rowVec[i] == &mat.head; i++)
+    for (unsigned long i=0; i<=rows && *rowVec[i] == mat.head; i++)
         rowVec[i] = &head;
 }
 
@@ -73,9 +74,9 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR&& mat) noexcept {
         std::swap(size, mat.size);
         std::swap(head, mat.head);
         std::swap(rowVec, mat.rowVec);
-        for (unsigned long i=0; rowVec[i] == &mat.head; i++)
+        for (unsigned long i=0; i<=rows && *rowVec[i] == mat.head; i++)
             rowVec[i] = &head;
-        for (unsigned long i=0; mat.rowVec[i] == &head; i++)
+        for (unsigned long i=0; i<=mat.rows && *mat.rowVec[i] == head; i++)
             mat.rowVec[i] = &mat.head;
     }
     return *this;
@@ -180,15 +181,15 @@ bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long co
     if (row < rows && col < columns)
     {
         Node* nod = *(rowVec[row]);
-        if (nod != *(rowVec[row+1]) && nod->Element.second <= col)
+        while (nod != *(rowVec[row+1]) && nod->Element.second <= col)
         {
             if (nod->Element.second == col)
                 return true;
+
             else
                 nod = nod->next;
         }
-        else
-            return false;
+        return false;
     }
     else
         return false;
@@ -202,12 +203,26 @@ Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long c
     }
     else
         throw std::out_of_range("Access at (row,column) ("+ std::to_string(row) + "," + std::to_string(col) + 
-                                "); matrix size: " + std::to_string(rows) + "x" + std::tostring(columns)".");
+                                "); matrix size: " + std::to_string(rows) + "x" + std::to_string(columns) + ".");
 } 
 
 template <typename Data>
 const Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long col) const {
-
+    if (row < rows && col < columns)
+    {
+        Node* nod = *(rowVec[row]);
+        while (nod != *(rowVec[row+1]) && nod->Element.second <= col)
+        {
+            if (nod->Element.second == col)
+                return nod->Element.first;
+            else
+                nod = nod->next;
+        }
+        throw std::length_error("The cell is empty");
+    }
+    else
+        throw std::out_of_range("Access at (row,column) ("+ std::to_string(row) + "," + std::to_string(col) + 
+                                "); matrix size: " + std::to_string(rows) + "x" + std::to_string(columns) + ".");
 }
 
 template <typename Data>
