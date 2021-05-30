@@ -75,7 +75,7 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR&& mat) noexcept {
         std::swap(rowVec, mat.rowVec);
         for (unsigned long i=0; rowVec[i] == &mat.head; i++)
             rowVec[i] = &head;
-        for (unsigned long i=0; rowVec[i] == &mat.head; i++)
+        for (unsigned long i=0; mat.rowVec[i] == &head; i++)
             mat.rowVec[i] = &mat.head;
     }
     return *this;
@@ -152,7 +152,7 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
     }
     else if (newCols < columns)
     {
-        for (unsigned long i=0; i<rowVec.Size(); i++)
+        for (unsigned long i=0; i<rows; i++)
         {
             Node** current = rowVec[i];
             while (current != rowVec[i+1] && (*current)->Element.second < newCols)
@@ -180,14 +180,15 @@ bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long co
     if (row < rows && col < columns)
     {
         Node* nod = *(rowVec[row]);
-        while (nod != *(rowVec[row+1]))
+        if (nod != *(rowVec[row+1]) && nod->Element.second <= col)
         {
             if (nod->Element.second == col)
                 return true;
             else
                 nod = nod->next;
         }
-        return false;
+        else
+            return false;
     }
     else
         return false;
@@ -195,7 +196,13 @@ bool MatrixCSR<Data>::ExistsCell(const unsigned long row, const unsigned long co
 
 template <typename Data>
 Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long col) {
+    if (row < rows && col < columns)
+    {
 
+    }
+    else
+        throw std::out_of_range("Access at (row,column) ("+ std::to_string(row) + "," + std::to_string(col) + 
+                                "); matrix size: " + std::to_string(rows) + "x" + std::tostring(columns)".");
 } 
 
 template <typename Data>

@@ -102,7 +102,7 @@ const Data& MatrixVec<Data>::operator()(const unsigned long row, const unsigned 
         return Vector<Data>::operator[]((row*columns)+col);
 
     else
-        throw std::length_error("Out of range cell.");
+        throw std::out_of_range("Out of range cell.");
 }
 
 template <typename Data>
