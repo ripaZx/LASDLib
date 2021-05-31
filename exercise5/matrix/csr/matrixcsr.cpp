@@ -159,21 +159,18 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
             while (current != rowVec[i+1] && (*current)->Element.second < newCols)
                 current = &((*current)->next);
 
-            if (current != rowVec[i+1])
+            Node* nextNode;
+            Node** nod = current;
+            Node* nextRow = *rowVec[i+1];
+            while (*current != nextRow)
             {
-                Node* nextNode;
-                Node* nod = *current;
-                while (nod != *rowVec[i+1])
-                {
-                    nextNode = nod->next;
-                    delete nod;
-                    nod = nextNode;
-                    size--;
-                }
-                *current = nod;
-                for (unsigned long j=i; *rowVec[j] == nod; j++)
-                    rowVec[j] = current;
+                nextNode = (*current)->next;
+                delete *current;
+                current = &nextNode;
+                size--;
             }
+            for (unsigned long j=i+1; *rowVec[j] == nextRow; j++)
+                rowVec[j] = nod;
         }
     }
     columns = newCols;
