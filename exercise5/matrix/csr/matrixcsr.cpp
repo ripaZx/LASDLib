@@ -168,8 +168,11 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
                     nextNode = nod->next;
                     delete nod;
                     nod = nextNode;
+                    size--;
                 }
                 *current = nod;
+                for (unsigned long j=i; *rowVec[j] == nod; j++)
+                    rowVec[j] = current;
             }
         }
     }
@@ -198,7 +201,32 @@ template <typename Data>
 Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long col) {
     if (row < rows && col < columns)
     {
+        Node** current = rowVec[row];
+        if (*current == nullptr)
+        {
+            *current = new Node();
+            (*current)->Element.second = col;
+            (*current)->next = nullptr;
+        }
+        else
+        {
+            while (current != rowVec[row+1] && (*current)->Element.second <= col)
+            {
+                if ((*current)->Element.second == col)
+                    return (*current)->Element.first;
 
+                current = &((*current)->next);
+            }
+            Node* nextNode = *(current);
+            *current = new Node();
+            (*current)->Element.second = col;
+            (*current)->next = nextNode;
+        }
+        for (unsigned long i=row+1; i<=rows && rowVec[i] == current; i++)
+            rowVec[i] = &(*current)->next;
+        
+        size++;
+        return (*current)->Element.first;
     }
     else
         throw std::out_of_range("Access at (row,column) ("+ std::to_string(row) + "," + std::to_string(col) + 

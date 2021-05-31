@@ -30,6 +30,7 @@ protected:
     Node* next = nullptr;
 
     /* ********************************************************************** */
+    Node();
 
     // Specific constructors
     Node(const Data&);
