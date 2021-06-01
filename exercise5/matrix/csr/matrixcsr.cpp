@@ -130,6 +130,7 @@ void MatrixCSR<Data>::RowResize(const unsigned long newRows) {
             nextNode = toDel->next;
             delete toDel;
             toDel = nextNode;
+            size--;
         }
         rowVec.Resize(newRows+1);
         *rowVec[newRows] = nullptr;
@@ -156,20 +157,20 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
         for (unsigned long i=0; i<rows; i++)
         {
             Node** current = rowVec[i];
-            while (current != rowVec[i+1] && (*current)->Element.second < newCols)
+            Node** nextRow = rowVec[i+1];
+            while (current != nextRow && (*current)->Element.second < newCols)
                 current = &((*current)->next);
-
+            
             Node* nextNode;
             Node* nod = *current;
-            Node** nextRow = rowVec[i+1];
-            while (nod != *nextRow)
+            while (nod != *nextRow && nod != nullptr)
             {
                 nextNode = nod->next;
                 delete nod;
                 nod = nextNode;
                 size--;
             }
-            *current = nextNode;
+            *current = nod;
             for (unsigned long j=i+1; j<=rows && rowVec[j] == nextRow; j++)
                 rowVec[j] = current;
         }
