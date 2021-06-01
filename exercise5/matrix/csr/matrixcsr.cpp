@@ -87,7 +87,7 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR& mat) const noexcept {
     if (size == mat.size)
     {
         unsigned long i = 0;
-        if (rowVec.Size() != mat.rowVec.Size())
+        if (rows != mat.rows)
             return false;
         else
             while (*rowVec[i] != nullptr)
@@ -160,17 +160,18 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newCols) {
                 current = &((*current)->next);
 
             Node* nextNode;
-            Node** nod = current;
-            Node* nextRow = *rowVec[i+1];
-            while (*current != nextRow)
+            Node* nod = *current;
+            Node** nextRow = rowVec[i+1];
+            while (nod != *nextRow)
             {
-                nextNode = (*current)->next;
-                delete *current;
-                current = &nextNode;
+                nextNode = nod->next;
+                delete nod;
+                nod = nextNode;
                 size--;
             }
-            for (unsigned long j=i+1; *rowVec[j] == nextRow; j++)
-                rowVec[j] = nod;
+            *current = nextNode;
+            for (unsigned long j=i+1; j<=rows && rowVec[j] == nextRow; j++)
+                rowVec[j] = current;
         }
     }
     columns = newCols;
