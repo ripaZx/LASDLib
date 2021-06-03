@@ -246,6 +246,109 @@ void StringInsert(lasd::Matrix<Data>& con) {
     con.MapPreOrder(&MapInsert<Data>, &str);
 }
 
+template <typename Data>
+void MatrixOperations(lasd::Matrix<Data>& mat) {
+    char choice;
+    bool end = false;
+    while (!end)
+    {
+        std::cout<< std::endl << "Selezionare l'azione da intraprendere: " << std::endl << "[A]ccesso    [R]idimensionamento    [E]sci" << std::endl;
+        std::cin.clear();
+        std::cin>>choice;
+        choice = std::toupper(choice);
+        while (choice != 'A' && choice != 'R' && choice != 'E')
+        {
+            std::cout << std::endl <<"Inserire uno tra A, R oppure E..."<< std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+        }
+        if (choice == 'A')
+        {
+            int n, m;
+            do
+            {
+                std::cout<< std::endl << "Inserire il numero di riga e di colonna (separate da invio) della cella su cui operare..."<< std::endl;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin>> n >> m;
+            } while (std::cin.fail());
+            std::cout<< std::endl << "Definire il tipo di accesso" << std::endl << "[R]ead    [W]rite    [E]xistence" << std::endl;
+            std::cin.clear();
+            std::cin>>choice;
+            choice = std::toupper(choice);
+            while (choice != 'R' && choice != 'W')
+            {
+                std::cout<< std::endl << "Inserire uno tra R, W oppure E..."<< std::endl;
+                std::cin.clear();
+                std::cin>>choice;
+                choice = std::toupper(choice);
+            }
+            if (choice == 'R')
+            {
+                try
+                {
+                    std::cout<< std::endl << "L'elemento della cella a cui si ha effettuato accesso è: " << const_cast<const lasd::Matrix<Data>& >(mat)(n, m) << std::endl;
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                }
+            }
+            else if (choice == 'W')
+            {
+                Data elem;
+                do
+                {
+                    std::cout<< std::endl <<"Quale elemento inserire nella cella selezionata?"<< std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin>>elem;
+                } while(std::cin.fail());
+                try
+                {
+                    mat(n, m) = elem;
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
+            }
+            else if (choice == 'E')
+                std::cout << std::endl << "La cella (" + std::to_string(n) + "," + std::to_string(m) + ")" + (mat.ExistsCell(n,m) ? "" : " non") + " esiste!";
+        }
+        else if (choice == 'R')
+        {
+            unsigned long n;
+            std::cout << std::endl << "Ridimensionare le righe o le colonne? " << std::endl << "    [R]ighe    [C]olonne" << std::endl;
+            std::cin.clear();
+            std::cin >> choice;
+            choice = std::toupper(choice);
+            while (choice != 'R' && choice != 'C')
+            {
+                std::cout << std::endl << "Inserire uno tra R e C..." << std::endl;
+                std::cin.clear();
+                std::cin >> choice;
+                choice = std::toupper(choice);
+            }
+            do
+            {
+                std::cout << std::endl << "Inserire la nuova dimensione da assegnare..." << std::endl;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin>> n;
+            } while (std::cin.fail());
+            if (choice == 'R')
+                mat.RowResize(n);
+                
+            else if (choice == 'C')
+                mat.ColumnResize(n);
+        }
+        else if (choice == 'E')
+            end = true;
+    }
+}
+
 void PrintMenu(char& choice) {
     std::cout<< std::endl <<"Selezionare una funzione:" << std::endl << "[V]isualizzazione    [E]sistenza    [F]old    [M]ap    [S]tructureSpecific    [Q]uit    " << std::endl;
     std::cin.clear();
@@ -298,12 +401,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         SmallerThanNProd(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         mat.MapPreOrder(&MapDouble<int>, 0);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -317,12 +422,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         BiggerThanNSum(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         mat.MapPreOrder(&MapInverseCube<float>, 0);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -336,12 +443,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         ShorterThanNConcat(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         StringInsert(mat);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -358,12 +467,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         SmallerThanNProd(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         mat.MapPreOrder(&MapDouble<int>, 0);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -377,12 +488,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         BiggerThanNSum(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         mat.MapPreOrder(&MapInverseCube<float>, 0);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -396,12 +509,14 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
-                    if (choice == 'E')
+                    else if (choice == 'E')
                         ElemExists(mat);
-                    if (choice == 'F')
+                    else if (choice == 'F')
                         ShorterThanNConcat(mat);
-                    if (choice == 'M')
+                    else if (choice == 'M')
                         StringInsert(mat);
+                    else if (choice == 'S')
+                        MatrixOperations(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
