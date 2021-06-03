@@ -42,9 +42,9 @@ void RandPopulateInt(lasd::Matrix<Data>& mat, const unsigned long& n, const unsi
 template <typename Data>
 void RandSparsePopulateInt(lasd::Matrix<Data>& mat, const unsigned long& n, const unsigned long& m) {
     std::default_random_engine rowGen(std::random_device{}());
-    std::uniform_int_distribution<Data> rowDist(0, static_cast<int>(n));
+    std::uniform_int_distribution<Data> rowDist(0, static_cast<int>(n)-1);
     std::default_random_engine colGen(std::random_device{}());
-    std::uniform_int_distribution<Data> colDist(0, static_cast<int>(m));
+    std::uniform_int_distribution<Data> colDist(0, static_cast<int>(m)-1);
     std::default_random_engine elemNumGen(std::random_device{}());
     std::uniform_int_distribution<Data> elemNumDist(1, static_cast<int>(n*m));
     std::default_random_engine gen(std::random_device{}());
@@ -65,9 +65,9 @@ void RandPopulateReal(lasd::Matrix<Data>& mat, const unsigned long& n, const uns
 template <typename Data>
 void RandSparsePopulateReal(lasd::Matrix<Data>& mat, const unsigned long& n, const unsigned long& m) {
     std::default_random_engine rowGen(std::random_device{}());
-    std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n));
+    std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n)-1);
     std::default_random_engine colGen(std::random_device{}());
-    std::uniform_int_distribution<int> colDist(0, static_cast<int>(m));
+    std::uniform_int_distribution<int> colDist(0, static_cast<int>(m)-1);
     std::default_random_engine elemNumGen(std::random_device{}());
     std::uniform_int_distribution<int> elemNumDist(1, static_cast<int>(n*m));
     std::default_random_engine gen(std::random_device{}());
@@ -96,9 +96,9 @@ void RandPopulateString(lasd::Matrix<Data>& mat, const unsigned long& n, const u
 template <typename Data>
 void RandSparsePopulateString(lasd::Matrix<Data>& mat, const unsigned long& n, const unsigned long& m) {
     std::default_random_engine rowGen(std::random_device{}());
-    std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n));
+    std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n)-1);
     std::default_random_engine colGen(std::random_device{}());
-    std::uniform_int_distribution<int> colDist(0, static_cast<int>(m));
+    std::uniform_int_distribution<int> colDist(0, static_cast<int>(m)-1);
     std::default_random_engine elemNumGen(std::random_device{}());
     std::uniform_int_distribution<int> elemNumDist(1, static_cast<int>(n*m));
     std::default_random_engine gen(std::random_device{}());
@@ -147,7 +147,7 @@ void StructurePrint(lasd::Matrix<Data>& mat) {
 }
 
 template <typename Data>
-void ElemExists(const lasd::FoldableContainer<Data>& con) {
+void ElemExists(const lasd::Matrix<Data>& mat) {
     Data elem;
     do
     {
@@ -156,7 +156,94 @@ void ElemExists(const lasd::FoldableContainer<Data>& con) {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin>>elem;
     } while (std::cin.fail());
-        std::cout<< std::endl <<"L'elemento "<< elem << (con.Exists(elem) ? "" : " non") << " è presente." << std::endl;
+        std::cout<< std::endl <<"L'elemento "<< elem << (mat.Exists(elem) ? "" : " non") << " è presente." << std::endl;
+}
+
+template <typename Data>
+void AuxFoldProd(const Data& dat, const void* val, void* prod) {
+    if (dat < *((int*)val))
+        *((int*)prod) = *((int*)prod)*dat;
+}
+
+template <typename Data>
+void SmallerThanNProd(const lasd::Matrix<Data>& con) {
+    int n;
+    int prod = 1;
+    do
+    {
+        std::cout<< std::endl << "Moltiplicare gli elementi minori di quale numero?" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>n;
+    } while (std::cin.fail());
+    con.FoldPreOrder(&AuxFoldProd<Data>, &n, &prod);
+    std::cout<< std::endl << "Il prodotto richiesto è: " << prod << std::endl;
+}
+
+template <typename Data>
+void AuxFoldSum(const Data& dat, const void* val, void* sum) {
+    if (dat > *((float*)val))
+        *((float*)sum) += dat;
+}
+
+template <typename Data>
+void BiggerThanNSum(const lasd::Matrix<Data>& con) {
+    float n;
+    float sum = 0;
+    do
+    {
+        std::cout<< std::endl << "Sommare gli elementi maggiori di quale numero?" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>n;
+    } while (std::cin.fail());
+    con.FoldPreOrder(&AuxFoldSum<Data>, &n, &sum);
+    std::cout<< std::endl << "La somma richiesta è: " << sum << std::endl;
+}
+
+template <typename Data>
+void AuxFoldConcat(const std::string& dat, const void* val, void* reString) {
+    if(dat.length() <= *((int*)val))
+        ((std::string*)reString)->append(dat);
+}
+
+template <typename Data>
+void ShorterThanNConcat(const lasd::Matrix<Data>& con) {
+    int n;
+    std::string reString{ };
+    do
+    {
+        std::cout<< std::endl << "Concatenare le stringhe con lunghezza minore di quale numero?" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin>>n;
+    } while (std::cin.fail());
+    con.FoldPreOrder(&AuxFoldConcat<Data>, &n, &reString);
+    std::cout<< std::endl << "La stringa ottenuta è: " << reString << std::endl;
+}
+
+template <typename Data>
+void MapDouble(Data& dat, void* _) {
+  dat *= 2;
+}
+
+template <typename Data>
+void MapInverseCube(Data& dat, void* _) {
+    dat = -(dat)*(-dat)*(-dat);
+}
+
+template <typename Data>
+void MapInsert(Data& dat, void* str) {
+    dat.insert(0, *(std::string*)str);
+}
+
+template <typename Data>
+void StringInsert(lasd::Matrix<Data>& con) {
+    std::string str;
+    std::cout<< std::endl << "Inserisci la stringa da inserire in testa ad ogni elemento:" << std::endl;
+    std::cin.clear();
+    std::cin>>str;
+    con.MapPreOrder(&MapInsert<Data>, &str);
 }
 
 void PrintMenu(char& choice) {
@@ -211,6 +298,12 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        SmallerThanNProd(mat);
+                    if (choice == 'M')
+                        mat.MapPreOrder(&MapDouble<int>, 0);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -224,6 +317,12 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        BiggerThanNSum(mat);
+                    if (choice == 'M')
+                        mat.MapPreOrder(&MapInverseCube<float>, 0);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -237,6 +336,12 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        ShorterThanNConcat(mat);
+                    if (choice == 'M')
+                        StringInsert(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -253,6 +358,12 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        SmallerThanNProd(mat);
+                    if (choice == 'M')
+                        mat.MapPreOrder(&MapDouble<int>, 0);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -266,6 +377,12 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        BiggerThanNSum(mat);
+                    if (choice == 'M')
+                        mat.MapPreOrder(&MapInverseCube<float>, 0);
                     else if (choice == 'Q')
                         end = true;
                 }
@@ -279,12 +396,17 @@ void testMenu() {
                     PrintMenu(choice);
                     if (choice == 'V')
                         StructurePrint(mat);
+                    if (choice == 'E')
+                        ElemExists(mat);
+                    if (choice == 'F')
+                        ShorterThanNConcat(mat);
+                    if (choice == 'M')
+                        StringInsert(mat);
                     else if (choice == 'Q')
                         end = true;
                 }
             }
         }
-        
     }
     else
         std::cout << std::endl << "Goodbye!" << std::endl;
