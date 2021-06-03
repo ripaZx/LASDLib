@@ -95,23 +95,26 @@ void RandPopulateString(lasd::Matrix<Data>& mat, const unsigned long& n, const u
 
 template <typename Data>
 void RandSparsePopulateString(lasd::Matrix<Data>& mat, const unsigned long& n, const unsigned long& m) {
-    std::default_random_engine rowGen(std::random_device{}());
-    std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n)-1);
-    std::default_random_engine colGen(std::random_device{}());
-    std::uniform_int_distribution<int> colDist(0, static_cast<int>(m)-1);
-    std::default_random_engine elemNumGen(std::random_device{}());
-    std::uniform_int_distribution<int> elemNumDist(1, static_cast<int>(n*m));
-    std::default_random_engine gen(std::random_device{}());
-    std::uniform_int_distribution<int> dist(97, 122);
-    std::default_random_engine lenGen(std::random_device{}());
-    std::uniform_int_distribution<int> lenDist(1, 16);
-    for (unsigned long i=0; i<elemNumDist(elemNumGen); i++)
+    if (m != 0 && n != 0)
     {
-        std::string newString {};
-        for (int j=0; j<(lenDist(lenGen)); j++)
-            newString.append(1, static_cast<char>(dist(gen)));
+        std::default_random_engine rowGen(std::random_device{}());
+        std::uniform_int_distribution<int> rowDist(0, static_cast<int>(n)-1);
+        std::default_random_engine colGen(std::random_device{}());
+        std::uniform_int_distribution<int> colDist(0, static_cast<int>(m)-1);
+        std::default_random_engine elemNumGen(std::random_device{}());
+        std::uniform_int_distribution<int> elemNumDist(1, static_cast<int>(n*m));
+        std::default_random_engine gen(std::random_device{}());
+        std::uniform_int_distribution<int> dist(97, 122);
+        std::default_random_engine lenGen(std::random_device{}());
+        std::uniform_int_distribution<int> lenDist(1, 16);
+        for (unsigned long i=0; i<elemNumDist(elemNumGen); i++)
+        {
+            std::string newString {};
+            for (int j=0; j<(lenDist(lenGen)); j++)
+                newString.append(1, static_cast<char>(dist(gen)));
 
-        mat(rowDist(rowGen), colDist(colGen)) = newString;
+            mat(rowDist(rowGen), colDist(colGen)) = newString;
+        }
     }
 }
 
@@ -277,7 +280,7 @@ void MatrixOperations(lasd::Matrix<Data>& mat) {
             std::cin.clear();
             std::cin>>choice;
             choice = std::toupper(choice);
-            while (choice != 'R' && choice != 'W')
+            while (choice != 'R' && choice != 'W' && choice != 'E')
             {
                 std::cout<< std::endl << "Inserire uno tra R, W oppure E..."<< std::endl;
                 std::cin.clear();
@@ -340,7 +343,7 @@ void MatrixOperations(lasd::Matrix<Data>& mat) {
             } while (std::cin.fail());
             if (choice == 'R')
                 mat.RowResize(n);
-                
+
             else if (choice == 'C')
                 mat.ColumnResize(n);
         }
