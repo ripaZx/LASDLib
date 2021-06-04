@@ -102,7 +102,8 @@ const Data& MatrixVec<Data>::operator()(const unsigned long row, const unsigned 
         return Vector<Data>::operator[]((row*columns)+col);
 
     else
-        throw std::out_of_range("Out of range cell.");
+        throw std::out_of_range("Access at (row,column) ("+ std::to_string(row) + "," + std::to_string(col) + 
+                                "); matrix size: " + std::to_string(rows) + "x" + std::to_string(columns) + ".");
 }
 
 template <typename Data>

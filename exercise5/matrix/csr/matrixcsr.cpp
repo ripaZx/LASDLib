@@ -90,7 +90,7 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR& mat) const noexcept {
         if (rows != mat.rows)
             return false;
         else
-            while (*rowVec[i] != nullptr)
+            while (i < rows)
             {
                 if (rowVec[i] != rowVec[i+1])
                 {
