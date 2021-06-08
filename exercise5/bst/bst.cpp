@@ -42,7 +42,8 @@ bool BST<Data>::operator==(const BST<Data>& bst) const noexcept {
         }
         return true;
     }
-    return false;
+    else
+        return false;
 }
 
 template <typename Data>
@@ -329,7 +330,6 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(NodeLnk*
             pre = current;
             current = &((*current)->right);
         }
-
         else
         {
             if ((*current)->left == nullptr)
