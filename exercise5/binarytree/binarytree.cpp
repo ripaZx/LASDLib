@@ -282,7 +282,7 @@ void BinaryTree<Data>::FoldBreadth(const FoldFunctor func, const void* par, void
 
 template <typename Data>
 BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& bt) {
-    current = &bt.Root();
+    current = (bt.Size() == 0) ? nullptr : &bt.Root();
 }
 
 template <typename Data>
@@ -385,7 +385,7 @@ typename BinaryTree<Data>::Node& BTPostOrderIterator<Data>::LeftMostLeaf(Node& n
 
 template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt) {
-    current = &LeftMostLeaf(bt.Root());
+    current = (bt.Size() == 0) ? nullptr : &LeftMostLeaf(bt.Root());
 }
 
 template <typename Data>
@@ -483,7 +483,7 @@ typename BinaryTree<Data>::Node& BTInOrderIterator<Data>::LeftMostNode(Node& nod
 
 template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt) {
-    current = &LeftMostNode(bt.Root());
+    current = (bt.Size() == 0) ? nullptr : &LeftMostNode(bt.Root());
 }
 
 template <typename Data>
@@ -569,7 +569,7 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
 
 template <typename Data>
 BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& bt) {
-    current = &bt.Root();
+    current = (bt.Size() == 0) ? nullptr : &bt.Root();
 }
 
 template <typename Data>
