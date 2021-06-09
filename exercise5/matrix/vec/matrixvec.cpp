@@ -50,36 +50,32 @@ inline bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexce
 template <typename Data>
 void MatrixVec<Data>::RowResize(const unsigned long newRows) {
     if (newRows == 0)
-        Clear();
+        Vector<Data>::Clear();
+
     else if (newRows != rows)
-    {
         Vector<Data>::Resize(newRows*columns);
-        rows = newRows;
-    }
+
+    rows = newRows;
 }
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
     if (newCols == 0)
-        Clear();
+        Vector<Data>::Clear();
+
     else if (newCols != columns)
     {
-        Data* tmpElements = new Data[newCols*rows] {};
-        unsigned long i = 0, j = 0;
-        while (i < size)
-        {
-            if (j%newCols == i%columns)
-            {
-                std::swap(Vector<Data>::Elements[i], tmpElements[j]);
-                (newCols > columns) ? i++ : j++;
-            }
-            (newCols > columns) ? j++ : i++;
-        }
-        std::swap(Vector<Data>::Elements, tmpElements);
+        MatrixVec<Data>* tmpMat = new MatrixVec<Data>(*this);
+        Vector<Data>::Resize(rows*newCols);
+        unsigned long limit = (newCols > columns) ? columns : newCols; 
+        for (unsigned long i=0; i<rows; i++)
+            for (unsigned long j=0; j<limit; j++)
+                (*this)(i, j) = (*tmpMat)(i, j);
+
         size = newCols*rows;
-        columns = newCols;
-        delete tmpElements;
+        delete tmpMat;
     }
+    columns = newCols;
 }
 
 template <typename Data>
