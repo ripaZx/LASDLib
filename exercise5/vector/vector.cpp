@@ -5,7 +5,7 @@ namespace lasd {
 
 template <typename Data>
 Vector<Data>::Vector(const unsigned long newSize) {
-    Elements = new Data[newSize];
+    Elements = new Data[newSize] {};
     size = newSize;
 }
 

@@ -65,13 +65,13 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newCols) {
 
     else if (newCols != columns)
     {
-        MatrixVec<Data>* tmpMat = new MatrixVec<Data>(*this);
-        Vector<Data>::Resize(rows*newCols);
-        unsigned long limit = (newCols > columns) ? columns : newCols; 
+        MatrixVec<Data>* tmpMat = new MatrixVec<Data>(rows, newCols);
+        unsigned long limit = (newCols > columns) ? columns : newCols;
         for (unsigned long i=0; i<rows; i++)
             for (unsigned long j=0; j<limit; j++)
-                (*this)(i, j) = (*tmpMat)(i, j);
+                (*tmpMat)(i, j) = (*this)(i, j);
 
+        std::swap(*this, *tmpMat);
         size = newCols*rows;
         delete tmpMat;
     }
